@@ -1,0 +1,18 @@
+# Generated content (these are deployed to gh-pages branch, not stored in main)
+*.html
+audio/
+articles-registry.json
+news-registry.json
+article-today.json
+news-today.json
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
