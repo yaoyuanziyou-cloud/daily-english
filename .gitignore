@@ -8,6 +8,7 @@ venv/
 # Temp files (generated during content creation, not needed on gh-pages)
 article-today.json
 news-today.json
+status.json
 
 # OS
 .DS_Store
