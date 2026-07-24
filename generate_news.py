@@ -166,6 +166,10 @@ def build_html(data, all_audio, audio_rel_dir):
         }
         tag_color, tag_bg = cat_colors.get(cat, ("#2c3e50", "#eceff1"))
 
+        vocab_section_html = ""
+        if vocab_html.strip():
+            vocab_section_html = '<div class="vocab-section"><div class="section-title">Key Vocabulary</div><ul class="vocab-list">' + vocab_html + '</ul></div>'
+
         articles_html += f'''
     <div class="article-section" id="article-{art_idx}">
       <div class="article-header">
@@ -192,7 +196,7 @@ def build_html(data, all_audio, audio_rel_dir):
 {cn_html}        </div>
       </div>
 
-      {"<div class=\"vocab-section\"><div class=\"section-title\">Key Vocabulary</div><ul class=\"vocab-list\">" + vocab_html + "</ul></div>" if vocab_html.strip() else ""}
+      {vocab_section_html}
     </div>
 '''
 

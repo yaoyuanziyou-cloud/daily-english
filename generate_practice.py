@@ -524,6 +524,13 @@ def update_registry_and_index(script_dir, article):
     total_days = len(registry)
     total_news = len(news_registry)
 
+    # Pre-compute news section HTML (avoid backslashes in f-string for Python 3.11)
+    news_header_html = ""
+    news_grid_html = ""
+    if news_cards_html:
+        news_header_html = '<div class="section-header news"><span class="icon">&#128240;</span><h2>Daily News</h2></div>'
+        news_grid_html = '<div class="grid">' + news_cards_html + '  </div>'
+
     index_html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -570,8 +577,8 @@ def update_registry_and_index(script_dir, article):
       <div class="stat"><div class="stat-num">&#127881;</div><div class="stat-label">Keep Going</div></div>
     </div>
   </div>
-  {"<div class=\\"section-header news\\"><span class=\\"icon\\">&#128240;</span><h2>Daily News</h2></div>" if news_cards_html else ""}
-  {("<div class=\\"grid\\">" + news_cards_html + "  </div>") if news_cards_html else ""}
+  {news_header_html}
+  {news_grid_html}
   <div class="section-header"><span class="icon">&#128221;</span><h2>Speaking Practice</h2></div>
   <div class="grid">
 {cards_html}  </div>
