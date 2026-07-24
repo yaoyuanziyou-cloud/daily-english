@@ -51,8 +51,9 @@ git push -u origin main
 
 | Secret 名称 | 值 | 说明 |
 |---|---|---|
-| `MINIMAX_API_KEY` | 你的 MiniMax API Key | 在 [MiniMax 开放平台](https://platform.minimaxi.com/) 获取 |
+| `MINIMAX_API_KEY` | `sk-api-q1q34yJ4AupPwfTdn2WcZsgey8LWAhrZHKl7gzSy2Klr9v2ysCJQS4aTpswxrosTqqsO7T4lh_P90mZDeNzxOl_GVEFYI-chrzcx93YsZVmqlIqTLy7OtXc` | MiniMax API Key |
 | `FEISHU_WEBHOOK_URL` | `https://open.feishu.cn/open-apis/bot/v2/hook/17727948-8123-4810-a753-dd68ba533636` | 飞书群机器人 Webhook（已创建） |
+| `FEISHU_SECRET` | `SclUZrd4ywszeZPevAwUNh` | 飞书机器人签名密钥 |
 | `SITE_URL` | `https://你的用户名.github.io/daily-english` | GitHub Pages 地址 (末尾不要加 /) |
 
 **可选 Secret：**
@@ -64,10 +65,11 @@ git push -u origin main
 
 ### 5. 飞书通知（已配置）
 
-飞书群机器人已创建，Webhook URL 为：
-`https://open.feishu.cn/open-apis/bot/v2/hook/17727948-8123-4810-a753-dd68ba533636`
+飞书群机器人已创建并开启签名校验：
+- **Webhook URL**: `https://open.feishu.cn/open-apis/bot/v2/hook/17727948-8123-4810-a753-dd68ba533636`
+- **签名密钥**: `SclUZrd4ywszeZPevAwUNh`
 
-已填入上方 Secret 配置中，无需额外操作。每天生成完内容后，飞书群会收到卡片消息通知，包含直接打开练习页面的按钮。
+两个值已填入上方 Secret 配置中。通知脚本使用 Python requests 发送（确保 UTF-8 编码，中文不乱码），通过 HMAC-SHA256 计算签名。每天生成完内容后，飞书群会收到卡片消息通知，包含直接打开练习页面的按钮。
 
 ### 6. 手动触发测试
 

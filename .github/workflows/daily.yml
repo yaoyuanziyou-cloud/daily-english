@@ -39,6 +39,7 @@ jobs:
           MINIMAX_BASE_URL: ${{ secrets.MINIMAX_BASE_URL }}
           MINIMAX_MODEL: ${{ secrets.MINIMAX_MODEL }}
           FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
+          FEISHU_SECRET: ${{ secrets.FEISHU_SECRET }}
           SITE_URL: ${{ secrets.SITE_URL }}
         run: python run_daily.py
 
