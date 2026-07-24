@@ -707,9 +707,70 @@ def update_news_registry_and_index(script_dir, news_data):
   .card-tag {{ display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }}
   .empty {{ text-align: center; padding: 40px 20px; color: #aaa; }}
   .footer {{ text-align: center; padding: 40px 20px; color: #aaa; font-size: 13px; }}
+  .status-banner {{ max-width: 800px; margin: 0 auto 20px; border-radius: 12px; padding: 14px 20px; font-size: 14px; display: none; align-items: center; gap: 10px; flex-wrap: wrap; }}
+  .status-banner.ok {{ background: #eafaf1; border: 1px solid #27ae60; color: #1e7e34; display: flex; }}
+  .status-banner.warn {{ background: #fff8e1; border: 1px solid #f39c12; color: #8a6d3b; display: flex; }}
+  .status-banner.error {{ background: #fdecea; border: 1px solid #e74c3c; color: #c0392b; display: flex; }}
+  .status-banner .status-icon {{ font-size: 20px; flex-shrink: 0; }}
+  .status-banner .status-text {{ flex: 1; min-width: 0; }}
+  .status-banner .status-provider {{ font-weight: bold; }}
+  .status-banner .status-link {{ color: inherit; text-decoration: underline; font-weight: 600; white-space: nowrap; }}
+  .status-banner .status-link:hover {{ opacity: 0.8; }}
+  .status-loading {{ max-width: 800px; margin: 0 auto 20px; text-align: center; color: #aaa; font-size: 13px; }}
 </style>
 </head>
 <body>
+  <div class="status-loading" id="statusLoading">Loading status...</div>
+  <div class="status-banner" id="statusBanner"></div>
+  <script>
+  (function() {{
+    function showErrorBanner(msg) {{
+      var loading = document.getElementById('statusLoading');
+      if (loading) loading.style.display = 'none';
+      var banner = document.getElementById('statusBanner');
+      banner.className = 'status-banner error';
+      banner.innerHTML = '<span class="status-icon">&#9888;&#65039;</span>' +
+        '<span class="status-text">' + msg + ' ' +
+        '<a class="status-link" href="settings.html">Configure API &rarr;</a></span>';
+    }}
+    fetch('status.json?_t=' + Date.now())
+      .then(function(r) {{ return r.json(); }})
+      .then(function(data) {{
+        var loading = document.getElementById('statusLoading');
+        if (loading) loading.style.display = 'none';
+        var banner = document.getElementById('statusBanner');
+        var icon, cls, text;
+        if (data.status === 'success') {{
+          icon = '&#9989;';
+          cls = 'ok';
+          var balanceText = data.balance ? ' &middot; Balance: ' + (data.balance.balance || 'N/A') : '';
+          text = '<span class="status-provider">' + (data.api_provider || 'API') + '</span> &middot; ' +
+                 'Last update: ' + (data.date || '') + ' ' + (data.time || '') + balanceText +
+                 ' &middot; <a class="status-link" href="settings.html">Settings</a>';
+        }} else if (data.status === 'partial') {{
+          icon = '&#9888;&#65039;';
+          cls = 'warn';
+          var balanceText = data.balance ? ' &middot; Balance: ' + (data.balance.balance || 'N/A') : '';
+          text = '<span class="status-provider">' + (data.api_provider || 'API') + '</span> &middot; ' +
+                 'Partial update: ' + (data.date || '') + balanceText;
+          if (data.error) text += ' &middot; ' + data.error;
+          text += ' &middot; <a class="status-link" href="settings.html">Configure API &rarr;</a>';
+        }} else {{
+          icon = '&#10060;';
+          cls = 'error';
+          text = '<span class="status-provider">' + (data.api_provider || 'API') + '</span> &middot; ' +
+                 'Update failed: ' + (data.date || '') + '. ';
+          if (data.error) text += data.error + ' ';
+          text += '<a class="status-link" href="settings.html">Configure API &rarr;</a>';
+        }}
+        banner.className = 'status-banner ' + cls;
+        banner.innerHTML = '<span class="status-icon">' + icon + '</span><span class="status-text">' + text + '</span>';
+      }})
+      .catch(function() {{
+        showErrorBanner('Unable to load status. The system may not have run yet.');
+      }});
+  }})();
+  </script>
   <div class="hero">
     <h1>Daily English Practice</h1>
     <p>Read aloud every day to build your fluency and natural sense of the language.<br>News articles help you stay informed while improving your English.</p>
@@ -724,7 +785,7 @@ def update_news_registry_and_index(script_dir, news_data):
   <div class="section-header"><span class="icon">&#128221;</span><h2>Speaking Practice</h2></div>
   <div class="grid">
 {practice_cards_html}  </div>
-  <div class="footer">Neural TTS by Microsoft Aria &middot; Practice makes perfect</div>
+  <div class="footer">Neural TTS by Microsoft Aria &middot; Practice makes perfect<br><a href="settings.html" style="color: #2e86c1; text-decoration: none;">API Settings</a></div>
 </body>
 </html>'''
 
