@@ -50,4 +50,3 @@ jobs:
           publish_dir: .
           publish_branch: gh-pages
           keep_files: true
-          exclude_assets: '*.py,*.txt,.github/,*.md,.gitignore'
