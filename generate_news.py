@@ -134,6 +134,40 @@ def build_combined_audio(audio_dir, art_idx, num_sentences):
     return offsets, total, f"{prefix}-full.mp3"
 
 
+def sanitize_article(article):
+    """Validate and fix article data from LLM output."""
+    sentences = article.get("sentences", [])
+    translations = article.get("translations", [])
+    num_s = len(sentences)
+    num_t = len(translations)
+
+    # Ensure translations match sentences count
+    if num_t < num_s:
+        translations.extend([""] * (num_s - num_t))
+        article["translations"] = translations
+    elif num_t > num_s:
+        article["translations"] = translations[:num_s]
+
+    # Fix paragraphs: remove out-of-range indices
+    paras = article.get("paragraphs", None)
+    if paras:
+        cleaned = []
+        for para in paras:
+            valid = [s for s in para if isinstance(s, int) and 0 <= s < num_s]
+            if valid:
+                cleaned.append(valid)
+        if cleaned:
+            article["paragraphs"] = cleaned
+        else:
+            article["paragraphs"] = None
+
+    # Fix vocab: ensure 3-element tuples
+    vocab = article.get("vocab", [])
+    article["vocab"] = [v if len(v) >= 3 else [v[0] if len(v) > 0 else "", "", v[1] if len(v) > 1 else ""] for v in vocab]
+
+    return article
+
+
 def build_html(data, all_audio, audio_rel_dir):
     """Build the complete news HTML page."""
     date_str = data["date"]
@@ -144,12 +178,15 @@ def build_html(data, all_audio, audio_rel_dir):
     articles_js = []
 
     for art_idx, article in enumerate(articles):
+        article = sanitize_article(article)
         art_audio = all_audio[art_idx]
         offsets = art_audio["offsets"]
         full_file = art_audio["full_file"]
         word_files = art_audio["words"]
 
         paras = article.get("paragraphs", None)
+        sentences = article.get("sentences", [])
+        translations = article.get("translations", [])
 
         # Build English text with sentence spans
         en_html = ""
@@ -157,12 +194,13 @@ def build_html(data, all_audio, audio_rel_dir):
             for para in paras:
                 en_html += "<p>"
                 for s_idx in para:
-                    text = article["sentences"][s_idx]
-                    en_html += f'<span class="sentence" data-art="{art_idx}" data-idx="{s_idx}">{html_module.escape(text)}</span> '
+                    if 0 <= s_idx < len(sentences):
+                        text = sentences[s_idx]
+                        en_html += f'<span class="sentence" data-art="{art_idx}" data-idx="{s_idx}">{html_module.escape(text)}</span> '
                 en_html += "</p>\n"
         else:
             en_html += "<p>"
-            for i, s in enumerate(article["sentences"]):
+            for i, s in enumerate(sentences):
                 en_html += f'<span class="sentence" data-art="{art_idx}" data-idx="{i}">{html_module.escape(s)}</span> '
             en_html += "</p>\n"
 
@@ -172,11 +210,12 @@ def build_html(data, all_audio, audio_rel_dir):
             for para in paras:
                 cn_html += "<p>"
                 for s_idx in para:
-                    cn_html += f'<span>{html_module.escape(article["translations"][s_idx])}</span> '
+                    if 0 <= s_idx < len(translations):
+                        cn_html += f'<span>{html_module.escape(translations[s_idx])}</span> '
                 cn_html += "</p>\n"
         else:
             cn_html += "<p>"
-            for t in article["translations"]:
+            for t in translations:
                 cn_html += f'<span>{html_module.escape(t)}</span> '
             cn_html += "</p>\n"
 
@@ -710,6 +749,10 @@ async def main():
 
     date_str = data["date"]
     articles = data["articles"]
+
+    # Sanitize all articles before processing
+    for a in articles:
+        sanitize_article(a)
 
     print(f"News date: {date_str}")
     print(f"Articles: {len(articles)}")
