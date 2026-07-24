@@ -34,22 +34,26 @@ def get_client():
     return OpenAI(api_key=API_KEY, base_url=BASE_URL)
 
 
-def llm_chat(client, system_prompt, user_prompt, temperature=0.8):
-    """Call MiniMax API and return the text response."""
-    try:
-        resp = client.chat.completions.create(
-            model=MODEL,
-            messages=[
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_prompt},
-            ],
-            temperature=temperature,
-            max_tokens=4096,
-        )
-        return resp.choices[0].message.content.strip()
-    except Exception as e:
-        print(f"LLM API error: {e}")
-        return ""
+def llm_chat(client, system_prompt, user_prompt, temperature=0.8, retries=2):
+    """Call LLM API and return the text response. Retries on failure."""
+    for attempt in range(retries):
+        try:
+            resp = client.chat.completions.create(
+                model=MODEL,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_prompt},
+                ],
+                temperature=temperature,
+                max_tokens=4096,
+            )
+            return resp.choices[0].message.content.strip()
+        except Exception as e:
+            print(f"LLM API error (attempt {attempt+1}/{retries}): {e}")
+            if attempt < retries - 1:
+                import time
+                time.sleep(2)
+    return ""
 
 
 def extract_json(text):
@@ -65,7 +69,14 @@ def extract_json(text):
     end = text.rfind('}')
     if start != -1 and end != -1:
         text = text[start:end+1]
-    return json.loads(text)
+    # Try parsing, with common fixes if it fails
+    try:
+        return json.loads(text)
+    except json.JSONDecodeError:
+        # Fix trailing commas
+        fixed = re.sub(r',\s*}', '}', text)
+        fixed = re.sub(r',\s*]', ']', fixed)
+        return json.loads(fixed)
 
 
 def get_day_number(script_dir):
@@ -332,16 +343,21 @@ Return ONLY a JSON object:
 Each article: 8-10 sentences, 150-200 words. Include Chinese translations for all sentences. 5-6 vocab words per article."""
 
     print("Generating fallback news content via LLM...")
-    response = llm_chat(client, system_prompt, user_prompt, temperature=0.8)
 
-    if not response:
-        return None
+    # Try up to 3 times to get valid JSON
+    for attempt in range(3):
+        response = llm_chat(client, system_prompt, user_prompt, temperature=0.8 if attempt == 0 else 0.5)
+        if not response:
+            continue
+        try:
+            return extract_json(response)
+        except json.JSONDecodeError as e:
+            print(f"  Attempt {attempt+1}: Failed to parse news JSON: {e}")
+            if attempt < 2:
+                print("  Retrying with lower temperature...")
 
-    try:
-        return extract_json(response)
-    except json.JSONDecodeError as e:
-        print(f"ERROR: Failed to parse fallback news JSON: {e}")
-        return None
+    print("ERROR: Failed to generate news after 3 attempts")
+    return None
 
 
 def generate_news(client):
