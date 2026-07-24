@@ -1,17 +1,13 @@
 #!/usr/bin/env python3
 """
-Generate daily English practice article and news content using MiniMax API.
+Generate daily English practice article and news content using LLM API.
 
-This script:
-1. Calls MiniMax LLM API to generate a practice article (JSON)
-2. Scrapes China Daily for news headlines
-3. Calls MiniMax LLM API to simplify and translate news articles
-4. Saves JSON files for generate_practice.py and generate_news.py to consume
+Supports any OpenAI-compatible API (MiniMax, Groq, Google Gemini, OpenAI, etc.)
 
 Environment variables:
-  MINIMAX_API_KEY  - MiniMax API key (required)
-  MINIMAX_BASE_URL - API base URL (default: https://api.minimaxi.com/v1)
-  MINIMAX_MODEL    - Model name (default: MiniMax-M3)
+  LLM_API_KEY   - API key (required). Falls back to MINIMAX_API_KEY
+  LLM_BASE_URL  - API base URL (default: https://api.minimaxi.com/v1)
+  LLM_MODEL     - Model name (default: MiniMax-M3)
 """
 
 import os
@@ -22,10 +18,10 @@ import requests
 from datetime import datetime, timezone, timedelta
 from openai import OpenAI
 
-# Configuration
-API_KEY = os.environ.get("MINIMAX_API_KEY", "")
-BASE_URL = os.environ.get("MINIMAX_BASE_URL", "https://api.minimaxi.com/v1")
-MODEL = os.environ.get("MINIMAX_MODEL", "MiniMax-M3")
+# Configuration - supports any OpenAI-compatible API
+API_KEY = os.environ.get("LLM_API_KEY", "") or os.environ.get("MINIMAX_API_KEY", "")
+BASE_URL = os.environ.get("LLM_BASE_URL", "") or os.environ.get("MINIMAX_BASE_URL", "https://api.minimaxi.com/v1")
+MODEL = os.environ.get("LLM_MODEL", "") or os.environ.get("MINIMAX_MODEL", "MiniMax-M3")
 
 # Beijing time
 BJ_TZ = timezone(timedelta(hours=8))
@@ -175,7 +171,9 @@ Make the content interesting and practical. Do NOT include any text outside the 
 def scrape_china_daily_headlines():
     """Scrape China Daily for latest news headlines and URLs."""
     headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
     }
 
     results = []
@@ -183,33 +181,24 @@ def scrape_china_daily_headlines():
         "https://www.chinadaily.com.cn/world",
         "https://www.chinadaily.com.cn/business",
         "https://www.chinadaily.com.cn/china",
+        "https://www.chinadaily.com.cn/",
     ]
+
+    # Pattern matches /a/YYYYMM/DD/WS<hex>.html (case-insensitive for hex)
+    link_pattern = re.compile(r'href="(/a/\d{6}/\d{2}/WS[a-fA-F0-9]+\.html)"', re.IGNORECASE)
 
     for url in urls_to_try:
         try:
-            resp = requests.get(url, headers=headers, timeout=15)
+            resp = requests.get(url, headers=headers, timeout=20)
             resp.encoding = "utf-8"
-
-            # Find article links
-            links = re.findall(r'href="(/a/\d{6}/\d{2}/WS[a-f0-9]+\.html)"', resp.text)
+            links = link_pattern.findall(resp.text)
             for link in links:
                 full_url = "https://www.chinadaily.com.cn" + link
                 if full_url not in results:
                     results.append(full_url)
+            print(f"  {url}: found {len(links)} links")
         except Exception as e:
             print(f"  Warning: Failed to scrape {url}: {e}")
-
-    # Also try the main page for latest headlines
-    try:
-        resp = requests.get("https://www.chinadaily.com.cn/", headers=headers, timeout=15)
-        resp.encoding = "utf-8"
-        links = re.findall(r'href="(/a/\d{6}/\d{2}/WS[a-f0-9]+\.html)"', resp.text)
-        for link in links:
-            full_url = "https://www.chinadaily.com.cn" + link
-            if full_url not in results:
-                results.append(full_url)
-    except Exception as e:
-        print(f"  Warning: Failed to scrape main page: {e}")
 
     return results[:15]  # Return top 15 candidates
 

@@ -35,9 +35,9 @@ jobs:
 
       - name: Generate daily content
         env:
-          MINIMAX_API_KEY: ${{ secrets.MINIMAX_API_KEY }}
-          MINIMAX_BASE_URL: ${{ secrets.MINIMAX_BASE_URL }}
-          MINIMAX_MODEL: ${{ secrets.MINIMAX_MODEL }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY || secrets.MINIMAX_API_KEY }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
           FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
           FEISHU_SECRET: ${{ secrets.FEISHU_SECRET }}
           SITE_URL: ${{ secrets.SITE_URL }}
@@ -49,4 +49,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
           publish_branch: gh-pages
-          keep_files: true
+          force_orphan: true
+          exclude_assets: '.github,*.py,requirements.txt,.gitignore,README.md'

@@ -1,11 +1,3 @@
-# Generated content (these are deployed to gh-pages branch, not stored in main)
-*.html
-audio/
-articles-registry.json
-news-registry.json
-article-today.json
-news-today.json
-
 # Python
 __pycache__/
 *.pyc
@@ -13,6 +5,13 @@ __pycache__/
 .venv/
 venv/
 
+# Temp files (generated during content creation, not needed on gh-pages)
+article-today.json
+news-today.json
+
 # OS
 .DS_Store
 Thumbs.db
+
+# Logs
+workflow_logs.zip
