@@ -52,7 +52,7 @@ git push -u origin main
 | Secret 名称 | 值 | 说明 |
 |---|---|---|
 | `MINIMAX_API_KEY` | 你的 MiniMax API Key | 在 [MiniMax 开放平台](https://platform.minimaxi.com/) 获取 |
-| `FEISHU_WEBHOOK_URL` | 飞书机器人 Webhook URL | 见下方飞书配置 |
+| `FEISHU_WEBHOOK_URL` | `https://open.feishu.cn/open-apis/bot/v2/hook/17727948-8123-4810-a753-dd68ba533636` | 飞书群机器人 Webhook（已创建） |
 | `SITE_URL` | `https://你的用户名.github.io/daily-english` | GitHub Pages 地址 (末尾不要加 /) |
 
 **可选 Secret：**
@@ -62,13 +62,12 @@ git push -u origin main
 | `MINIMAX_BASE_URL` | `https://api.minimaxi.com/v1` | MiniMax API 地址 |
 | `MINIMAX_MODEL` | `MiniMax-M3` | 使用的模型 |
 
-### 5. 飞书群机器人配置
+### 5. 飞书通知（已配置）
 
-1. 打开飞书，创建一个群 (或用现有的群)
-2. 群设置 → 群机器人 → 添加机器人 → 选择「自定义机器人」
-3. 机器人名字随意，例如 "English Practice Bot"
-4. 保存后复制 Webhook 地址 (格式: `https://open.feishu.cn/open-apis/bot/v2/hook/xxxxx`)
-5. 把这个地址填到 GitHub Secret 的 `FEISHU_WEBHOOK_URL` 中
+飞书群机器人已创建，Webhook URL 为：
+`https://open.feishu.cn/open-apis/bot/v2/hook/17727948-8123-4810-a753-dd68ba533636`
+
+已填入上方 Secret 配置中，无需额外操作。每天生成完内容后，飞书群会收到卡片消息通知，包含直接打开练习页面的按钮。
 
 ### 6. 手动触发测试
 

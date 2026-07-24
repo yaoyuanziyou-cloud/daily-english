@@ -19,8 +19,8 @@ WEBHOOK_URL = os.environ.get("FEISHU_WEBHOOK_URL", "")
 SITE_URL = os.environ.get("SITE_URL", "").rstrip("/")
 
 
-def send_notification(practice_title=None, news_titles=None):
-    """Send a Feishu bot message with today's update info."""
+def send_notification(practice_title=None, practice_day=None, news_titles=None):
+    """Send a Feishu bot card message with today's update info."""
     if not WEBHOOK_URL:
         print("FEISHU_WEBHOOK_URL not set, skipping notification.")
         return False
@@ -33,29 +33,87 @@ def send_notification(practice_title=None, news_titles=None):
     date_str = now.strftime("%Y-%m-%d")
     date_display = now.strftime("%m月%d日")
 
-    # Build message content
-    lines = []
-    lines.append(f"📅 {date_display} 每日英语练习已更新！\n")
+    # Build card elements
+    elements = []
 
+    # Summary line
+    summary_parts = [f"📅 **{date_display}**"]
+    if practice_day:
+        summary_parts.append(f"Day {practice_day}")
+    elements.append({
+        "tag": "div",
+        "text": {
+            "tag": "lark_md",
+            "content": "  |  ".join(summary_parts)
+        }
+    })
+
+    # Practice section
     if practice_title:
-        lines.append(f"📝 口语练习: {practice_title}")
-        lines.append(f"   {SITE_URL}/english-practice-{date_str}.html\n")
+        elements.append({
+            "tag": "div",
+            "text": {
+                "tag": "lark_md",
+                "content": f"📖 **口语练习：{practice_title}**"
+            }
+        })
+        elements.append({
+            "tag": "action",
+            "actions": [{
+                "tag": "button",
+                "text": {"tag": "plain_text", "content": "🎧 开始朗读练习"},
+                "url": f"{SITE_URL}/english-practice-{date_str}.html",
+                "type": "primary"
+            }]
+        })
 
+    # News section
     if news_titles:
-        lines.append(f"📰 英语新闻:")
-        for title in news_titles:
-            lines.append(f"   • {title}")
-        lines.append(f"   {SITE_URL}/english-news-{date_str}.html\n")
+        news_lines = "\n".join(f"• {t}" for t in news_titles)
+        elements.append({
+            "tag": "div",
+            "text": {
+                "tag": "lark_md",
+                "content": f"📰 **今日新闻：**\n{news_lines}"
+            }
+        })
+        elements.append({
+            "tag": "action",
+            "actions": [{
+                "tag": "button",
+                "text": {"tag": "plain_text", "content": "📻 收听英语新闻"},
+                "url": f"{SITE_URL}/english-news-{date_str}.html",
+                "type": "danger"
+            }]
+        })
 
-    lines.append(f"🏠 目录页: {SITE_URL}/")
-    lines.append("\n🔊 全部附带微软神经网络语音朗读，支持语速调节和逐句高亮。")
+    # Index link
+    elements.append({
+        "tag": "action",
+        "actions": [{
+            "tag": "button",
+            "text": {"tag": "plain_text", "content": "🏠 查看全部目录"},
+            "url": f"{SITE_URL}/",
+            "type": "default"
+        }]
+    })
 
-    content = "\n".join(lines)
+    elements.append({
+        "tag": "note",
+        "elements": [{
+            "tag": "plain_text",
+            "content": "🔊 全部附带微软神经网络语音朗读 | 每天更新"
+        }]
+    })
 
     payload = {
-        "msg_type": "text",
-        "content": {
-            "text": content
+        "msg_type": "interactive",
+        "card": {
+            "header": {
+                "title": {"tag": "plain_text", "content": "Daily English Practice 已更新"},
+                "template": "blue"
+            },
+            "elements": elements
         }
     }
 
@@ -83,12 +141,14 @@ def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
     practice_title = None
+    practice_day = None
     practice_path = os.path.join(script_dir, "article-today.json")
     if os.path.exists(practice_path):
         try:
             with open(practice_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
             practice_title = data.get("title", "")
+            practice_day = data.get("day", None)
         except Exception:
             pass
 
@@ -103,7 +163,7 @@ def main():
         except Exception:
             pass
 
-    send_notification(practice_title, news_titles)
+    send_notification(practice_title, practice_day, news_titles)
 
 
 if __name__ == "__main__":
