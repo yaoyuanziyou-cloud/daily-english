@@ -37,17 +37,50 @@ from mutagen.mp3 import MP3
 VOICE = "en-US-AriaNeural"
 REGISTRY_FILE = "articles-registry.json"
 
+# Track if edge-tts works; fall back to gTTS if it fails
+_tts_backend = None  # None = not tested yet, "edge" = edge-tts, "gtts" = gTTS
+
 
 async def save_clip(text, filepath, voice=VOICE):
-    """Generate a single audio clip and save to file."""
-    comm = edge_tts.Communicate(text, voice)
-    audio = b""
-    async for chunk in comm.stream():
-        if chunk["type"] == "audio":
-            audio += chunk["data"]
-    with open(filepath, "wb") as f:
-        f.write(audio)
-    return len(audio)
+    """Generate a single audio clip and save to file. Falls back to gTTS if edge-tts fails."""
+    global _tts_backend
+
+    if _tts_backend is None:
+        # Test edge-tts first
+        try:
+            comm = edge_tts.Communicate(text, voice)
+            audio = b""
+            async for chunk in comm.stream():
+                if chunk["type"] == "audio":
+                    audio += chunk["data"]
+            if len(audio) > 100:
+                with open(filepath, "wb") as f:
+                    f.write(audio)
+                _tts_backend = "edge"
+                return len(audio)
+        except Exception as e:
+            print(f"  edge-tts failed ({e}), switching to gTTS fallback")
+
+    if _tts_backend == "edge":
+        try:
+            comm = edge_tts.Communicate(text, voice)
+            audio = b""
+            async for chunk in comm.stream():
+                if chunk["type"] == "audio":
+                    audio += chunk["data"]
+            with open(filepath, "wb") as f:
+                f.write(audio)
+            return len(audio)
+        except Exception as e:
+            print(f"  edge-tts failed ({e}), switching to gTTS fallback")
+            _tts_backend = "gtts"
+
+    # gTTS fallback
+    from gtts import gTTS
+    tts = gTTS(text, lang='en', tld='com', slow=False)
+    tts.save(filepath)
+    size = os.path.getsize(filepath)
+    return size
 
 
 async def generate_all_audio(sentences, vocab_words, phrases, audio_dir):

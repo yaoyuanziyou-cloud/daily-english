@@ -43,16 +43,46 @@ VOICE = "en-US-AriaNeural"
 NEWS_REGISTRY_FILE = "news-registry.json"
 PRACTICE_REGISTRY_FILE = "articles-registry.json"
 
+_tts_backend = None
+
 
 async def save_clip(text, filepath, voice=VOICE):
-    comm = edge_tts.Communicate(text, voice)
-    audio = b""
-    async for chunk in comm.stream():
-        if chunk["type"] == "audio":
-            audio += chunk["data"]
-    with open(filepath, "wb") as f:
-        f.write(audio)
-    return len(audio)
+    """Generate a single audio clip. Falls back to gTTS if edge-tts fails."""
+    global _tts_backend
+
+    if _tts_backend is None:
+        try:
+            comm = edge_tts.Communicate(text, voice)
+            audio = b""
+            async for chunk in comm.stream():
+                if chunk["type"] == "audio":
+                    audio += chunk["data"]
+            if len(audio) > 100:
+                with open(filepath, "wb") as f:
+                    f.write(audio)
+                _tts_backend = "edge"
+                return len(audio)
+        except Exception as e:
+            print(f"  edge-tts failed ({e}), switching to gTTS fallback")
+
+    if _tts_backend == "edge":
+        try:
+            comm = edge_tts.Communicate(text, voice)
+            audio = b""
+            async for chunk in comm.stream():
+                if chunk["type"] == "audio":
+                    audio += chunk["data"]
+            with open(filepath, "wb") as f:
+                f.write(audio)
+            return len(audio)
+        except Exception as e:
+            print(f"  edge-tts failed ({e}), switching to gTTS fallback")
+            _tts_backend = "gtts"
+
+    from gtts import gTTS
+    tts = gTTS(text, lang='en', tld='com', slow=False)
+    tts.save(filepath)
+    return os.path.getsize(filepath)
 
 
 async def generate_article_audio(article, audio_dir, art_idx):
