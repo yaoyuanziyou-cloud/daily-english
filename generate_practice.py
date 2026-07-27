@@ -138,6 +138,35 @@ def build_combined_audio(audio_dir, num_sentences):
     return offsets, total
 
 
+def sanitize_article(article):
+    """Validate and fix article data from LLM output."""
+    sentences = article.get("sentences", [])
+    num_s = len(sentences)
+
+    # Fix paragraphs: remove out-of-range indices
+    paras = article.get("paragraphs", None)
+    if paras:
+        cleaned = []
+        for para in paras:
+            valid = [s for s in para if isinstance(s, int) and 0 <= s < num_s]
+            if valid:
+                cleaned.append(valid)
+        if cleaned:
+            article["paragraphs"] = cleaned
+        else:
+            article["paragraphs"] = None
+
+    # Fix vocab: ensure 3-element lists
+    vocab = article.get("vocab", [])
+    article["vocab"] = [v if len(v) >= 3 else [v[0] if len(v) > 0 else "", "", v[1] if len(v) > 1 else ""] for v in vocab]
+
+    # Fix phrases: ensure at least 2-element lists
+    phrases = article.get("phrases", [])
+    article["phrases"] = [p if len(p) >= 2 else [p[0] if len(p) > 0 else "", p[1] if len(p) > 1 else ""] for p in phrases]
+
+    return article
+
+
 def build_html(article, audio_files, audio_rel_dir, sentence_offsets, total_duration):
     """Build the complete HTML page with combined audio for continuous playback."""
     date_str = article["date"]
@@ -516,9 +545,12 @@ def update_registry_and_index(script_dir, article):
     else:
         news_registry = []
 
-    # Build news cards
+    # Build news cards (only for entries where HTML file exists)
     news_cards_html = ""
     for e in reversed(news_registry):
+        # Skip entries whose HTML file doesn't exist on disk
+        if not os.path.exists(os.path.join(script_dir, e["file"])):
+            continue
         try:
             dt = datetime.strptime(e["date"], "%Y-%m-%d")
             date_display = dt.strftime("%b %d, %Y")
@@ -533,9 +565,12 @@ def update_registry_and_index(script_dir, article):
     </a>
 '''
 
-    # Build practice cards
+    # Build practice cards (only for entries where HTML file exists)
     cards_html = ""
     for e in reversed(registry):
+        # Skip entries whose HTML file doesn't exist on disk
+        if not os.path.exists(os.path.join(script_dir, e["file"])):
+            continue
         try:
             dt = datetime.strptime(e["date"], "%Y-%m-%d")
             date_display = dt.strftime("%b %d, %Y")
@@ -698,6 +733,9 @@ async def main():
 
     with open(json_path, "r", encoding="utf-8") as f:
         article = json.load(f)
+
+    # Sanitize article data (fix out-of-range indices, malformed vocab/phrases)
+    article = sanitize_article(article)
 
     date_str = article["date"]
     vocab_words = [v[0] for v in article["vocab"]]
