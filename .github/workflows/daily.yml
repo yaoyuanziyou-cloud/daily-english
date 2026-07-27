@@ -28,10 +28,20 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Restore registry files from gh-pages
+      - name: Restore existing content from gh-pages
         run: |
           git fetch origin gh-pages 2>/dev/null || true
+          # Restore registry files
           git checkout origin/gh-pages -- articles-registry.json news-registry.json 2>/dev/null || echo "No existing registry, starting fresh"
+          # Restore all existing HTML files (practice + news pages + settings + index)
+          git checkout origin/gh-pages -- '*.html' 2>/dev/null || echo "No existing HTML files"
+          # Restore audio directory
+          git checkout origin/gh-pages -- audio/ 2>/dev/null || echo "No existing audio files"
+          # Restore status.json
+          git checkout origin/gh-pages -- status.json 2>/dev/null || echo "No existing status.json"
+          echo "=== Restored files ==="
+          ls -la *.html 2>/dev/null || echo "No HTML files"
+          ls -d audio/*/ 2>/dev/null || echo "No audio dirs"
 
       - name: Generate daily content
         env:
