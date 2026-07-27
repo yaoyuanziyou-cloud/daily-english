@@ -630,9 +630,11 @@ def update_news_registry_and_index(script_dir, news_data):
         practice_registry = []
 
     # Build index.html with both sections
-    # News cards
+    # News cards (only for entries where HTML file exists)
     news_cards_html = ""
     for e in reversed(news_registry):
+        if not os.path.exists(os.path.join(script_dir, e["file"])):
+            continue
         try:
             dt = datetime.strptime(e["date"], "%Y-%m-%d")
             date_display = dt.strftime("%b %d, %Y")
@@ -648,9 +650,11 @@ def update_news_registry_and_index(script_dir, news_data):
     </a>
 '''
 
-    # Practice cards
+    # Practice cards (only for entries where HTML file exists)
     practice_cards_html = ""
     for e in reversed(practice_registry):
+        if not os.path.exists(os.path.join(script_dir, e["file"])):
+            continue
         try:
             dt = datetime.strptime(e["date"], "%Y-%m-%d")
             date_display = dt.strftime("%b %d, %Y")
