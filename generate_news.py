@@ -630,11 +630,10 @@ def update_news_registry_and_index(script_dir, news_data):
         practice_registry = []
 
     # Build index.html with both sections
-    # News cards (only for entries where HTML file exists)
+    # News cards (show all entries; mark unavailable ones)
     news_cards_html = ""
     for e in reversed(news_registry):
-        if not os.path.exists(os.path.join(script_dir, e["file"])):
-            continue
+        file_exists = os.path.exists(os.path.join(script_dir, e["file"]))
         try:
             dt = datetime.strptime(e["date"], "%Y-%m-%d")
             date_display = dt.strftime("%b %d, %Y")
@@ -642,19 +641,27 @@ def update_news_registry_and_index(script_dir, news_data):
             date_display = e["date"]
 
         article_titles = " / ".join([a["title"] for a in e.get("articles", [])])
-        news_cards_html += f'''    <a class="card news-card" href="{html_module.escape(e["file"])}">
+        if file_exists:
+            news_cards_html += f'''    <a class="card news-card" href="{html_module.escape(e["file"])}">
       <div class="card-day">News</div>
       <div class="card-date">{html_module.escape(date_display)}</div>
       <div class="card-title">{html_module.escape(article_titles[:100])}</div>
       <div class="card-tag" style="color: #b83b5e; background: #fdf0f4;">{e.get("article_count", 1)} Articles</div>
     </a>
 '''
+        else:
+            news_cards_html += f'''    <div class="card news-card unavailable">
+      <div class="card-day">News</div>
+      <div class="card-date">{html_module.escape(date_display)}</div>
+      <div class="card-title">{html_module.escape(article_titles[:100])}</div>
+      <div class="card-tag" style="color: #aaa; background: #f0f0f0;">Content unavailable</div>
+    </div>
+'''
 
-    # Practice cards (only for entries where HTML file exists)
+    # Practice cards (show all entries; mark unavailable ones)
     practice_cards_html = ""
     for e in reversed(practice_registry):
-        if not os.path.exists(os.path.join(script_dir, e["file"])):
-            continue
+        file_exists = os.path.exists(os.path.join(script_dir, e["file"]))
         try:
             dt = datetime.strptime(e["date"], "%Y-%m-%d")
             date_display = dt.strftime("%b %d, %Y")
@@ -666,12 +673,21 @@ def update_news_registry_and_index(script_dir, news_data):
         is_business = "Business" in e.get("scenario", "")
         tag_color = "#e74c3c" if is_business else "#27ae60"
         tag_bg = "#fdf0ef" if is_business else "#eafaf1"
-        practice_cards_html += f'''    <a class="card" href="{html_module.escape(e["file"])}">
+        if file_exists:
+            practice_cards_html += f'''    <a class="card" href="{html_module.escape(e["file"])}">
       <div class="card-day">Day {e["day"]}</div>
       <div class="card-date">{html_module.escape(date_display)}<span class="card-weekday">{html_module.escape(weekday)}</span></div>
       <div class="card-title">{html_module.escape(e["title"])}</div>
       <div class="card-tag" style="color: {tag_color}; background: {tag_bg};">{html_module.escape(e.get("scenario", ""))}</div>
     </a>
+'''
+        else:
+            practice_cards_html += f'''    <div class="card unavailable">
+      <div class="card-day">Day {e["day"]}</div>
+      <div class="card-date">{html_module.escape(date_display)}<span class="card-weekday">{html_module.escape(weekday)}</span></div>
+      <div class="card-title">{html_module.escape(e["title"])}</div>
+      <div class="card-tag" style="color: #aaa; background: #f0f0f0;">Content unavailable</div>
+    </div>
 '''
 
     total_practice = len(practice_registry)
@@ -702,6 +718,8 @@ def update_news_registry_and_index(script_dir, news_data):
   .card:hover {{ transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,0.12); border-color: #2e86c1; }}
   .news-card:hover {{ border-color: #b83b5e; }}
   .news-card {{ background: #fff8fb; }}
+  .card.unavailable {{ opacity: 0.45; cursor: default; }}
+  .card.unavailable:hover {{ transform: none; box-shadow: 0 2px 12px rgba(0,0,0,0.06); border-color: transparent; }}
   .card-day {{ font-size: 13px; font-weight: bold; color: #2e86c1; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 6px; }}
   .news-card .card-day {{ color: #b83b5e; }}
   .card-date {{ font-size: 14px; color: #888; margin-bottom: 12px; }}
