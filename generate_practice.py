@@ -169,9 +169,9 @@ def sanitize_article(article):
     vocab = article.get("vocab", [])
     article["vocab"] = [v if len(v) >= 3 else [v[0] if len(v) > 0 else "", "", v[1] if len(v) > 1 else ""] for v in vocab]
 
-    # Fix phrases: ensure at least 2-element lists
+    # Fix phrases: ensure exactly 2-element lists
     phrases = article.get("phrases", [])
-    article["phrases"] = [p if len(p) >= 2 else [p[0] if len(p) > 0 else "", p[1] if len(p) > 1 else ""] for p in phrases]
+    article["phrases"] = [[p[0] if len(p) > 0 else "", p[1] if len(p) > 1 else ""] for p in phrases]
 
     return article
 
