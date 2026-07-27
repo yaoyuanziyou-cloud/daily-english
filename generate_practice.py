@@ -143,6 +143,15 @@ def sanitize_article(article):
     sentences = article.get("sentences", [])
     num_s = len(sentences)
 
+    # Ensure translations match sentences count
+    translations = article.get("translations", [])
+    num_t = len(translations)
+    if num_t < num_s:
+        translations.extend([""] * (num_s - num_t))
+        article["translations"] = translations
+    elif num_t > num_s:
+        article["translations"] = translations[:num_s]
+
     # Fix paragraphs: remove out-of-range indices
     paras = article.get("paragraphs", None)
     if paras:
@@ -200,6 +209,24 @@ def build_html(article, audio_files, audio_rel_dir, sentence_offsets, total_dura
                 article_html += f'<span class="sentence" data-idx="{i}">{html_module.escape(s)}</span> '
         article_html += "</p>\n"
 
+    # Build Chinese translation HTML
+    translations = article.get("translations", [])
+    cn_html = ""
+    has_translations = any(t.strip() for t in translations)
+    if has_translations:
+        if paras:
+            for para in paras:
+                cn_html += "<p>"
+                for s_idx in para:
+                    if 0 <= s_idx < len(translations):
+                        cn_html += f'<span>{html_module.escape(translations[s_idx])}</span> '
+                cn_html += "</p>\n"
+        else:
+            cn_html += "<p>"
+            for t in translations:
+                cn_html += f'<span>{html_module.escape(t)}</span> '
+            cn_html += "</p>\n"
+
     # Build vocab HTML
     vocab_html = ""
     for i, (word, phonetic, meaning) in enumerate(article["vocab"]):
@@ -221,6 +248,16 @@ def build_html(article, audio_files, audio_rel_dir, sentence_offsets, total_dura
         date_display = dt.strftime("%A, %B %d, %Y")
     except Exception:
         date_display = date_str
+
+    # Build translation section HTML
+    if has_translations:
+        translation_section = f'''    <button class="translate-toggle" id="transToggle" onclick="toggleTranslation()">&#128257; Show Chinese Translation</button>
+    <div class="cn-translation" id="cnTranslation">
+{cn_html}    </div>
+
+'''
+    else:
+        translation_section = ""
 
     html = f'''<!DOCTYPE html>
 <html lang="en">
@@ -263,6 +300,11 @@ def build_html(article, audio_files, audio_rel_dir, sentence_offsets, total_dura
   .article .sentence {{ cursor: pointer; border-radius: 4px; padding: 0 2px; transition: background 0.2s; }}
   .article .sentence:hover {{ background: #e8f4fc; }}
   .article .sentence.highlighted {{ background: #fceabb; box-shadow: 0 0 0 2px #f4d03f; }}
+  .translate-toggle {{ background: #e8f4fc; color: #1a5276; border: 1px solid #aed6f1; border-radius: 8px; padding: 8px 16px; font-size: 14px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; margin-top: 16px; display: inline-flex; align-items: center; gap: 6px; }}
+  .translate-toggle:hover {{ background: #d4eefc; }}
+  .translate-toggle.active {{ background: #1a5276; color: white; }}
+  .cn-translation {{ font-size: 16px; line-height: 1.9; color: #555; margin-top: 16px; padding: 16px 20px; background: #f0f6fa; border-left: 4px solid #2e86c1; border-radius: 4px; font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica', sans-serif; display: none; }}
+  .cn-translation p {{ margin-bottom: 10px; }}
   .section-title {{ font-family: 'Helvetica', sans-serif; font-size: 16px; font-weight: bold; color: #1a5276; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e8e8e8; }}
   .section {{ margin-bottom: 32px; }}
   .vocab-list {{ list-style: none; }}
@@ -319,8 +361,7 @@ def build_html(article, audio_files, audio_rel_dir, sentence_offsets, total_dura
     <div class="article" id="articleText">
 {article_html}
     </div>
-
-    <div class="section">
+{translation_section}    <div class="section">
       <div class="section-title">Key Vocabulary</div>
       <ul class="vocab-list">
 {vocab_html}
@@ -499,6 +540,20 @@ def build_html(article, audio_files, audio_rel_dir, sentence_offsets, total_dura
     clipAudio.onerror = function() {{ btnEl.classList.remove('playing'); currentButtonEl = null; }};
     progressInfo.textContent = 'Playing: ' + (type === 'word' ? 'vocabulary' : 'phrase');
     clipAudio.play().catch(function(e) {{ console.error(e); }});
+  }};
+  window.toggleTranslation = function() {{
+    var cnText = document.getElementById('cnTranslation');
+    var toggle = document.getElementById('transToggle');
+    if (!cnText || !toggle) return;
+    if (cnText.style.display === 'none' || cnText.style.display === '') {{
+      cnText.style.display = 'block';
+      toggle.innerHTML = '&#128257; Hide Chinese Translation';
+      toggle.classList.add('active');
+    }} else {{
+      cnText.style.display = 'none';
+      toggle.innerHTML = '&#128257; Show Chinese Translation';
+      toggle.classList.remove('active');
+    }}
   }};
   mainAudio.load();
 }})();
