@@ -137,10 +137,11 @@ def generate_practice_article(client, script_dir):
 2. Title: A catchy English title (5-10 words)
 3. Sentences: 12-16 sentences, each 8-20 words. Total 200-300 words. Natural, conversational English.
 4. Paragraphs: Group sentence indices into paragraphs (2-3 paragraphs).
-5. Vocabulary: 6-8 key words from the article with phonetic transcription (/.../) and Chinese meaning.
-6. Phrases: 4-5 useful phrases with Chinese meaning and usage context.
-7. Tips: 2-3 pronunciation tips (linking, weak forms, stress patterns, intonation).
-8. Challenge: 1 speaking challenge question using phrases from the article.
+5. Translations: Provide an accurate Chinese translation for EACH sentence (same count as sentences).
+6. Vocabulary: 6-8 key words from the article with phonetic transcription (/.../) and Chinese meaning.
+7. Phrases: 4-5 useful phrases with Chinese meaning and usage context.
+8. Tips: 2-3 pronunciation tips (linking, weak forms, stress patterns, intonation).
+9. Challenge: 1 speaking challenge question using phrases from the article.
 
 Return ONLY a JSON object in this exact format:
 {{
@@ -150,6 +151,7 @@ Return ONLY a JSON object in this exact format:
   "scenario": "{scenario_type}",
   "sentences": ["Sentence 1.", "Sentence 2.", ...],
   "paragraphs": [[0,1,2], [3,4,5,6], ...],
+  "translations": ["第一句的中文翻译", "第二句的中文翻译", ...],
   "vocab": [["word", "/phonetic/", "Chinese meaning"], ...],
   "phrases": [["phrase", "Chinese meaning and usage context"], ...],
   "tips": [["Linking: ", "Explanation of linking pattern"], ...],
