@@ -36,6 +36,7 @@ from mutagen.mp3 import MP3
 
 VOICE = "en-US-AriaNeural"
 REGISTRY_FILE = "articles-registry.json"
+RECENT_THRESHOLD = 3  # Show latest 3 as full cards, rest collapsed into archive list
 
 # Track if edge-tts works; fall back to gTTS if it fails
 _tts_backend = None  # None = not tested yet, "edge" = edge-tts, "gtts" = gTTS
@@ -600,9 +601,13 @@ def update_registry_and_index(script_dir, article):
     else:
         news_registry = []
 
-    # Build news cards (show all entries; mark unavailable ones)
+    # Build news cards: recent as full cards, older as archive list
+    news_reversed = list(reversed(news_registry))  # newest first
+    news_recent = news_reversed[:RECENT_THRESHOLD]
+    news_archive = news_reversed[RECENT_THRESHOLD:]
+
     news_cards_html = ""
-    for e in reversed(news_registry):
+    for e in news_recent:
         file_exists = os.path.exists(os.path.join(script_dir, e["file"]))
         try:
             dt = datetime.strptime(e["date"], "%Y-%m-%d")
@@ -627,9 +632,46 @@ def update_registry_and_index(script_dir, article):
     </div>
 '''
 
-    # Build practice cards (show all entries; mark unavailable ones)
+    news_archive_html = ""
+    if news_archive:
+        news_archive_html = f'''<div class="archive-section">
+  <button class="archive-toggle" onclick="toggleArchive('newsArchive')">
+    <span class="archive-toggle-text">Show {len(news_archive)} older entries</span>
+    <span class="archive-toggle-arrow">&#9660;</span>
+  </button>
+  <div class="archive-list" id="newsArchive">
+'''
+        for e in news_archive:
+            file_exists = os.path.exists(os.path.join(script_dir, e["file"]))
+            try:
+                dt = datetime.strptime(e["date"], "%Y-%m-%d")
+                date_display = dt.strftime("%b %d")
+            except Exception:
+                date_display = e["date"]
+            article_titles = " / ".join([a["title"] for a in e.get("articles", [])])
+            if file_exists:
+                news_archive_html += f'''    <a class="archive-item news" href="{html_module.escape(e["file"])}">
+      <span class="archive-date">{html_module.escape(date_display)}</span>
+      <span class="archive-title">{html_module.escape(article_titles[:80])}</span>
+      <span class="archive-count">{e.get("article_count", 1)} Articles</span>
+    </a>
+'''
+            else:
+                news_archive_html += f'''    <div class="archive-item news unavailable">
+      <span class="archive-date">{html_module.escape(date_display)}</span>
+      <span class="archive-title">{html_module.escape(article_titles[:80])}</span>
+      <span class="archive-count">unavailable</span>
+    </div>
+'''
+        news_archive_html += "  </div>\n</div>\n"
+
+    # Build practice cards: recent as full cards, older as archive list
+    practice_reversed = list(reversed(registry))  # newest first
+    practice_recent = practice_reversed[:RECENT_THRESHOLD]
+    practice_archive = practice_reversed[RECENT_THRESHOLD:]
+
     cards_html = ""
-    for e in reversed(registry):
+    for e in practice_recent:
         file_exists = os.path.exists(os.path.join(script_dir, e["file"]))
         try:
             dt = datetime.strptime(e["date"], "%Y-%m-%d")
@@ -657,6 +699,40 @@ def update_registry_and_index(script_dir, article):
       <div class="card-tag" style="color: #aaa; background: #f0f0f0;">Content unavailable</div>
     </div>
 '''
+
+    practice_archive_html = ""
+    if practice_archive:
+        practice_archive_html = f'''<div class="archive-section">
+  <button class="archive-toggle" onclick="toggleArchive('practiceArchive')">
+    <span class="archive-toggle-text">Show {len(practice_archive)} older entries</span>
+    <span class="archive-toggle-arrow">&#9660;</span>
+  </button>
+  <div class="archive-list" id="practiceArchive">
+'''
+        for e in practice_archive:
+            file_exists = os.path.exists(os.path.join(script_dir, e["file"]))
+            try:
+                dt = datetime.strptime(e["date"], "%Y-%m-%d")
+                date_display = dt.strftime("%b %d")
+                weekday = dt.strftime("%a")
+            except Exception:
+                date_display = e["date"]
+                weekday = ""
+            if file_exists:
+                practice_archive_html += f'''    <a class="archive-item" href="{html_module.escape(e["file"])}">
+      <span class="archive-date">{html_module.escape(weekday)} {html_module.escape(date_display)}</span>
+      <span class="archive-title">{html_module.escape(e["title"][:80])}</span>
+      <span class="archive-tag">{html_module.escape(e.get("scenario", ""))}</span>
+    </a>
+'''
+            else:
+                practice_archive_html += f'''    <div class="archive-item unavailable">
+      <span class="archive-date">{html_module.escape(weekday)} {html_module.escape(date_display)}</span>
+      <span class="archive-title">{html_module.escape(e["title"][:80])}</span>
+      <span class="archive-tag">unavailable</span>
+    </div>
+'''
+        practice_archive_html += "  </div>\n</div>\n"
 
     total_days = len(registry)
     total_news = len(news_registry)
@@ -702,6 +778,21 @@ def update_registry_and_index(script_dir, article):
   .card-title {{ font-family: 'Georgia', serif; font-size: 20px; color: #1a5276; line-height: 1.4; margin-bottom: 14px; }}
   .news-card .card-title {{ color: #6a2c70; font-size: 17px; }}
   .card-tag {{ display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }}
+  .archive-section {{ max-width: 800px; margin: -20px auto 40px; }}
+  .archive-toggle {{ width: 100%; padding: 14px 20px; background: #fffdf8; border: 2px dashed #d4c5a9; border-radius: 12px; cursor: pointer; font-size: 14px; color: #999; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Helvetica', sans-serif; }}
+  .archive-toggle:hover {{ border-color: #2e86c1; color: #2e86c1; background: #f0f6fa; }}
+  .archive-toggle-arrow {{ font-size: 10px; transition: transform 0.25s; }}
+  .archive-toggle.collapsed .archive-toggle-arrow {{ transform: rotate(-90deg); }}
+  .archive-list {{ margin-top: 8px; }}
+  .archive-list.collapsed {{ display: none; }}
+  .archive-item {{ display: flex; align-items: center; gap: 12px; padding: 10px 16px; margin-bottom: 4px; background: #fffdf8; border-radius: 8px; text-decoration: none; color: inherit; transition: all 0.2s; border-left: 3px solid transparent; }}
+  .archive-item:hover {{ background: #f0f6fa; border-left-color: #2e86c1; }}
+  .archive-item.news:hover {{ border-left-color: #b83b5e; background: #fff0f5; }}
+  .archive-item.unavailable {{ opacity: 0.4; }}
+  .archive-date {{ font-size: 13px; color: #999; white-space: nowrap; min-width: 80px; }}
+  .archive-title {{ font-size: 14px; color: #555; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+  .archive-tag {{ font-size: 11px; color: #888; background: #f0f0f0; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }}
+  .archive-count {{ font-size: 11px; color: #888; background: #f0f0f0; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }}
   .empty {{ text-align: center; padding: 60px 20px; color: #aaa; }}
   .footer {{ text-align: center; padding: 40px 20px; color: #aaa; font-size: 13px; }}
   .status-banner {{ max-width: 800px; margin: 0 auto 20px; border-radius: 12px; padding: 14px 20px; font-size: 14px; display: none; align-items: center; gap: 10px; flex-wrap: wrap; }}
@@ -767,6 +858,20 @@ def update_registry_and_index(script_dir, article):
         showErrorBanner('Unable to load status. The system may not have run yet.');
       }});
   }})();
+
+  function toggleArchive(id) {{
+    var list = document.getElementById(id);
+    var toggle = list.previousElementSibling;
+    if (list.classList.contains('collapsed')) {{
+      list.classList.remove('collapsed');
+      toggle.classList.remove('collapsed');
+      toggle.querySelector('.archive-toggle-text').textContent = toggle.querySelector('.archive-toggle-text').textContent.replace('Show', 'Hide');
+    }} else {{
+      list.classList.add('collapsed');
+      toggle.classList.add('collapsed');
+      toggle.querySelector('.archive-toggle-text').textContent = toggle.querySelector('.archive-toggle-text').textContent.replace('Hide', 'Show');
+    }}
+  }}
   </script>
   <div class="hero">
     <h1>Daily English Practice</h1>
@@ -779,9 +884,11 @@ def update_registry_and_index(script_dir, article):
   </div>
   {news_header_html}
   {news_grid_html}
+  {news_archive_html}
   <div class="section-header"><span class="icon">&#128221;</span><h2>Speaking Practice</h2></div>
   <div class="grid">
 {cards_html}  </div>
+  {practice_archive_html}
   <div class="footer">Neural TTS by Microsoft Aria &middot; Practice makes perfect<br><a href="settings.html" style="color: #2e86c1; text-decoration: none;">API Settings</a></div>
 </body>
 </html>'''
