@@ -61,6 +61,7 @@ async def save_clip(text, filepath, voice=VOICE):
                 return len(audio)
         except Exception as e:
             print(f"  edge-tts failed ({e}), switching to gTTS fallback")
+            _tts_backend = "gtts"
 
     if _tts_backend == "edge":
         try:
@@ -76,12 +77,26 @@ async def save_clip(text, filepath, voice=VOICE):
             print(f"  edge-tts failed ({e}), switching to gTTS fallback")
             _tts_backend = "gtts"
 
-    # gTTS fallback
+    # gTTS fallback with retry (transient failures are common on shared IPs)
     from gtts import gTTS
-    tts = gTTS(text, lang='en', tld='com', slow=False)
-    tts.save(filepath)
-    size = os.path.getsize(filepath)
-    return size
+    last_err = None
+    for attempt in range(3):
+        try:
+            tts = gTTS(text, lang='en', tld='com', slow=False)
+            tts.save(filepath)
+            size = os.path.getsize(filepath)
+            if size < 1000:
+                raise RuntimeError(f"gTTS returned tiny file ({size} bytes), treating as failure")
+            if attempt > 0:
+                print(f"  gTTS retry succeeded on attempt {attempt+1}")
+            return size
+        except Exception as e:
+            last_err = e
+            wait = 2 ** attempt
+            print(f"  gTTS attempt {attempt+1} failed ({e}), retrying in {wait}s...")
+            import time
+            time.sleep(wait)
+    raise RuntimeError(f"gTTS failed after 3 attempts: {last_err}")
 
 
 async def generate_all_audio(sentences, vocab_words, phrases, audio_dir):
