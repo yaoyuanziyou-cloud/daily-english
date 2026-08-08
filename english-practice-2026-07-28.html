@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily English Practice - 2026-07-28</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', 'Times New Roman', serif; background: #f5f0e8; color: #2c2c2c; line-height: 1.8; padding: 40px 20px 120px; min-height: 100vh; }
+  .container { max-width: 760px; margin: 0 auto; background: #fffdf8; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+  .player-bar { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #1a5276, #2e86c1); color: white; padding: 14px 24px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+  .player-bar .play-btn { background: white; color: #1a5276; border: none; width: 48px; height: 48px; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .player-bar .play-btn:hover { transform: scale(1.1); }
+  .player-bar .play-btn:active { transform: scale(0.95); }
+  .player-bar .stop-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); width: 38px; height: 38px; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .player-bar .stop-btn:hover { background: rgba(255,255,255,0.35); }
+  .player-bar .speed-control { display: flex; align-items: center; gap: 8px; font-family: 'Helvetica', sans-serif; font-size: 13px; }
+  .player-bar .speed-control input[type="range"] { width: 90px; cursor: pointer; accent-color: white; }
+  .player-bar .speed-label { min-width: 36px; text-align: center; font-variant-numeric: tabular-nums; }
+  .player-bar .repeat-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; }
+  .player-bar .repeat-btn:hover { background: rgba(255,255,255,0.3); }
+  .player-bar .repeat-btn.active { background: #f4d03f; color: #1a5276; border-color: #f4d03f; }
+  .player-bar .voice-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 12px; font-size: 12px; font-family: 'Helvetica', sans-serif; display: flex; align-items: center; gap: 6px; }
+  .player-bar .voice-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .player-bar .progress-info { font-family: 'Helvetica', sans-serif; font-size: 12px; opacity: 0.8; margin-left: auto; }
+  .player-bar .home-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+  .player-bar .home-btn:hover { background: rgba(255,255,255,0.3); }
+  .progress-bar-container { position: relative; width: 100%; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; cursor: pointer; margin-top: 4px; }
+  .progress-bar-fill { height: 100%; background: #f4d03f; border-radius: 3px; width: 0%; transition: width 0.1s linear; }
+  .header { background: linear-gradient(135deg, #1a5276, #2e86c1); color: white; padding: 36px 40px 28px; }
+  .header .date { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; font-family: 'Helvetica', sans-serif; }
+  .header h1 { font-size: 28px; font-weight: normal; line-height: 1.4; }
+  .header .tag { display: inline-block; margin-top: 12px; background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 13px; font-family: 'Helvetica', sans-serif; }
+  .content { padding: 36px 40px 40px; }
+  .article { font-size: 18px; line-height: 2; margin-bottom: 36px; text-align: justify; }
+  .article p { margin-bottom: 16px; }
+  .article .first-letter { float: left; font-size: 48px; line-height: 1; margin-right: 8px; margin-top: 4px; color: #2e86c1; font-weight: bold; }
+  .article .sentence { cursor: pointer; border-radius: 4px; padding: 0 2px; transition: background 0.2s; }
+  .article .sentence:hover { background: #e8f4fc; }
+  .article .sentence.highlighted { background: #fceabb; box-shadow: 0 0 0 2px #f4d03f; }
+  .section-title { font-family: 'Helvetica', sans-serif; font-size: 16px; font-weight: bold; color: #1a5276; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e8e8e8; }
+  .section { margin-bottom: 32px; }
+  .vocab-list { list-style: none; }
+  .vocab-list li { padding: 10px 0; border-bottom: 1px dashed #e0e0e0; font-size: 16px; display: flex; align-items: center; flex-wrap: wrap; }
+  .vocab-list .word { font-weight: bold; color: #1a5276; font-size: 17px; }
+  .vocab-list .phonetic { color: #888; font-style: italic; font-size: 14px; margin-left: 8px; }
+  .vocab-list .meaning { color: #555; margin-left: 8px; flex: 1; }
+  .speak-btn { background: #e8f4fc; color: #1a5276; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .speak-btn:hover { background: #2e86c1; color: white; transform: scale(1.15); }
+  .speak-btn.playing { background: #f4d03f; color: #1a5276; animation: pulse 1s ease-in-out infinite; }
+  .phrase-list { list-style: none; }
+  .phrase-list li { padding: 12px 0; border-bottom: 1px dashed #e0e0e0; display: flex; align-items: flex-start; gap: 10px; }
+  .phrase-list .phrase-text { flex: 1; }
+  .phrase-list .phrase { font-weight: bold; color: #1a5276; font-size: 17px; }
+  .phrase-list .desc { color: #666; font-size: 15px; margin-top: 4px; }
+  .phrase-list .speak-btn { margin-top: 2px; }
+  .tips-list { list-style: none; }
+  .tips-list li { padding: 12px 16px; margin-bottom: 10px; background: #f0f6fa; border-left: 4px solid #2e86c1; border-radius: 4px; font-size: 15px; }
+  .tips-list .tip-label { font-weight: bold; color: #1a5276; }
+  .challenge { background: linear-gradient(135deg, #fef9e7, #fcf3cf); border: 2px solid #f4d03f; border-radius: 12px; padding: 24px; text-align: center; }
+  .challenge .icon { font-size: 32px; margin-bottom: 8px; }
+  .challenge .question { font-size: 18px; color: #7d6608; font-style: italic; margin-top: 8px; }
+  .footer { text-align: center; padding: 20px 40px 32px; color: #aaa; font-size: 13px; font-family: 'Helvetica', sans-serif; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="player-bar">
+    <button class="play-btn" id="playBtn" title="Play / Pause">&#9658;</button>
+    <button class="stop-btn" id="stopBtn" title="Stop">&#9632;</button>
+    <div class="speed-control">
+      <span>Speed</span>
+      <input type="range" id="speedSlider" min="0.5" max="1.5" step="0.1" value="0.9">
+      <span class="speed-label" id="speedLabel">0.9x</span>
+    </div>
+    <button class="repeat-btn" id="repeatBtn" title="Loop Mode">&#x21bb; Loop</button>
+    <div class="voice-badge"><span class="dot"></span><span>Aria Neural</span></div>
+    <span class="progress-info" id="progressInfo">Ready</span>
+    <a class="home-btn" href="index.html" title="Back to Index">&#8962; Home</a>
+  </div>
+  <div style="background: #1a5276; padding: 0 24px 10px;">
+    <div class="progress-bar-container" id="progressBarContainer">
+      <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
+  </div>
+
+  <div class="header">
+    <div class="date">Tuesday, July 28, 2026</div>
+    <h1>Preparing for a Job Interview</h1>
+    <span class="tag">Business Scenario</span>
+  </div>
+
+  <div class="content">
+    <div class="article" id="articleText">
+<p><span class="first-letter">W</span><span class="sentence" data-idx="0">hen you are invited to a job interview, it is normal to feel a little nervous.</span> <span class="sentence" data-idx="1">However, good preparation can help you feel more confident and perform better.</span> <span class="sentence" data-idx="2">Start by researching the company online and reading about its products, values, and recent news.</span> <span class="sentence" data-idx="3">This knowledge will help you explain why you want to work there.</span> <span class="sentence" data-idx="4">You should also review the job description carefully so you can match your skills to the role.</span> </p>
+<p><span class="sentence" data-idx="5">On the day of the interview, dress professionally and arrive at least ten minutes early.</span> <span class="sentence" data-idx="6">Bring extra copies of your resume and a notebook to write down important points.</span> <span class="sentence" data-idx="7">During the conversation, listen carefully and answer questions with clear examples from your past experience.</span> <span class="sentence" data-idx="8">It is also helpful to prepare a few questions to ask the interviewer about the team or company culture.</span> <span class="sentence" data-idx="9">Remember that an interview is not only a test; it is also a chance for you to learn about the employer.</span> </p>
+<p><span class="sentence" data-idx="10">After the meeting, send a short thank-you email within twenty-four hours.</span> <span class="sentence" data-idx="11">In the message, mention something specific you discussed and restate your interest in the position.</span> <span class="sentence" data-idx="12">This small gesture shows that you are polite, organized, and truly interested.</span> <span class="sentence" data-idx="13">Even if you do not get the job, every interview is a valuable learning experience.</span> <span class="sentence" data-idx="14">Stay positive, keep practicing, and the right opportunity will come.</span> </p>
+
+    </div>
+
+    <div class="section">
+      <div class="section-title">Key Vocabulary</div>
+      <ul class="vocab-list">
+<li><span class="word">interview</span> <span class="phonetic">/ˈɪntərvjuː/</span> <span class="meaning">面试</span> <button class="speak-btn" onclick="playClip('word', 0, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">nervous</span> <span class="phonetic">/ˈnɜːrvəs/</span> <span class="meaning">紧张的</span> <button class="speak-btn" onclick="playClip('word', 1, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">confident</span> <span class="phonetic">/ˈkɑːnfɪdənt/</span> <span class="meaning">自信的</span> <button class="speak-btn" onclick="playClip('word', 2, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">research</span> <span class="phonetic">/ˈriːsɜːrtʃ/</span> <span class="meaning">研究，调查</span> <button class="speak-btn" onclick="playClip('word', 3, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">description</span> <span class="phonetic">/dɪˈskrɪpʃn/</span> <span class="meaning">描述，职位说明</span> <button class="speak-btn" onclick="playClip('word', 4, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">professionally</span> <span class="phonetic">/prəˈfeʃənəli/</span> <span class="meaning">专业地，职业地</span> <button class="speak-btn" onclick="playClip('word', 5, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">experience</span> <span class="phonetic">/ɪkˈspɪriəns/</span> <span class="meaning">经验，经历</span> <button class="speak-btn" onclick="playClip('word', 6, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">opportunity</span> <span class="phonetic">/ˌɑːpərˈtuːnəti/</span> <span class="meaning">机会</span> <button class="speak-btn" onclick="playClip('word', 7, this)" title="Listen">&#128266;</button></li>
+
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Useful Phrases</div>
+      <ul class="phrase-list">
+<li><div class="phrase-text"><span class="phrase">feel nervous</span><div class="desc">感到紧张 — 用于描述面对压力情境时的情绪，如面试、演讲前</div></div><button class="speak-btn" onclick="playClip('phrase', 0, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">match your skills to the role</span><div class="desc">将你的技能与岗位匹配 — 面试中说明自己适合该职位</div></div><button class="speak-btn" onclick="playClip('phrase', 1, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">arrive early</span><div class="desc">提前到达 — 面试或重要会议时展现守时</div></div><button class="speak-btn" onclick="playClip('phrase', 2, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">past experience</span><div class="desc">过往经验 — 回答行为面试问题时引用</div></div><button class="speak-btn" onclick="playClip('phrase', 3, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">thank-you email</span><div class="desc">感谢邮件 — 面试后 24 小时内发送以表达礼貌和持续兴趣</div></div><button class="speak-btn" onclick="playClip('phrase', 4, this)" title="Listen">&#128266;</button></li>
+
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Pronunciation Tips</div>
+      <ul class="tips-list">
+<li><span class="tip-label">连读：</span>interview is 读作 /ˈɪntərvjuːɪz/，注意两词之间自然连读。</li>
+<li><span class="tip-label">弱读：</span>can 和 for 在句中通常弱读为 /kən/ 和 /fər/，不要重读。</li>
+<li><span class="tip-label">重音：</span>prePARation、proFESSIONally、opporTUnity 等词重音在第二或第三个音节。</li>
+
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Speaking Challenge</div>
+      <div class="challenge">
+        <div class="icon">&#127908;&#65039;</div>
+        <div class="question">Describe a time when you prepared carefully for an important meeting or interview. What did you do, and how did it go?</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Daily English Speaking Practice &#183; Day 2 &#183; Neural TTS by Microsoft Aria &#183; Keep practicing every day!
+  </div>
+</div>
+
+<audio id="mainAudio" preload="auto">
+  <source src="audio/2026-07-28/full-article.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+(function() {
+  'use strict';
+  var AUDIO_BASE = 'audio/2026-07-28/';
+  var SENTENCE_OFFSETS = [0.0, 5.112, 10.44, 17.136, 21.144, 26.568, 32.112, 37.416, 44.496, 50.88, 57.36, 62.352, 68.4, 73.896, 79.512];
+  var WORD_FILES = ["word-00.mp3", "word-01.mp3", "word-02.mp3", "word-03.mp3", "word-04.mp3", "word-05.mp3", "word-06.mp3", "word-07.mp3"];
+  var PHRASE_FILES = ["phrase-00.mp3", "phrase-01.mp3", "phrase-02.mp3", "phrase-03.mp3", "phrase-04.mp3"];
+
+  var mainAudio = document.getElementById('mainAudio');
+  var isPlaying = false;
+  var isRepeatMode = false;
+  var rate = 0.9;
+  var currentSentenceIdx = -1;
+  var clipAudio = null;
+  var currentButtonEl = null;
+
+  var playBtn = document.getElementById('playBtn');
+  var stopBtn = document.getElementById('stopBtn');
+  var speedSlider = document.getElementById('speedSlider');
+  var speedLabel = document.getElementById('speedLabel');
+  var repeatBtn = document.getElementById('repeatBtn');
+  var progressInfo = document.getElementById('progressInfo');
+  var progressBarFill = document.getElementById('progressBarFill');
+  var progressBarContainer = document.getElementById('progressBarContainer');
+  var sentenceEls = document.querySelectorAll('.article .sentence');
+
+  mainAudio.playbackRate = rate;
+
+  function highlightSentence(idx) {
+    if (currentSentenceIdx === idx) return;
+    currentSentenceIdx = idx;
+    sentenceEls.forEach(function(el) {
+      el.classList.toggle('highlighted', parseInt(el.getAttribute('data-idx')) === idx);
+    });
+    if (idx >= 0) {
+      var target = document.querySelector('.sentence[data-idx="' + idx + '"]');
+      if (target) {
+        var rect = target.getBoundingClientRect();
+        if (rect.top < 80 || rect.bottom > window.innerHeight - 40) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+  }
+  function clearHighlights() {
+    currentSentenceIdx = -1;
+    sentenceEls.forEach(function(el) { el.classList.remove('highlighted'); });
+  }
+  function updateSentenceFromTime() {
+    var t = mainAudio.currentTime;
+    for (var i = SENTENCE_OFFSETS.length - 1; i >= 0; i--) {
+      if (t >= SENTENCE_OFFSETS[i]) { highlightSentence(i); return; }
+    }
+    highlightSentence(0);
+  }
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  playBtn.addEventListener('click', function() {
+    if (clipAudio) { clipAudio.pause(); clipAudio = null; if (currentButtonEl) { currentButtonEl.classList.remove('playing'); currentButtonEl = null; } }
+    if (mainAudio.paused) {
+      mainAudio.play().then(function() {
+        isPlaying = true;
+        playBtn.innerHTML = '&#10074;&#10074;';
+      }).catch(function(e) { console.error('Play error:', e); progressInfo.textContent = 'Click again'; });
+    } else {
+      mainAudio.pause();
+      isPlaying = false;
+      playBtn.innerHTML = '&#9658;';
+      progressInfo.textContent = 'Paused';
+    }
+  });
+  stopBtn.addEventListener('click', function() {
+    mainAudio.pause(); mainAudio.currentTime = 0;
+    isPlaying = false; clearHighlights();
+    playBtn.innerHTML = '&#9658;';
+    progressBarFill.style.width = '0%';
+    progressInfo.textContent = 'Ready';
+  });
+  speedSlider.addEventListener('input', function() {
+    rate = parseFloat(speedSlider.value);
+    speedLabel.textContent = rate.toFixed(1) + 'x';
+    mainAudio.playbackRate = rate;
+  });
+  repeatBtn.addEventListener('click', function() {
+    isRepeatMode = !isRepeatMode;
+    repeatBtn.classList.toggle('active', isRepeatMode);
+  });
+  mainAudio.addEventListener('timeupdate', function() {
+    var pct = (mainAudio.currentTime / mainAudio.duration) * 100;
+    if (isNaN(pct)) pct = 0;
+    progressBarFill.style.width = pct + '%';
+    updateSentenceFromTime();
+    if (mainAudio.duration) {
+      progressInfo.textContent = formatTime(mainAudio.currentTime) + ' / ' + formatTime(mainAudio.duration);
+    }
+  });
+  mainAudio.addEventListener('ended', function() {
+    if (isRepeatMode) {
+      mainAudio.currentTime = 0;
+      mainAudio.play().catch(function(){});
+    } else {
+      isPlaying = false; clearHighlights();
+      playBtn.innerHTML = '&#9658;';
+      progressInfo.textContent = 'Done';
+    }
+  });
+  sentenceEls.forEach(function(el) {
+    el.addEventListener('click', function() {
+      if (clipAudio) { clipAudio.pause(); clipAudio = null; if (currentButtonEl) { currentButtonEl.classList.remove('playing'); currentButtonEl = null; } }
+      var idx = parseInt(el.getAttribute('data-idx'));
+      if (idx < SENTENCE_OFFSETS.length) {
+        mainAudio.currentTime = SENTENCE_OFFSETS[idx];
+        highlightSentence(idx);
+        if (mainAudio.paused) {
+          mainAudio.play().then(function() { isPlaying = true; playBtn.innerHTML = '&#10074;&#10074;'; }).catch(function(e) { console.error(e); });
+        }
+      }
+    });
+  });
+  progressBarContainer.addEventListener('click', function(e) {
+    var rect = progressBarContainer.getBoundingClientRect();
+    var pct = (e.clientX - rect.left) / rect.width;
+    if (mainAudio.duration) { mainAudio.currentTime = pct * mainAudio.duration; }
+  });
+  window.playClip = function(type, idx, btnEl) {
+    if (!mainAudio.paused) { mainAudio.pause(); isPlaying = false; playBtn.innerHTML = '&#9658;'; }
+    if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; }
+    if (currentButtonEl) currentButtonEl.classList.remove('playing');
+    currentButtonEl = btnEl; btnEl.classList.add('playing');
+    var files = (type === 'word') ? WORD_FILES : PHRASE_FILES;
+    clipAudio = new Audio(AUDIO_BASE + files[idx]);
+    clipAudio.playbackRate = 0.85;
+    clipAudio.onended = function() { btnEl.classList.remove('playing'); currentButtonEl = null; progressInfo.textContent = 'Ready'; };
+    clipAudio.onerror = function() { btnEl.classList.remove('playing'); currentButtonEl = null; };
+    progressInfo.textContent = 'Playing: ' + (type === 'word' ? 'vocabulary' : 'phrase');
+    clipAudio.play().catch(function(e) { console.error(e); });
+  };
+  mainAudio.load();
+})();
+</script>
+</body>
+</html>

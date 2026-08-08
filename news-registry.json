@@ -1,0 +1,92 @@
+[
+  {
+    "date": "2026-07-24",
+    "file": "english-news-2026-07-24.html",
+    "articles": [
+      {
+        "title": "China's strong power capacity fuels AI boom",
+        "category": "Technology"
+      },
+      {
+        "title": "UK's attitude toward Brexit changing",
+        "category": "World"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-07-28",
+    "file": "english-news-2026-07-28.html",
+    "articles": [
+      {
+        "title": "AI ecosystem lifts China's global position",
+        "category": "Technology"
+      },
+      {
+        "title": "Spain battles largest recorded wildfire as nearly 100,000 affected",
+        "category": "World"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-07-29",
+    "file": "english-news-2026-07-29.html",
+    "articles": [
+      {
+        "title": "France comes under grip of 'unprecedented' fires",
+        "category": "World"
+      },
+      {
+        "title": "Chinese firms shift to proactive risk management amid global expansion",
+        "category": "Business"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-07-30",
+    "file": "english-news-2026-07-30.html",
+    "articles": [
+      {
+        "title": "AI adds sparkle to synthetic diamond sector",
+        "category": "Technology"
+      },
+      {
+        "title": "EU nations cooperate on major drug seizures",
+        "category": "World"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-07-31",
+    "file": "english-news-2026-07-31.html",
+    "articles": [
+      {
+        "title": "Unmanned vessel sets milestone",
+        "category": "Technology"
+      },
+      {
+        "title": "Chinese beauty brands enjoy a surge in popularity",
+        "category": "Business"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-08-06",
+    "file": "english-news-2026-08-06.html",
+    "articles": [
+      {
+        "title": "Chinese AI models gain favor overseas",
+        "category": "Technology"
+      },
+      {
+        "title": "Is El Nino's economic risk too hot to handle?",
+        "category": "World"
+      }
+    ],
+    "article_count": 2
+  }
+]

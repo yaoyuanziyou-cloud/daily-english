@@ -1,0 +1,13 @@
+{
+  "last_run": "2026-08-08T09:03:33.968494+08:00",
+  "date": "2026-08-08",
+  "time": "09:03",
+  "status": "failed",
+  "api_provider": "Kimi",
+  "model": "moonshot-v1-8k",
+  "base_url": "https://new-api.jointpilot.com/v1",
+  "balance": null,
+  "error": "内容生成失败（article-today.json 未生成）",
+  "practice_title": null,
+  "news_titles": []
+}
