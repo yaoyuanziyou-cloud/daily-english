@@ -122,7 +122,17 @@ def run_script(script_name, args=None):
     return result.returncode, result.stdout + result.stderr
 
 
-def write_status(status, error=None, practice_title=None, news_titles=None, balance=None):
+def redact(text):
+    """Redact likely secrets from log/error text before persisting to status.json."""
+    if not text:
+        return text
+    text = re.sub(r"(?i)(Bearer\s+)[A-Za-z0-9._\-]+", r"\1[REDACTED]", text)
+    text = re.sub(r"sk-[A-Za-z0-9_\-]{10,}", "[REDACTED]", text)
+    text = re.sub(r"(?i)(key\s*[:=]\s*)[A-Za-z0-9._\-]{8,}", r"\1[REDACTED]", text)
+    return text
+
+
+def write_status(status, error=None, practice_title=None, news_titles=None, balance=None, error_detail=None):
     """Write status.json for index.html to display."""
     now = datetime.now(BJ_TZ)
     provider = get_api_provider_name(BASE_URL)
@@ -137,6 +147,7 @@ def write_status(status, error=None, practice_title=None, news_titles=None, bala
         "base_url": BASE_URL,
         "balance": balance,
         "error": error,
+        "error_detail": error_detail,
         "practice_title": practice_title,
         "news_titles": news_titles or [],
     }
@@ -206,6 +217,7 @@ def main():
     all_output = ""
     has_error = False
     error_message = None
+    error_detail = None
     practice_title = None
     news_titles = []
 
@@ -216,6 +228,8 @@ def main():
         print("WARNING: Content generation had issues, continuing with what we have...")
         has_error = True
         error_message = detect_api_error(output)
+        if error_detail is None:
+            error_detail = redact(output[-2000:])
 
     # Extract titles from output
     pt, nt = extract_titles_from_output(output)
@@ -241,11 +255,15 @@ def main():
             has_error = True
             if not error_message:
                 error_message = "练习页面生成失败"
+            if error_detail is None:
+                error_detail = redact(output[-2000:])
     else:
         print("WARNING: article-today.json not found, skipping practice HTML")
         has_error = True
         if not error_message:
             error_message = "内容生成失败（article-today.json 未生成）"
+        if error_detail is None:
+            error_detail = redact(all_output[-2000:])
 
     # Step 3: Generate news HTML + audio
     news_json = os.path.join(SCRIPT_DIR, "news-today.json")
@@ -264,8 +282,15 @@ def main():
             has_error = True
             if not error_message:
                 error_message = "新闻页面生成失败"
+            if error_detail is None:
+                error_detail = redact(output[-2000:])
     else:
         print("WARNING: news-today.json not found, skipping news HTML")
+        has_error = True
+        if not error_message:
+            error_message = "新闻内容生成失败（news-today.json 未生成）"
+        if error_detail is None:
+            error_detail = redact(all_output[-2000:])
 
     # Step 4: Send Feishu notification
     rc, output = run_script("notify_feishu.py")
@@ -289,7 +314,7 @@ def main():
     else:
         status = "success"
 
-    write_status(status, error_message, practice_title, news_titles, balance)
+    write_status(status, error_message, practice_title, news_titles, balance, error_detail)
 
     # Step 7: Cleanup temp files
     for temp_file in ["article-today.json", "news-today.json"]:
@@ -299,6 +324,10 @@ def main():
             print(f"Cleaned up: {temp_file}")
 
     print(f"\n{'='*60}")
+    if status in ("failed", "partial"):
+        print(f"Pipeline status: {status} — exiting with code 1 (no deploy; see status.json)")
+        print(f"{'='*60}")
+        sys.exit(1)
     print("Daily generation complete!")
     print(f"{'='*60}")
 

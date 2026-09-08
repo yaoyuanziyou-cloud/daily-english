@@ -34,7 +34,7 @@ def get_client():
     return OpenAI(api_key=API_KEY, base_url=BASE_URL)
 
 
-def llm_chat(client, system_prompt, user_prompt, temperature=0.8, retries=2):
+def llm_chat(client, system_prompt, user_prompt, temperature=0.8, retries=3):
     """Call LLM API and return the text response. Retries on failure."""
     for attempt in range(retries):
         try:
@@ -47,13 +47,49 @@ def llm_chat(client, system_prompt, user_prompt, temperature=0.8, retries=2):
                 temperature=temperature,
                 max_tokens=4096,
             )
+            if not resp.choices:
+                print(f"LLM API warning: empty choices (attempt {attempt+1}/{retries})")
+                if attempt < retries - 1:
+                    import time
+                    time.sleep(2)
+                continue
             return resp.choices[0].message.content.strip()
         except Exception as e:
-            print(f"LLM API error (attempt {attempt+1}/{retries}): {e}")
+            print(f"LLM API error (attempt {attempt+1}/{retries}): {type(e).__name__}: {e}")
             if attempt < retries - 1:
                 import time
                 time.sleep(2)
     return ""
+
+
+def llm_chat_json(client, system_prompt, user_prompt, temperature=0.8, max_chars=1500):
+    """Call LLM and return a parsed JSON object.
+
+    On invalid JSON, runs ONE repair retry asking the model to re-emit valid JSON
+    (previous reply is truncated and appended as context to keep tokens bounded).
+    Returns None if the LLM returns empty text or JSON cannot be parsed.
+    """
+    response = llm_chat(client, system_prompt, user_prompt, temperature=temperature)
+    if not response:
+        return None
+    try:
+        return extract_json(response)
+    except (json.JSONDecodeError, ValueError) as e:
+        print(f"JSON parse failed ({type(e).__name__}: {e}); attempting one repair retry")
+        repair_prompt = (
+            user_prompt
+            + "\n\nYour previous reply was invalid JSON. Reply again with ONLY the JSON object, "
+              "no markdown code fences, no text outside the JSON. "
+              "Previous (invalid) reply tail:\n"
+            + response[-max_chars:]
+        )
+        response2 = llm_chat(client, system_prompt, repair_prompt, temperature=0.3)
+        if response2:
+            try:
+                return extract_json(response2)
+            except (json.JSONDecodeError, ValueError) as e2:
+                print(f"Repair retry also failed to parse JSON: {type(e2).__name__}: {e2}")
+        return None
 
 
 def extract_json(text):
@@ -161,24 +197,18 @@ Return ONLY a JSON object in this exact format:
 Make the content interesting and practical. Do NOT include any text outside the JSON."""
 
     print(f"Generating practice article: Day {day}, Topic: {topic}")
-    response = llm_chat(client, system_prompt, user_prompt, temperature=0.85)
+    article = llm_chat_json(client, system_prompt, user_prompt, temperature=0.85)
 
-    if not response:
-        print("ERROR: Failed to generate practice article")
+    if article is None:
+        print("ERROR: Failed to generate practice article (LLM empty response or invalid JSON)")
         return None
 
-    try:
-        article = extract_json(response)
-        article["date"] = date_str
-        article["day"] = day
-        article["scenario"] = scenario_type
-        print(f"  Title: {article.get('title', 'N/A')}")
-        print(f"  Sentences: {len(article.get('sentences', []))}")
-        return article
-    except json.JSONDecodeError as e:
-        print(f"ERROR: Failed to parse JSON: {e}")
-        print(f"Response: {response[:500]}")
-        return None
+    article["date"] = date_str
+    article["day"] = day
+    article["scenario"] = scenario_type
+    print(f"  Title: {article.get('title', 'N/A')}")
+    print(f"  Sentences: {len(article.get('sentences', []))}")
+    return article
 
 
 def scrape_china_daily_headlines():
@@ -290,20 +320,16 @@ Return ONLY a JSON object:
 
 Do NOT include any text outside the JSON."""
 
-    response = llm_chat(client, system_prompt, user_prompt, temperature=0.3)
+    article = llm_chat_json(client, system_prompt, user_prompt, temperature=0.3)
 
-    if not response:
+    if article is None:
+        print("  Warning: Failed to generate/parse news article JSON")
         return None
 
-    try:
-        article = extract_json(response)
-        article["source"] = "China Daily"
-        article["source_url"] = url
-        print(f"  News: {article.get('title', 'N/A')} [{article.get('category', 'N/A')}]")
-        return article
-    except json.JSONDecodeError as e:
-        print(f"  Warning: Failed to parse news JSON: {e}")
-        return None
+    article["source"] = "China Daily"
+    article["source_url"] = url
+    print(f"  News: {article.get('title', 'N/A')} [{article.get('category', 'N/A')}]")
+    return article
 
 
 def generate_news_fallback(client):
@@ -423,6 +449,25 @@ def generate_news(client):
 def main():
     script_dir = os.path.dirname(os.path.abspath(__file__))
     client = get_client()
+
+    # Startup self-check (config sanity; key is masked, never printed in full)
+    key_tail = API_KEY[-4:] if len(API_KEY) >= 4 else "****"
+    print(f"Using base_url={BASE_URL} model={MODEL} api_key=***{key_tail}")
+
+    # Optional lightweight auth/quota ping. Default OFF to save quota.
+    # Set LLM_SELF_CHECK=1 (workflow env) to enable.
+    if os.environ.get("LLM_SELF_CHECK", "").strip().lower() in ("1", "true", "yes"):
+        print("Running LLM self-check ping (1 token)...")
+        try:
+            client.chat.completions.create(
+                model=MODEL,
+                messages=[{"role": "user", "content": "ping"}],
+                max_tokens=1,
+            )
+            print("Self-check: OK")
+        except Exception as e:
+            print(f"Self-check FAILED: {type(e).__name__}: {e}")
+            sys.exit(1)
 
     # Generate practice article
     print("=== Generating Practice Article ===")

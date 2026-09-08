@@ -53,7 +53,29 @@ jobs:
           SITE_URL: ${{ secrets.SITE_URL }}
         run: python run_daily.py
 
+      - name: Fail job if content generation failed
+        run: |
+          if [ ! -f status.json ]; then
+            echo "::error::status.json missing - content generation did not complete"
+            exit 1
+          fi
+          python - <<'PY'
+          import json, sys
+          with open("status.json", encoding="utf-8") as f:
+              s = json.load(f)
+          print(json.dumps(s, ensure_ascii=False, indent=2))
+          if s.get("status") in ("failed", "partial"):
+              err = (s.get("error") or "unknown error").replace("\n", " ")
+              print(f"::error::status={s.get('status')} error={err}")
+              detail = s.get("error_detail")
+              if detail:
+                  print(f"--- error_detail (redacted) ---")
+                  print(detail[-1500:])
+              sys.exit(1)
+          PY
+
       - name: Deploy to GitHub Pages
+        if: success()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
