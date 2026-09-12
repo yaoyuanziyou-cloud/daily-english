@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily English News - 2026-07-30</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', 'Times New Roman', serif; background: #f5f0e8; color: #2c2c2c; line-height: 1.8; padding: 40px 20px 120px; min-height: 100vh; }
+  .container { max-width: 760px; margin: 0 auto; background: #fffdf8; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+  .top-bar { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #6a2c70, #b83b5e); color: white; padding: 14px 24px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+  .top-bar .speed-control { display: flex; align-items: center; gap: 8px; font-family: 'Helvetica', sans-serif; font-size: 13px; }
+  .top-bar .speed-control input[type="range"] { width: 90px; cursor: pointer; accent-color: white; }
+  .top-bar .speed-label { min-width: 36px; text-align: center; font-variant-numeric: tabular-nums; }
+  .top-bar .repeat-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; }
+  .top-bar .repeat-btn:hover { background: rgba(255,255,255,0.3); }
+  .top-bar .repeat-btn.active { background: #f4d03f; color: #6a2c70; border-color: #f4d03f; }
+  .top-bar .voice-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 12px; font-size: 12px; font-family: 'Helvetica', sans-serif; display: flex; align-items: center; gap: 6px; }
+  .top-bar .voice-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .top-bar .home-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; text-decoration: none; display: flex; align-items: center; gap: 4px; margin-left: auto; }
+  .top-bar .home-btn:hover { background: rgba(255,255,255,0.3); }
+  .header { background: linear-gradient(135deg, #6a2c70, #b83b5e); color: white; padding: 36px 40px 28px; }
+  .header .date { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; font-family: 'Helvetica', sans-serif; }
+  .header h1 { font-size: 28px; font-weight: normal; line-height: 1.4; }
+  .header .subtitle { font-size: 14px; opacity: 0.8; margin-top: 8px; font-family: 'Helvetica', sans-serif; }
+  .content { padding: 36px 40px 40px; }
+  .article-section { margin-bottom: 48px; padding-bottom: 36px; border-bottom: 1px solid #e8e8e8; }
+  .article-section:last-child { border-bottom: none; }
+  .article-header h2 { font-size: 22px; color: #2c2c2c; line-height: 1.4; margin-bottom: 12px; }
+  .article-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .cat-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; font-family: 'Helvetica', sans-serif; }
+  .source-link { font-size: 13px; color: #b83b5e; text-decoration: none; font-family: 'Helvetica', sans-serif; }
+  .source-link:hover { text-decoration: underline; }
+  .article-player { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; background: #f8f0f4; border-radius: 10px; padding: 10px 16px; }
+  .art-play-btn { background: #b83b5e; color: white; border: none; width: 42px; height: 42px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .art-play-btn:hover { transform: scale(1.1); background: #6a2c70; }
+  .art-progress-container { flex: 1; height: 6px; background: #e8d5dd; border-radius: 3px; cursor: pointer; }
+  .art-progress-fill { height: 100%; background: #b83b5e; border-radius: 3px; width: 0%; transition: width 0.1s linear; }
+  .art-time { font-family: 'Helvetica', sans-serif; font-size: 12px; color: #888; min-width: 60px; text-align: right; }
+  .article-body .en-text { font-size: 17px; line-height: 2; text-align: justify; }
+  .article-body .en-text p { margin-bottom: 14px; }
+  .article-body .sentence { cursor: pointer; border-radius: 4px; padding: 0 2px; transition: background 0.2s; }
+  .article-body .sentence:hover { background: #f3e5ed; }
+  .article-body .sentence.highlighted { background: #fceabb; box-shadow: 0 0 0 2px #f4d03f; }
+  .translate-toggle { background: #f0e6ed; color: #6a2c70; border: 1px solid #d4a5b8; border-radius: 8px; padding: 8px 16px; font-size: 14px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; margin-top: 16px; }
+  .translate-toggle:hover { background: #e8d5dd; }
+  .translate-toggle.active { background: #6a2c70; color: white; }
+  .cn-text { font-size: 16px; line-height: 1.9; color: #555; margin-top: 16px; padding: 16px 20px; background: #f9f5f7; border-left: 4px solid #b83b5e; border-radius: 4px; font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica', sans-serif; }
+  .cn-text p { margin-bottom: 10px; }
+  .vocab-section { margin-top: 24px; }
+  .section-title { font-family: 'Helvetica', sans-serif; font-size: 14px; font-weight: bold; color: #6a2c70; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #f0e6ed; }
+  .vocab-list { list-style: none; }
+  .vocab-list li { padding: 8px 0; border-bottom: 1px dashed #e0e0e0; font-size: 15px; display: flex; align-items: center; flex-wrap: wrap; }
+  .vocab-list .word { font-weight: bold; color: #6a2c70; font-size: 16px; }
+  .vocab-list .phonetic { color: #888; font-style: italic; font-size: 13px; margin-left: 8px; }
+  .vocab-list .meaning { color: #555; margin-left: 8px; flex: 1; }
+  .speak-btn { background: #f3e5ed; color: #6a2c70; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .speak-btn:hover { background: #b83b5e; color: white; transform: scale(1.15); }
+  .speak-btn.playing { background: #f4d03f; color: #6a2c70; animation: pulse 1s ease-in-out infinite; }
+  .footer { text-align: center; padding: 20px 40px 32px; color: #aaa; font-size: 13px; font-family: 'Helvetica', sans-serif; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="top-bar">
+    <div class="speed-control">
+      <span>Speed</span>
+      <input type="range" id="speedSlider" min="0.5" max="1.5" step="0.1" value="0.9">
+      <span class="speed-label" id="speedLabel">0.9x</span>
+    </div>
+    <button class="repeat-btn" id="repeatBtn" title="Loop Mode">&#x21bb; Loop</button>
+    <div class="voice-badge"><span class="dot"></span><span>Aria Neural</span></div>
+    <a class="home-btn" href="index.html" title="Back to Index">&#8962; Home</a>
+  </div>
+
+  <div class="header">
+    <div class="date">Thursday, July 30, 2026</div>
+    <h1>Daily English News</h1>
+    <div class="subtitle">Read along to build your vocabulary and natural sense of the language</div>
+  </div>
+
+  <div class="content">
+
+    <div class="article-section" id="article-0">
+      <div class="article-header">
+        <h2>AI adds sparkle to synthetic diamond sector</h2>
+        <div class="article-meta">
+          <span class="cat-tag" style="color: #8e44ad; background: #f5eef8;">Technology</span>
+          <a href="https://www.chinadaily.com.cn/a/202607/29/WS6a6957f7a310986e2b467e0c.html" target="_blank" class="source-link">Source: China Daily &#8599;</a>
+        </div>
+      </div>
+
+      <div class="article-player">
+        <button class="art-play-btn" id="playBtn-0" onclick="toggleArticle(0)" title="Play / Pause">&#9658;</button>
+        <div class="art-progress-container" id="progressContainer-0" onclick="seekArticle(0, event)">
+          <div class="art-progress-fill" id="progressFill-0"></div>
+        </div>
+        <span class="art-time" id="artTime-0">Ready</span>
+      </div>
+
+      <div class="article-body">
+        <div class="en-text" id="enText-0">
+<p><span class="sentence" data-art="0" data-idx="0">In an age reshaped by artificial intelligence, diamond is emerging as a crucial material for cooling high-performance chips.</span> <span class="sentence" data-art="0" data-idx="1">At Computex 2026 in Taipei, MSI unveiled a new thermal solution for Nvidia&#x27;s next-generation GPUs, featuring a diamond-copper composite baseplate.</span> <span class="sentence" data-art="0" data-idx="2">Nvidia announced that its next-gen Vera Rubin architecture GPUs will fully adopt diamond-copper composite thermal management.</span> <span class="sentence" data-art="0" data-idx="3">Lab-grown diamond plays a crucial role in the AI race to cool down chips that consume enormous amounts of power.</span> </p>
+<p><span class="sentence" data-art="0" data-idx="4">According to industry analysts, diamond is no longer an option but a necessity for cooling when single-chip power consumption exceeds 1,400 watts.</span> <span class="sentence" data-art="0" data-idx="5">Nvidia&#x27;s Vera Rubin AI chip reportedly consumes a staggering 2,300 watts, equivalent to a household induction cooker running at full power.</span> <span class="sentence" data-art="0" data-idx="6">Without proper cooling, the chip&#x27;s core temperature hits 110 degrees Celsius within minutes, crippling AI training performance.</span> <span class="sentence" data-art="0" data-idx="7">Traditional copper and aluminum heat spreaders cannot pull heat away fast enough, while liquid cooling alone is no longer sufficient.</span> </p>
+<p><span class="sentence" data-art="0" data-idx="8">Diamond has the highest thermal conductivity of any naturally occurring material, 5.5 times that of copper and 11 times that of aluminum.</span> <span class="sentence" data-art="0" data-idx="9">Experts say diamond-based chip thermal management is primarily suited for high-end chips used in the AI computing power sector.</span> </p>
+        </div>
+        <button class="translate-toggle" onclick="toggleTranslation(0)" id="transToggle-0">&#128257; Show Chinese Translation</button>
+        <div class="cn-text" id="cnText-0" style="display:none;">
+<p><span>在被人工智能重塑的时代，钻石正成为冷却高性能芯片的关键材料。</span> <span>在台北举行的2026年Computex展上，微星为英伟达下一代GPU发布了全新散热方案，采用钻石-铜复合基板。</span> <span>英伟达宣布其下一代Vera Rubin架构GPU将全面采用钻石-铜复合散热管理方案。</span> <span>实验室培育的钻石在AI芯片散热竞赛中扮演着至关重要的角色。</span> </p>
+<p><span>业内分析师表示，当单芯片功耗超过1400瓦时，钻石不再是可选项，而是必需品。</span> <span>据报道，英伟达Vera Rubin AI芯片功耗高达2300瓦，相当于家用电磁炉全功率运行。</span> <span>如果没有良好的散热，芯片核心温度会在几分钟内飙升至110摄氏度，严重影响AI训练性能。</span> <span>传统的铜和铝散热器无法足够快地导出热量，仅靠液冷也不再足够。</span> </p>
+<p><span>钻石具有所有天然材料中最高的导热率，是铜的5.5倍、铝的11倍。</span> <span>专家表示，钻石芯片散热管理主要适用于AI算力领域使用的高端芯片。</span> </p>
+        </div>
+      </div>
+
+      <div class="vocab-section"><div class="section-title">Key Vocabulary</div><ul class="vocab-list"><li><span class="word">artificial intelligence</span> <span class="phonetic">/ˌɑːtɪˈfɪʃl ɪnˈtelɪdʒəns/</span> <span class="meaning">人工智能</span> <button class="speak-btn" onclick="playWord(0, 0, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">thermal</span> <span class="phonetic">/ˈθɜːml/</span> <span class="meaning">热量的，散热的</span> <button class="speak-btn" onclick="playWord(0, 1, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">consumption</span> <span class="phonetic">/kənˈsʌmpʃn/</span> <span class="meaning">消耗，功耗</span> <button class="speak-btn" onclick="playWord(0, 2, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">conductivity</span> <span class="phonetic">/ˌkɒndʌkˈtɪvəti/</span> <span class="meaning">导热率，导电率</span> <button class="speak-btn" onclick="playWord(0, 3, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">composite</span> <span class="phonetic">/ˈkɒmpəzɪt/</span> <span class="meaning">复合材料</span> <button class="speak-btn" onclick="playWord(0, 4, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">necessity</span> <span class="phonetic">/nəˈsesəti/</span> <span class="meaning">必需品，必要性</span> <button class="speak-btn" onclick="playWord(0, 5, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">staggering</span> <span class="phonetic">/ˈstæɡərɪŋ/</span> <span class="meaning">令人惊愕的</span> <button class="speak-btn" onclick="playWord(0, 6, this)" title="Listen">&#128266;</button></li>
+</ul></div>
+    </div>
+
+    <div class="article-section" id="article-1">
+      <div class="article-header">
+        <h2>EU nations cooperate on major drug seizures</h2>
+        <div class="article-meta">
+          <span class="cat-tag" style="color: #2980b9; background: #ebf5fb;">World</span>
+          <a href="https://www.chinadaily.com.cn/a/202607/29/WS6a68f9ffa310986e2b467c92.html" target="_blank" class="source-link">Source: China Daily &#8599;</a>
+        </div>
+      </div>
+
+      <div class="article-player">
+        <button class="art-play-btn" id="playBtn-1" onclick="toggleArticle(1)" title="Play / Pause">&#9658;</button>
+        <div class="art-progress-container" id="progressContainer-1" onclick="seekArticle(1, event)">
+          <div class="art-progress-fill" id="progressFill-1"></div>
+        </div>
+        <span class="art-time" id="artTime-1">Ready</span>
+      </div>
+
+      <div class="article-body">
+        <div class="en-text" id="enText-1">
+<p><span class="sentence" data-art="1" data-idx="0">Law enforcement officers from Italy, Portugal, and Spain have intercepted a high-speed boat in the Atlantic Ocean and seized 2.6 metric tons of cocaine.</span> <span class="sentence" data-art="1" data-idx="1">The collaborative operation also led to the arrest of four suspects of different nationalities.</span> <span class="sentence" data-art="1" data-idx="2">Italian officials said the drugs could have been sold on European streets for as much as 500 million euros.</span> <span class="sentence" data-art="1" data-idx="3">The wholesale value of the cocaine was estimated at approximately 78 million euros, but retail distribution would have generated far higher revenues.</span> </p>
+<p><span class="sentence" data-art="1" data-idx="4">Organized crime gangs are increasingly using extremely powerful rigid inflatable vessels known as go-fast boats.</span> <span class="sentence" data-art="1" data-idx="5">These boats can reach speeds of more than 70 knots, or 130 kilometers per hour.</span> <span class="sentence" data-art="1" data-idx="6">Crime gangs use the vessels to recover drugs wrapped in watertight packaging that has been dropped at sea by ships arriving from South America.</span> </p>
+<p><span class="sentence" data-art="1" data-idx="7">Portuguese police stopped the speedboat 90 kilometers southwest of Cape Espichel, near Portugal&#x27;s capital Lisbon.</span> <span class="sentence" data-art="1" data-idx="8">Ecuador&#x27;s president said around 70 percent of the cocaine flooding into Europe and the United States is shipped via his country.</span> <span class="sentence" data-art="1" data-idx="9">The European Border and Coast Guard Agency reported that other recent operations seized nearly half a metric ton of cocaine dropped in open water.</span> </p>
+        </div>
+        <button class="translate-toggle" onclick="toggleTranslation(1)" id="transToggle-1">&#128257; Show Chinese Translation</button>
+        <div class="cn-text" id="cnText-1" style="display:none;">
+<p><span>来自意大利、葡萄牙和西班牙的执法人员在大西洋拦截了一艘高速快艇，缴获了2.6吨可卡因。</span> <span>这次联合行动还逮捕了四名不同国籍的嫌疑人。</span> <span>意大利官员表示，这些毒品在欧洲街头出售可获利高达5亿欧元。</span> <span>可卡因的批发价值估计约为7800万欧元，但零售分销将产生高得多的收入。</span> </p>
+<p><span>有组织犯罪团伙越来越多地使用被称为快艇的大功率刚性充气船。</span> <span>这些船只速度可超过70节，即每小时130公里。</span> <span>犯罪团伙利用这些船只回收用防水包装包裹的毒品，这些毒品由从南美洲抵达的船只投放在海中。</span> </p>
+<p><span>葡萄牙警方在首都里斯本附近的埃斯皮切尔角西南90公里处拦截了这艘快艇。</span> <span>厄瓜多尔总统表示，涌入欧洲和美国的大约70%的可卡因通过他的国家运输。</span> <span>欧洲边境和海岸警卫局报告称，近期其他行动在开放水域缴获了近半吨可卡因。</span> </p>
+        </div>
+      </div>
+
+      <div class="vocab-section"><div class="section-title">Key Vocabulary</div><ul class="vocab-list"><li><span class="word">law enforcement</span> <span class="phonetic">/lɔː ɪnˈfɔːsmənt/</span> <span class="meaning">执法</span> <button class="speak-btn" onclick="playWord(1, 0, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">intercept</span> <span class="phonetic">/ˌɪntəˈsept/</span> <span class="meaning">拦截，截获</span> <button class="speak-btn" onclick="playWord(1, 1, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">seizure</span> <span class="phonetic">/ˈsiːʒər/</span> <span class="meaning">没收，查获</span> <button class="speak-btn" onclick="playWord(1, 2, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">collaborative</span> <span class="phonetic">/kəˈlæbərətɪv/</span> <span class="meaning">合作的，协作的</span> <button class="speak-btn" onclick="playWord(1, 3, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">wholesale</span> <span class="phonetic">/ˈhəʊlseɪl/</span> <span class="meaning">批发的</span> <button class="speak-btn" onclick="playWord(1, 4, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">watertight</span> <span class="phonetic">/ˈwɔːtətaɪt/</span> <span class="meaning">防水的，密封的</span> <button class="speak-btn" onclick="playWord(1, 5, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">impunity</span> <span class="phonetic">/ɪmˈpjuːnəti/</span> <span class="meaning">免受惩罚</span> <button class="speak-btn" onclick="playWord(1, 6, this)" title="Listen">&#128266;</button></li>
+</ul></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Daily English News &middot; Source: China Daily &middot; Neural TTS by Microsoft Aria
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var ARTICLES = [{"offsets": [0.0, 8.064, 19.848, 28.296, 35.616, 45.72, 55.944, 64.728, 73.08, 82.704], "fullFile": "audio/news-2026-07-30/art0-full.mp3", "wordFiles": ["audio/news-2026-07-30/art0-word-00.mp3", "audio/news-2026-07-30/art0-word-01.mp3", "audio/news-2026-07-30/art0-word-02.mp3", "audio/news-2026-07-30/art0-word-03.mp3", "audio/news-2026-07-30/art0-word-04.mp3", "audio/news-2026-07-30/art0-word-05.mp3", "audio/news-2026-07-30/art0-word-06.mp3"]}, {"offsets": [0.0, 10.2, 16.344, 23.472, 33.336, 40.848, 47.304, 55.728, 63.24, 70.944], "fullFile": "audio/news-2026-07-30/art1-full.mp3", "wordFiles": ["audio/news-2026-07-30/art1-word-00.mp3", "audio/news-2026-07-30/art1-word-01.mp3", "audio/news-2026-07-30/art1-word-02.mp3", "audio/news-2026-07-30/art1-word-03.mp3", "audio/news-2026-07-30/art1-word-04.mp3", "audio/news-2026-07-30/art1-word-05.mp3", "audio/news-2026-07-30/art1-word-06.mp3"]}];
+  var rate = 0.9;
+  var isRepeatMode = false;
+  var currentArtIdx = -1;
+  var currentSentenceIdx = -1;
+  var audios = [];
+  var clipAudio = null;
+  var currentBtnEl = null;
+
+  // Create audio elements for each article
+  for (var i = 0; i < ARTICLES.length; i++) {
+    var a = new Audio(ARTICLES[i].fullFile);
+    a.preload = 'auto';
+    a.playbackRate = rate;
+    (function(idx) {
+      a.addEventListener('timeupdate', function() {
+        updateProgress(idx);
+      });
+      a.addEventListener('ended', function() {
+        if (isRepeatMode) {
+          audios[idx].currentTime = 0;
+          audios[idx].play().catch(function(){});
+        } else {
+          resetArticleUI(idx);
+        }
+      });
+    })(i);
+    audios.push(a);
+  }
+
+  var speedSlider = document.getElementById('speedSlider');
+  var speedLabel = document.getElementById('speedLabel');
+  var repeatBtn = document.getElementById('repeatBtn');
+
+  speedSlider.addEventListener('input', function() {
+    rate = parseFloat(speedSlider.value);
+    speedLabel.textContent = rate.toFixed(1) + 'x';
+    audios.forEach(function(a) { a.playbackRate = rate; });
+  });
+
+  repeatBtn.addEventListener('click', function() {
+    isRepeatMode = !isRepeatMode;
+    repeatBtn.classList.toggle('active', isRepeatMode);
+  });
+
+  function stopAll() {
+    for (var i = 0; i < audios.length; i++) {
+      if (!audios[i].paused) {
+        audios[i].pause();
+        resetArticleUI(i);
+      }
+    }
+    if (clipAudio) {
+      clipAudio.pause(); clipAudio.src = '';
+      if (currentBtnEl) { currentBtnEl.classList.remove('playing'); currentBtnEl = null; }
+    }
+  }
+
+  function resetArticleUI(idx) {
+    var btn = document.getElementById('playBtn-' + idx);
+    if (btn) btn.innerHTML = '&#9658;';
+    var fill = document.getElementById('progressFill-' + idx);
+    if (fill) fill.style.width = '0%';
+    var time = document.getElementById('artTime-' + idx);
+    if (time) time.textContent = 'Ready';
+    clearHighlights(idx);
+  }
+
+  function clearHighlights(artIdx) {
+    var els = document.querySelectorAll('.sentence[data-art="' + artIdx + '"]');
+    els.forEach(function(el) { el.classList.remove('highlighted'); });
+  }
+
+  function highlightSentence(artIdx, sentIdx) {
+    clearHighlights(artIdx);
+    var el = document.querySelector('.sentence[data-art="' + artIdx + '"][data-idx="' + sentIdx + '"]');
+    if (el) {
+      el.classList.add('highlighted');
+      var rect = el.getBoundingClientRect();
+      if (rect.top < 80 || rect.bottom > window.innerHeight - 40) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }
+
+  function updateProgress(idx) {
+    var a = audios[idx];
+    var pct = (a.currentTime / a.duration) * 100;
+    if (isNaN(pct)) pct = 0;
+    var fill = document.getElementById('progressFill-' + idx);
+    if (fill) fill.style.width = pct + '%';
+    var time = document.getElementById('artTime-' + idx);
+    if (time && a.duration) {
+      time.textContent = formatTime(a.currentTime) + ' / ' + formatTime(a.duration);
+    }
+    // Update sentence highlight
+    var offsets = ARTICLES[idx].offsets;
+    for (var i = offsets.length - 1; i >= 0; i--) {
+      if (a.currentTime >= offsets[i]) {
+        if (currentArtIdx !== idx || currentSentenceIdx !== i) {
+          currentArtIdx = idx;
+          currentSentenceIdx = i;
+          highlightSentence(idx, i);
+        }
+        return;
+      }
+    }
+  }
+
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  window.toggleArticle = function(idx) {
+    var a = audios[idx];
+    if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; if (currentBtnEl) { currentBtnEl.classList.remove('playing'); currentBtnEl = null; } }
+    if (a.paused) {
+      // Stop other articles
+      for (var i = 0; i < audios.length; i++) {
+        if (i !== idx && !audios[i].paused) {
+          audios[i].pause();
+          resetArticleUI(i);
+        }
+      }
+      a.play().then(function() {
+        var btn = document.getElementById('playBtn-' + idx);
+        if (btn) btn.innerHTML = '&#10074;&#10074;';
+        currentArtIdx = idx;
+      }).catch(function(e) { console.error('Play error:', e); });
+    } else {
+      a.pause();
+      var btn = document.getElementById('playBtn-' + idx);
+      if (btn) btn.innerHTML = '&#9658;';
+      var time = document.getElementById('artTime-' + idx);
+      if (time) time.textContent = 'Paused';
+    }
+  };
+
+  window.seekArticle = function(idx, e) {
+    var a = audios[idx];
+    var container = document.getElementById('progressContainer-' + idx);
+    var rect = container.getBoundingClientRect();
+    var pct = (e.clientX - rect.left) / rect.width;
+    if (a.duration) a.currentTime = pct * a.duration;
+  };
+
+  // Click sentence to jump
+  document.querySelectorAll('.sentence').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var artIdx = parseInt(el.getAttribute('data-art'));
+      var sentIdx = parseInt(el.getAttribute('data-idx'));
+      var a = audios[artIdx];
+      var offsets = ARTICLES[artIdx].offsets;
+      if (sentIdx < offsets.length) {
+        // Stop other articles and clip
+        if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; if (currentBtnEl) { currentBtnEl.classList.remove('playing'); currentBtnEl = null; } }
+        for (var i = 0; i < audios.length; i++) {
+          if (i !== artIdx && !audios[i].paused) {
+            audios[i].pause();
+            resetArticleUI(i);
+          }
+        }
+        a.currentTime = offsets[sentIdx];
+        highlightSentence(artIdx, sentIdx);
+        currentArtIdx = artIdx;
+        currentSentenceIdx = sentIdx;
+        if (a.paused) {
+          a.play().then(function() {
+            var btn = document.getElementById('playBtn-' + artIdx);
+            if (btn) btn.innerHTML = '&#10074;&#10074;';
+          }).catch(function(e) { console.error(e); });
+        }
+      }
+    });
+  });
+
+  window.toggleTranslation = function(idx) {
+    var cnText = document.getElementById('cnText-' + idx);
+    var toggle = document.getElementById('transToggle-' + idx);
+    if (cnText.style.display === 'none') {
+      cnText.style.display = 'block';
+      toggle.innerHTML = '&#128257; Hide Chinese Translation';
+      toggle.classList.add('active');
+    } else {
+      cnText.style.display = 'none';
+      toggle.innerHTML = '&#128257; Show Chinese Translation';
+      toggle.classList.remove('active');
+    }
+  };
+
+  window.playWord = function(artIdx, wordIdx, btnEl) {
+    // Stop main audio
+    if (!audios[artIdx].paused) {
+      audios[artIdx].pause();
+      resetArticleUI(artIdx);
+    }
+    if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; }
+    if (currentBtnEl) currentBtnEl.classList.remove('playing');
+    currentBtnEl = btnEl;
+    btnEl.classList.add('playing');
+    clipAudio = new Audio(ARTICLES[artIdx].wordFiles[wordIdx]);
+    clipAudio.playbackRate = 0.85;
+    clipAudio.onended = function() { btnEl.classList.remove('playing'); currentBtnEl = null; };
+    clipAudio.onerror = function() { btnEl.classList.remove('playing'); currentBtnEl = null; };
+    clipAudio.play().catch(function(e) { console.error(e); });
+  };
+})();
+</script>
+</body>
+</html>

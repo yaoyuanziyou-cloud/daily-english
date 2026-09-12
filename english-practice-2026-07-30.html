@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily English Practice - 2026-07-30</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', 'Times New Roman', serif; background: #f5f0e8; color: #2c2c2c; line-height: 1.8; padding: 40px 20px 120px; min-height: 100vh; }
+  .container { max-width: 760px; margin: 0 auto; background: #fffdf8; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+  .player-bar { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #1a5276, #2e86c1); color: white; padding: 14px 24px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+  .player-bar .play-btn { background: white; color: #1a5276; border: none; width: 48px; height: 48px; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .player-bar .play-btn:hover { transform: scale(1.1); }
+  .player-bar .play-btn:active { transform: scale(0.95); }
+  .player-bar .stop-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); width: 38px; height: 38px; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .player-bar .stop-btn:hover { background: rgba(255,255,255,0.35); }
+  .player-bar .speed-control { display: flex; align-items: center; gap: 8px; font-family: 'Helvetica', sans-serif; font-size: 13px; }
+  .player-bar .speed-control input[type="range"] { width: 90px; cursor: pointer; accent-color: white; }
+  .player-bar .speed-label { min-width: 36px; text-align: center; font-variant-numeric: tabular-nums; }
+  .player-bar .repeat-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; }
+  .player-bar .repeat-btn:hover { background: rgba(255,255,255,0.3); }
+  .player-bar .repeat-btn.active { background: #f4d03f; color: #1a5276; border-color: #f4d03f; }
+  .player-bar .voice-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 12px; font-size: 12px; font-family: 'Helvetica', sans-serif; display: flex; align-items: center; gap: 6px; }
+  .player-bar .voice-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .player-bar .progress-info { font-family: 'Helvetica', sans-serif; font-size: 12px; opacity: 0.8; margin-left: auto; }
+  .player-bar .home-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+  .player-bar .home-btn:hover { background: rgba(255,255,255,0.3); }
+  .progress-bar-container { position: relative; width: 100%; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; cursor: pointer; margin-top: 4px; }
+  .progress-bar-fill { height: 100%; background: #f4d03f; border-radius: 3px; width: 0%; transition: width 0.1s linear; }
+  .header { background: linear-gradient(135deg, #1a5276, #2e86c1); color: white; padding: 36px 40px 28px; }
+  .header .date { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; font-family: 'Helvetica', sans-serif; }
+  .header h1 { font-size: 28px; font-weight: normal; line-height: 1.4; }
+  .header .tag { display: inline-block; margin-top: 12px; background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 13px; font-family: 'Helvetica', sans-serif; }
+  .content { padding: 36px 40px 40px; }
+  .article { font-size: 18px; line-height: 2; margin-bottom: 36px; text-align: justify; }
+  .article p { margin-bottom: 16px; }
+  .article .first-letter { float: left; font-size: 48px; line-height: 1; margin-right: 8px; margin-top: 4px; color: #2e86c1; font-weight: bold; }
+  .article .sentence { cursor: pointer; border-radius: 4px; padding: 0 2px; transition: background 0.2s; }
+  .article .sentence:hover { background: #e8f4fc; }
+  .article .sentence.highlighted { background: #fceabb; box-shadow: 0 0 0 2px #f4d03f; }
+  .section-title { font-family: 'Helvetica', sans-serif; font-size: 16px; font-weight: bold; color: #1a5276; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e8e8e8; }
+  .section { margin-bottom: 32px; }
+  .vocab-list { list-style: none; }
+  .vocab-list li { padding: 10px 0; border-bottom: 1px dashed #e0e0e0; font-size: 16px; display: flex; align-items: center; flex-wrap: wrap; }
+  .vocab-list .word { font-weight: bold; color: #1a5276; font-size: 17px; }
+  .vocab-list .phonetic { color: #888; font-style: italic; font-size: 14px; margin-left: 8px; }
+  .vocab-list .meaning { color: #555; margin-left: 8px; flex: 1; }
+  .speak-btn { background: #e8f4fc; color: #1a5276; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .speak-btn:hover { background: #2e86c1; color: white; transform: scale(1.15); }
+  .speak-btn.playing { background: #f4d03f; color: #1a5276; animation: pulse 1s ease-in-out infinite; }
+  .phrase-list { list-style: none; }
+  .phrase-list li { padding: 12px 0; border-bottom: 1px dashed #e0e0e0; display: flex; align-items: flex-start; gap: 10px; }
+  .phrase-list .phrase-text { flex: 1; }
+  .phrase-list .phrase { font-weight: bold; color: #1a5276; font-size: 17px; }
+  .phrase-list .desc { color: #666; font-size: 15px; margin-top: 4px; }
+  .phrase-list .speak-btn { margin-top: 2px; }
+  .tips-list { list-style: none; }
+  .tips-list li { padding: 12px 16px; margin-bottom: 10px; background: #f0f6fa; border-left: 4px solid #2e86c1; border-radius: 4px; font-size: 15px; }
+  .tips-list .tip-label { font-weight: bold; color: #1a5276; }
+  .challenge { background: linear-gradient(135deg, #fef9e7, #fcf3cf); border: 2px solid #f4d03f; border-radius: 12px; padding: 24px; text-align: center; }
+  .challenge .icon { font-size: 32px; margin-bottom: 8px; }
+  .challenge .question { font-size: 18px; color: #7d6608; font-style: italic; margin-top: 8px; }
+  .footer { text-align: center; padding: 20px 40px 32px; color: #aaa; font-size: 13px; font-family: 'Helvetica', sans-serif; }
+
+  /* ===== word lookup popup (auto-injected) ===== */
+  .article .sentence { cursor: default; }
+  .article .sentence:hover { background: transparent; }
+  .article .w { cursor: pointer; border-bottom: 1px dotted #9fc4dd; border-radius: 2px; transition: background 0.15s; }
+  .article .w:hover { background: #d6eaf8; }
+  .s-play { background: #eef6fb; color: #2e86c1; border: 1px solid #cfe3f0; border-radius: 50%; width: 22px; height: 22px; font-size: 10px; line-height: 1; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; margin-left: 5px; padding: 0; transition: all 0.2s; }
+  .s-play:hover { background: #2e86c1; color: #fff; transform: scale(1.15); }
+  .word-pop { position: fixed; z-index: 999; background: #fffdf8; border: 1px solid #d5c9a8; border-radius: 12px; box-shadow: 0 8px 30px rgba(0,0,0,0.18); padding: 14px 16px 12px; max-width: 280px; font-family: 'Helvetica', sans-serif; display: none; }
+  .word-pop .wp-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .word-pop .wp-word { font-size: 20px; font-weight: bold; color: #1a5276; }
+  .word-pop .wp-ph { font-size: 13px; color: #999; font-style: italic; }
+  .word-pop .wp-cn { font-size: 14px; color: #444; margin-top: 6px; line-height: 1.6; }
+  .word-pop .wp-btns { display: flex; gap: 8px; margin-top: 10px; }
+  .word-pop .wp-btns button { flex: 1; border: none; border-radius: 8px; padding: 7px 0; font-size: 13px; cursor: pointer; font-family: inherit; transition: all 0.2s; }
+  .word-pop .wp-btns .wp-say { background: #e8f4fc; color: #1a5276; }
+  .word-pop .wp-btns .wp-say:hover { background: #2e86c1; color: #fff; }
+  .word-pop .wp-btns .wp-sent { background: #fef9e7; color: #7d6608; border: 1px solid #f4d03f; }
+  .word-pop .wp-btns .wp-sent:hover { background: #f4d03f; }
+  .word-pop .wp-close { position: absolute; top: 6px; right: 10px; border: none; background: none; color: #bbb; font-size: 15px; cursor: pointer; }
+  .word-pop .wp-close:hover { color: #888; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="player-bar">
+    <button class="play-btn" id="playBtn" title="Play / Pause">&#9658;</button>
+    <button class="stop-btn" id="stopBtn" title="Stop">&#9632;</button>
+    <div class="speed-control">
+      <span>Speed</span>
+      <input type="range" id="speedSlider" min="0.5" max="1.5" step="0.1" value="0.9">
+      <span class="speed-label" id="speedLabel">0.9x</span>
+    </div>
+    <button class="repeat-btn" id="repeatBtn" title="Loop Mode">&#x21bb; Loop</button>
+    <div class="voice-badge"><span class="dot"></span><span>Aria Neural</span></div>
+    <span class="progress-info" id="progressInfo">Ready</span>
+    <a class="home-btn" href="index.html" title="Back to Index">&#8962; Home</a>
+  </div>
+  <div style="background: #1a5276; padding: 0 24px 10px;">
+    <div class="progress-bar-container" id="progressBarContainer">
+      <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
+  </div>
+
+  <div class="header">
+    <div class="date">Thursday, July 30, 2026</div>
+    <h1>Negotiating a Project Deadline with Your Manager</h1>
+    <span class="tag">Business Scenario</span>
+  </div>
+
+  <div class="content">
+    <div class="article" id="articleText">
+<p><span class="sentence" data-idx="0"><span class="w" data-w="Last"><span class="first-letter">L</span>ast</span> <span class="w">Tuesday</span>, <span class="w">I</span> <span class="w">realized</span> <span class="w">our</span> <span class="w">team</span> <span class="w">would</span> <span class="w">not</span> <span class="w">finish</span> <span class="w">the</span> <span class="w">client</span> <span class="w">portal</span> <span class="w">in</span> <span class="w">time</span>.</span><button class="s-play" onclick="playSentence(0)" title="&#35835;&#25972;&#21477;">&#9654;</button> <span class="sentence" data-idx="1"><span class="w">The</span> <span class="w">original</span> <span class="w">deadline</span> <span class="w">was</span> <span class="w">set</span> <span class="w">for</span> <span class="w">the</span> <span class="w">end</span> <span class="w">of</span> <span class="w">the</span> <span class="w">month</span>, <span class="w">and</span> <span class="w">that</span> <span class="w">was</span> <span class="w">only</span> <span class="w">three</span> <span class="w">weeks</span> <span class="w">away</span>.</span><button class="s-play" onclick="playSentence(1)" title="&#35835;&#25972;&#21477;">&#9654;</button> <span class="sentence" data-idx="2"><span class="w">I</span> <span class="w">had</span> <span class="w">two</span> <span class="w">unfinished</span> <span class="w">features</span> <span class="w">and</span> <span class="w">a</span> <span class="w">long</span> <span class="w">list</span> <span class="w">of</span> <span class="w">bugs</span> <span class="w">that</span> <span class="w">needed</span> <span class="w">fixing</span>.</span><button class="s-play" onclick="playSentence(2)" title="&#35835;&#25972;&#21477;">&#9654;</button> <span class="sentence" data-idx="3"><span class="w">Instead</span> <span class="w">of</span> <span class="w">panicking</span>, <span class="w">I</span> <span class="w">scheduled</span> <span class="w">a</span> <span class="w">one</span>-<span class="w">on</span>-<span class="w">one</span> <span class="w">meeting</span> <span class="w">with</span> <span class="w">my</span> <span class="w">manager</span> <span class="w">to</span> <span class="w">discuss</span> <span class="w">the</span> <span class="w">situation</span>.</span><button class="s-play" onclick="playSentence(3)" title="&#35835;&#25972;&#21477;">&#9654;</button> </p>
+<p><span class="sentence" data-idx="4"><span class="w">I</span> <span class="w">came</span> <span class="w">prepared</span> <span class="w">with</span> <span class="w">a</span> <span class="w">clear</span> <span class="w">breakdown</span> <span class="w">of</span> <span class="w">the</span> <span class="w">remaining</span> <span class="w">work</span> <span class="w">and</span> <span class="w">honest</span> <span class="w">time</span> <span class="w">estimates</span>.</span><button class="s-play" onclick="playSentence(4)" title="&#35835;&#25972;&#21477;">&#9654;</button> <span class="sentence" data-idx="5"><span class="w">I</span> <span class="w">told</span> <span class="w">her</span>, <span class="w">I</span> <span class="w">would</span> <span class="w">rather</span> <span class="w">deliver</span> <span class="w">a</span> <span class="w">polished</span> <span class="w">product</span> <span class="w">a</span> <span class="w">week</span> <span class="w">late</span> <span class="w">than</span> <span class="w">a</span> <span class="w">buggy</span> <span class="w">one</span> <span class="w">on</span> <span class="w">schedule</span>.</span><button class="s-play" onclick="playSentence(5)" title="&#35835;&#25972;&#21477;">&#9654;</button> <span class="sentence" data-idx="6"><span class="w">She</span> <span class="w">appreciated</span> <span class="w">my</span> <span class="w">honesty</span> <span class="w">and</span> <span class="w">asked</span> <span class="w">me</span> <span class="w">to</span> <span class="w">suggest</span> <span class="w">a</span> <span class="w">realistic</span> <span class="w">new</span> <span class="w">deadline</span>.</span><button class="s-play" onclick="playSentence(6)" title="&#35835;&#25972;&#21477;">&#9654;</button> <span class="sentence" data-idx="7"><span class="w">I</span> <span class="w">proposed</span> <span class="w">extending</span> <span class="w">the</span> <span class="w">timeline</span> <span class="w">by</span> <span class="w">ten</span> <span class="w">days</span> <span class="w">and</span> <span class="w">cutting</span> <span class="w">two</span> <span class="w">minor</span> <span class="w">features</span> <span class="w">from</span> <span class="w">this</span> <span class="w">release</span>.</span><button class="s-play" onclick="playSentence(7)" title="&#35835;&#25972;&#21477;">&#9654;</button> <span class="sentence" data-idx="8"><span class="w">We</span> <span class="w">agreed</span> <span class="w">to</span> <span class="w">move</span> <span class="w">the</span> <span class="w">launch</span> <span class="w">to</span> <span class="w">the</span> <span class="w">following</span> <span class="w">Friday</span> <span class="w">and</span> <span class="w">to</span> <span class="w">ship</span> <span class="w">the</span> <span class="w">smaller</span> <span class="w">features</span> <span class="w">later</span>.</span><button class="s-play" onclick="playSentence(8)" title="&#35835;&#25972;&#21477;">&#9654;</button> </p>
+<p><span class="sentence" data-idx="9"><span class="w">To</span> <span class="w">make</span> <span class="w">up</span> <span class="w">for</span> <span class="w">the</span> <span class="w">delay</span>, <span class="w">I</span> <span class="w">offered</span> <span class="w">to</span> <span class="w">set</span> <span class="w">up</span> <span class="w">a</span> <span class="w">brief</span> <span class="w">demo</span> <span class="w">for</span> <span class="w">the</span> <span class="w">client</span> <span class="w">next</span> <span class="w">week</span>.</span><button class="s-play" onclick="playSentence(9)" title="&#35835;&#25972;&#21477;">&#9654;</button> <span class="sentence" data-idx="10"><span class="w">My</span> <span class="w">manager</span> <span class="w">liked</span> <span class="w">that</span> <span class="w">idea</span> <span class="w">because</span> <span class="w">it</span> <span class="w">would</span> <span class="w">keep</span> <span class="w">the</span> <span class="w">client</span> <span class="w">informed</span> <span class="w">and</span> <span class="w">engaged</span>.</span><button class="s-play" onclick="playSentence(10)" title="&#35835;&#25972;&#21477;">&#9654;</button> <span class="sentence" data-idx="11"><span class="w">After</span> <span class="w">the</span> <span class="w">meeting</span>, <span class="w">I</span> <span class="w">sent</span> <span class="w">her</span> <span class="w">a</span> <span class="w">short</span> <span class="w">follow</span>-<span class="w">up</span> <span class="w">email</span> <span class="w">summarizing</span> <span class="w">our</span> <span class="w">agreement</span>.</span><button class="s-play" onclick="playSentence(11)" title="&#35835;&#25972;&#21477;">&#9654;</button> </p>
+<p><span class="sentence" data-idx="12"><span class="w">The</span> <span class="w">experience</span> <span class="w">taught</span> <span class="w">me</span> <span class="w">that</span> <span class="w">proactive</span> <span class="w">communication</span> <span class="w">is</span> <span class="w">always</span> <span class="w">better</span> <span class="w">than</span> <span class="w">silent</span> <span class="w">stress</span>.</span><button class="s-play" onclick="playSentence(12)" title="&#35835;&#25972;&#21477;">&#9654;</button> <span class="sentence" data-idx="13"><span class="w">Asking</span> <span class="w">for</span> <span class="w">more</span> <span class="w">time</span> <span class="w">early</span> <span class="w">is</span> <span class="w">far</span> <span class="w">easier</span> <span class="w">than</span> <span class="w">apologizing</span> <span class="w">for</span> <span class="w">missed</span> <span class="w">promises</span> <span class="w">later</span>.</span><button class="s-play" onclick="playSentence(13)" title="&#35835;&#25972;&#21477;">&#9654;</button> </p>
+
+    </div>
+
+    <div class="section">
+      <div class="section-title">Key Vocabulary</div>
+      <ul class="vocab-list">
+<li><span class="word">deadline</span> <span class="phonetic">/ˈdedlaɪn/</span> <span class="meaning">最后期限，截止日期</span> <button class="speak-btn" onclick="playClip('word', 0, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">estimate</span> <span class="phonetic">/ˈestɪmeɪt/</span> <span class="meaning">估计，估算</span> <button class="speak-btn" onclick="playClip('word', 1, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">propose</span> <span class="phonetic">/prəˈpoʊz/</span> <span class="meaning">提议，建议</span> <button class="speak-btn" onclick="playClip('word', 2, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">release</span> <span class="phonetic">/rɪˈliːs/</span> <span class="meaning">发布，版本</span> <button class="speak-btn" onclick="playClip('word', 3, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">proactive</span> <span class="phonetic">/proʊˈæktɪv/</span> <span class="meaning">主动的，积极的</span> <button class="speak-btn" onclick="playClip('word', 4, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">summarize</span> <span class="phonetic">/ˈsʌməraɪz/</span> <span class="meaning">总结，概述</span> <button class="speak-btn" onclick="playClip('word', 5, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">polished</span> <span class="phonetic">/ˈpɒlɪʃt/</span> <span class="meaning">完善的，精细打磨的</span> <button class="speak-btn" onclick="playClip('word', 6, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">engaged</span> <span class="phonetic">/ɪnˈɡeɪdʒd/</span> <span class="meaning">参与的，投入的</span> <button class="speak-btn" onclick="playClip('word', 7, this)" title="Listen">&#128266;</button></li>
+
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Useful Phrases</div>
+      <ul class="phrase-list">
+<li><div class="phrase-text"><span class="phrase">one-on-one meeting</span><div class="desc">一对一面谈，用于与上级或下属私下沟通敏感话题</div></div><button class="speak-btn" onclick="playClip('phrase', 0, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">follow-up email</span><div class="desc">跟进邮件，会议或谈话后用来确认共识、留书面记录</div></div><button class="speak-btn" onclick="playClip('phrase', 1, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">to be far easier than</span><div class="desc">远比...容易，用于对比两种做法的难易程度</div></div><button class="speak-btn" onclick="playClip('phrase', 2, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">deliver on schedule</span><div class="desc">按期交付，强调按既定时间完成承诺</div></div><button class="speak-btn" onclick="playClip('phrase', 3, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">ship the features later</span><div class="desc">将功能延后发布，软件开发中常用的分阶段上线说法</div></div><button class="speak-btn" onclick="playClip('phrase', 4, this)" title="Listen">&#128266;</button></li>
+
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Pronunciation Tips</div>
+      <ul class="tips-list">
+<li><span class="tip-label">连读：</span>“would not finish”中的“would not”快速连读成 /ˈwʊdnət/，自然过渡到 finish。</li>
+<li><span class="tip-label">弱读：</span>功能词 than、a、to、of 在句中通常弱读，例如 “a buggy one” 中 a 发 /ə/。</li>
+<li><span class="tip-label">重音：</span>重读实词 proactive、polished、realistic 来传达重点，让听者感受到你的自信。</li>
+
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Speaking Challenge</div>
+      <div class="challenge">
+        <div class="icon">&#127908;&#65039;</div>
+        <div class="question">Think of a time you had to ask for an extension on a project or assignment. How did you prepare, and what was the outcome? Describe it in 3-5 sentences.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Daily English Speaking Practice &#183; Day 4 &#183; Neural TTS by Microsoft Aria &#183; Keep practicing every day!
+  </div>
+</div>
+
+<audio id="mainAudio" preload="auto">
+  <source src="audio/2026-07-30/full-article.mp3" type="audio/mpeg">
+</audio>
+
+<script src="word-dict.js"></script>
+
+<script>
+(function() {
+  'use strict';
+  var AUDIO_BASE = 'audio/2026-07-30/';
+  var SENTENCE_OFFSETS = [0.0, 5.64, 11.28, 16.224, 22.536, 28.008, 33.96, 39.408, 45.6, 51.0, 56.592, 61.92, 67.296, 73.08];
+  var WORD_FILES = ["word-00.mp3", "word-01.mp3", "word-02.mp3", "word-03.mp3", "word-04.mp3", "word-05.mp3", "word-06.mp3", "word-07.mp3"];
+  var PHRASE_FILES = ["phrase-00.mp3", "phrase-01.mp3", "phrase-02.mp3", "phrase-03.mp3", "phrase-04.mp3"];
+
+  var mainAudio = document.getElementById('mainAudio');
+  var isPlaying = false;
+  var isRepeatMode = false;
+  var rate = 0.9;
+  var currentSentenceIdx = -1;
+  var clipAudio = null;
+  var currentButtonEl = null;
+
+  var playBtn = document.getElementById('playBtn');
+  var stopBtn = document.getElementById('stopBtn');
+  var speedSlider = document.getElementById('speedSlider');
+  var speedLabel = document.getElementById('speedLabel');
+  var repeatBtn = document.getElementById('repeatBtn');
+  var progressInfo = document.getElementById('progressInfo');
+  var progressBarFill = document.getElementById('progressBarFill');
+  var progressBarContainer = document.getElementById('progressBarContainer');
+  var sentenceEls = document.querySelectorAll('.article .sentence');
+
+  mainAudio.playbackRate = rate;
+
+  function highlightSentence(idx) {
+    if (currentSentenceIdx === idx) return;
+    currentSentenceIdx = idx;
+    sentenceEls.forEach(function(el) {
+      el.classList.toggle('highlighted', parseInt(el.getAttribute('data-idx')) === idx);
+    });
+    if (idx >= 0) {
+      var target = document.querySelector('.sentence[data-idx="' + idx + '"]');
+      if (target) {
+        var rect = target.getBoundingClientRect();
+        if (rect.top < 80 || rect.bottom > window.innerHeight - 40) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+  }
+  function clearHighlights() {
+    currentSentenceIdx = -1;
+    sentenceEls.forEach(function(el) { el.classList.remove('highlighted'); });
+  }
+  function updateSentenceFromTime() {
+    var t = mainAudio.currentTime;
+    for (var i = SENTENCE_OFFSETS.length - 1; i >= 0; i--) {
+      if (t >= SENTENCE_OFFSETS[i]) { highlightSentence(i); return; }
+    }
+    highlightSentence(0);
+  }
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  playBtn.addEventListener('click', function() {
+    if (clipAudio) { clipAudio.pause(); clipAudio = null; if (currentButtonEl) { currentButtonEl.classList.remove('playing'); currentButtonEl = null; } }
+    if (mainAudio.paused) {
+      mainAudio.play().then(function() {
+        isPlaying = true;
+        playBtn.innerHTML = '&#10074;&#10074;';
+      }).catch(function(e) { console.error('Play error:', e); progressInfo.textContent = 'Click again'; });
+    } else {
+      mainAudio.pause();
+      isPlaying = false;
+      playBtn.innerHTML = '&#9658;';
+      progressInfo.textContent = 'Paused';
+    }
+  });
+  stopBtn.addEventListener('click', function() {
+    mainAudio.pause(); mainAudio.currentTime = 0;
+    isPlaying = false; clearHighlights();
+    playBtn.innerHTML = '&#9658;';
+    progressBarFill.style.width = '0%';
+    progressInfo.textContent = 'Ready';
+  });
+  speedSlider.addEventListener('input', function() {
+    rate = parseFloat(speedSlider.value);
+    speedLabel.textContent = rate.toFixed(1) + 'x';
+    mainAudio.playbackRate = rate;
+  });
+  repeatBtn.addEventListener('click', function() {
+    isRepeatMode = !isRepeatMode;
+    repeatBtn.classList.toggle('active', isRepeatMode);
+  });
+  mainAudio.addEventListener('timeupdate', function() {
+    var pct = (mainAudio.currentTime / mainAudio.duration) * 100;
+    if (isNaN(pct)) pct = 0;
+    progressBarFill.style.width = pct + '%';
+    updateSentenceFromTime();
+    if (mainAudio.duration) {
+      progressInfo.textContent = formatTime(mainAudio.currentTime) + ' / ' + formatTime(mainAudio.duration);
+    }
+  });
+  mainAudio.addEventListener('ended', function() {
+    if (isRepeatMode) {
+      mainAudio.currentTime = 0;
+      mainAudio.play().catch(function(){});
+    } else {
+      isPlaying = false; clearHighlights();
+      playBtn.innerHTML = '&#9658;';
+      progressInfo.textContent = 'Done';
+    }
+  });
+    // ===== word lookup popup & sentence play (auto-injected) =====
+  var PAGE_VOCAB = {
+    "deadline": {
+      "ph": "/ˈdedlaɪn/",
+      "cn": "最后期限，截止日期",
+      "idx": 0
+    },
+    "estimate": {
+      "ph": "/ˈestɪmeɪt/",
+      "cn": "估计，估算",
+      "idx": 1
+    },
+    "propose": {
+      "ph": "/prəˈpoʊz/",
+      "cn": "提议，建议",
+      "idx": 2
+    },
+    "release": {
+      "ph": "/rɪˈliːs/",
+      "cn": "发布，版本",
+      "idx": 3
+    },
+    "proactive": {
+      "ph": "/proʊˈæktɪv/",
+      "cn": "主动的，积极的",
+      "idx": 4
+    },
+    "summarize": {
+      "ph": "/ˈsʌməraɪz/",
+      "cn": "总结，概述",
+      "idx": 5
+    },
+    "polished": {
+      "ph": "/ˈpɒlɪʃt/",
+      "cn": "完善的，精细打磨的",
+      "idx": 6
+    },
+    "engaged": {
+      "ph": "/ɪnˈɡeɪdʒd/",
+      "cn": "参与的，投入的",
+      "idx": 7
+    }
+  };
+  var wordPop = document.createElement('div');
+  wordPop.className = 'word-pop';
+  wordPop.innerHTML = '<button class="wp-close" title="Close">&#10005;</button>'
+    + '<div class="wp-head"><span class="wp-word"></span><span class="wp-ph"></span></div>'
+    + '<div class="wp-cn"></div>'
+    + '<div class="wp-btns"><button class="wp-say">&#128266; \u8bfb\u5355\u8bcd</button>'
+    + '<button class="wp-sent">&#9654; \u8bfb\u6574\u53e5</button></div>';
+  document.body.appendChild(wordPop);
+  var wpWord = wordPop.querySelector('.wp-word');
+  var wpPh = wordPop.querySelector('.wp-ph');
+  var wpCn = wordPop.querySelector('.wp-cn');
+  var wpSay = wordPop.querySelector('.wp-say');
+  var wpSent = wordPop.querySelector('.wp-sent');
+  var currentWord = '';
+  var currentEntry = null;
+  var currentSentenceIdx = -1;
+
+  function lookupEntry(w) {
+    var lw = (w || '').toLowerCase();
+    var cands = [w, lw];
+    var m;
+    if (m = lw.match(/(.+)['\u2019]s$/)) cands.push(m[1]);
+    if (/ies$/.test(lw)) cands.push(lw.replace(/ies$/, 'y'));
+    if (/ied$/.test(lw)) cands.push(lw.replace(/ied$/, 'y'));
+    if (/es$/.test(lw)) cands.push(lw.slice(0, -2));
+    if (/s$/.test(lw)) cands.push(lw.slice(0, -1));
+    if (/ed$/.test(lw)) { cands.push(lw.slice(0, -2)); cands.push(lw.slice(0, -1)); }
+    if (/ing$/.test(lw)) { cands.push(lw.slice(0, -3)); cands.push(lw.slice(0, -3) + 'e'); }
+    if (/ly$/.test(lw)) cands.push(lw.slice(0, -2));
+    for (var i = 0; i < cands.length; i++) {
+      var c = cands[i];
+      if (!c) continue;
+      if (PAGE_VOCAB[c]) return { word: c, ph: PAGE_VOCAB[c].ph, cn: PAGE_VOCAB[c].cn, idx: PAGE_VOCAB[c].idx };
+      if (window.WORD_DICT && window.WORD_DICT[c]) {
+        var v = window.WORD_DICT[c];
+        return { word: c, ph: (typeof v === 'object' && v.ph) ? v.ph : '', cn: (typeof v === 'string') ? v : v.cn };
+      }
+    }
+    return null;
+  }
+  function speakFallback(text) {
+    if ('speechSynthesis' in window) {
+      speechSynthesis.cancel();
+      var u = new SpeechSynthesisUtterance(text);
+      u.lang = 'en-US';
+      u.rate = 0.85;
+      speechSynthesis.speak(u);
+    } else {
+      progressInfo.textContent = 'Speech not supported';
+    }
+  }
+  function hideWordPop() { wordPop.style.display = 'none'; }
+  wordPop.querySelector('.wp-close').addEventListener('click', hideWordPop);
+  document.addEventListener('click', function(e) {
+    if (wordPop.style.display === 'none') return;
+    if (!wordPop.contains(e.target) && !(e.target.closest && e.target.closest('.w'))) hideWordPop();
+  });
+  wpSay.addEventListener('click', function() {
+    if (!currentWord) return;
+    if (currentEntry && typeof currentEntry.idx === 'number') {
+      playClip('word', currentEntry.idx, wpSay);
+    } else {
+      speakFallback(currentWord);
+    }
+  });
+  wpSent.addEventListener('click', function() {
+    if (currentSentenceIdx >= 0) window.playSentence(currentSentenceIdx);
+  });
+  var articleEl = document.getElementById('articleText');
+  if (articleEl) {
+    articleEl.addEventListener('click', function(e) {
+      var wEl = e.target.closest ? e.target.closest('.w') : null;
+      if (!wEl) return;
+      e.stopPropagation();
+      var word = wEl.getAttribute('data-w') || wEl.textContent.trim();
+      currentWord = word;
+      currentEntry = lookupEntry(word);
+      var sentEl = wEl.closest('.sentence');
+      currentSentenceIdx = sentEl ? parseInt(sentEl.getAttribute('data-idx'), 10) : -1;
+      wpWord.textContent = word;
+      wpPh.textContent = (currentEntry && currentEntry.ph) ? currentEntry.ph : '';
+      wpCn.textContent = (currentEntry && currentEntry.cn) ? currentEntry.cn : '\u6682\u65e0\u91ca\u4e49\uff0c\u70b9\u4e0a\u65b9\u6309\u94ae\u542c\u53d1\u97f3';
+      wpSent.style.display = (currentSentenceIdx >= 0) ? '' : 'none';
+      wordPop.style.display = 'block';
+      var rect = wEl.getBoundingClientRect();
+      var pw = wordPop.offsetWidth, phh = wordPop.offsetHeight;
+      var left = Math.max(8, Math.min(rect.left, window.innerWidth - pw - 8));
+      var top = rect.bottom + 8;
+      if (top + phh > window.innerHeight - 8) top = Math.max(8, rect.top - phh - 8);
+      wordPop.style.left = left + 'px';
+      wordPop.style.top = top + 'px';
+    });
+  }
+  window.playSentence = function(idx) {
+    hideWordPop();
+    if (clipAudio) { clipAudio.pause(); clipAudio = null; if (currentButtonEl) { currentButtonEl.classList.remove('playing'); currentButtonEl = null; } }
+    if (idx >= 0 && idx < SENTENCE_OFFSETS.length) {
+      mainAudio.currentTime = SENTENCE_OFFSETS[idx];
+      highlightSentence(idx);
+      if (mainAudio.paused) {
+        mainAudio.play().then(function() { isPlaying = true; playBtn.innerHTML = '&#10074;&#10074;'; }).catch(function(e) { console.error(e); });
+      }
+    }
+  };
+  progressBarContainer.addEventListener('click', function(e) {
+    var rect = progressBarContainer.getBoundingClientRect();
+    var pct = (e.clientX - rect.left) / rect.width;
+    if (mainAudio.duration) { mainAudio.currentTime = pct * mainAudio.duration; }
+  });
+  window.playClip = function(type, idx, btnEl) {
+    if (!mainAudio.paused) { mainAudio.pause(); isPlaying = false; playBtn.innerHTML = '&#9658;'; }
+    if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; }
+    if (currentButtonEl) currentButtonEl.classList.remove('playing');
+    currentButtonEl = btnEl; btnEl.classList.add('playing');
+    var files = (type === 'word') ? WORD_FILES : PHRASE_FILES;
+    clipAudio = new Audio(AUDIO_BASE + files[idx]);
+    clipAudio.playbackRate = 0.85;
+    clipAudio.onended = function() { btnEl.classList.remove('playing'); currentButtonEl = null; progressInfo.textContent = 'Ready'; };
+    clipAudio.onerror = function() { btnEl.classList.remove('playing'); currentButtonEl = null; };
+    progressInfo.textContent = 'Playing: ' + (type === 'word' ? 'vocabulary' : 'phrase');
+    clipAudio.play().catch(function(e) { console.error(e); });
+  };
+  mainAudio.load();
+})();
+</script>
+</body>
+</html>

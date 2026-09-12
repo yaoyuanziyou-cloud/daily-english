@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API Settings - Daily English Practice</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Helvetica', 'Arial', sans-serif; background: #f5f0e8; color: #2c2c2c; min-height: 100vh; padding: 40px 20px; }
+  .container { max-width: 640px; margin: 0 auto; }
+  .header { text-align: center; margin-bottom: 36px; }
+  .header h1 { font-family: 'Georgia', serif; font-size: 32px; color: #1a5276; margin-bottom: 8px; }
+  .header p { font-size: 15px; color: #888; }
+  .header .back-link { display: inline-block; margin-top: 16px; color: #2e86c1; text-decoration: none; font-size: 14px; }
+  .header .back-link:hover { text-decoration: underline; }
+  .card { background: #fffdf8; border-radius: 14px; padding: 28px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card h2 { font-family: 'Georgia', serif; font-size: 20px; color: #1a5276; margin-bottom: 16px; }
+  .card h2 .step-num { display: inline-block; width: 28px; height: 28px; line-height: 28px; text-align: center; background: #2e86c1; color: white; border-radius: 50%; font-size: 14px; font-family: 'Helvetica', sans-serif; margin-right: 8px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label { display: block; font-size: 14px; font-weight: 600; color: #555; margin-bottom: 6px; }
+  .form-group .hint { font-size: 12px; color: #aaa; margin-top: 4px; }
+  .form-group input { width: 100%; padding: 12px 14px; border: 2px solid #e0d8cc; border-radius: 10px; font-size: 15px; font-family: monospace; color: #2c2c2c; background: #fff; transition: border-color 0.2s; }
+  .form-group input:focus { outline: none; border-color: #2e86c1; }
+  .form-group input:disabled { background: #f5f0e8; color: #999; }
+  .presets { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
+  .preset-btn { padding: 10px 18px; border: 2px solid #e0d8cc; border-radius: 10px; background: #fff; cursor: pointer; font-size: 14px; font-weight: 600; color: #555; transition: all 0.2s; }
+  .preset-btn:hover { border-color: #2e86c1; color: #2e86c1; }
+  .preset-btn.active { border-color: #2e86c1; background: #e8f4fd; color: #2e86c1; }
+  .btn { display: block; width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.2s; text-align: center; }
+  .btn-primary { background: #2e86c1; color: white; }
+  .btn-primary:hover { background: #21618c; }
+  .btn-primary:disabled { background: #b0c4de; cursor: not-allowed; }
+  .btn-secondary { background: #e8f4fd; color: #2e86c1; border: 2px solid #2e86c1; margin-top: 12px; }
+  .btn-secondary:hover { background: #d0e8f7; }
+  .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
+  .status-msg { padding: 14px; border-radius: 10px; font-size: 14px; margin-top: 16px; display: none; }
+  .status-msg.success { background: #eafaf1; border: 1px solid #27ae60; color: #1e7e34; display: block; }
+  .status-msg.error { background: #fdecea; border: 1px solid #e74c3c; color: #c0392b; display: block; }
+  .status-msg.info { background: #e8f4fd; border: 1px solid #2e86c1; color: #1a5276; display: block; }
+  .status-msg .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid currentColor; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; margin-right: 8px; vertical-align: middle; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .help-text { font-size: 13px; color: #888; line-height: 1.6; margin-top: 8px; }
+  .help-text a { color: #2e86c1; }
+  .divider { height: 1px; background: #e0d8cc; margin: 24px 0; }
+  .footer { text-align: center; padding: 20px; color: #aaa; font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>API Settings</h1>
+    <p>Configure the LLM API for daily content generation</p>
+    <a class="back-link" href="index.html">&larr; Back to Practice</a>
+  </div>
+
+  <!-- Step 1: GitHub Token -->
+  <div class="card">
+    <h2><span class="step-num">1</span>GitHub Token</h2>
+    <div class="form-group">
+      <label>Personal Access Token (classic, with <code>repo</code> scope)</label>
+      <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+      <div class="hint">Used to update Secrets and trigger the workflow. Token stays in your browser only.</div>
+      <div class="help-text">
+        Create one at <a href="https://github.com/settings/tokens/new?scopes=repo&description=Daily%20English%20Settings" target="_blank">github.com/settings/tokens</a> &rarr; select <strong>repo</strong> scope &rarr; Generate.
+      </div>
+    </div>
+  </div>
+
+  <!-- Step 2: API Provider -->
+  <div class="card">
+    <h2><span class="step-num">2</span>API Provider</h2>
+    <div class="presets">
+      <button class="preset-btn active" data-key="" data-url="https://new-api.jointpilot.com/v1" data-model="moonshot-v1-8k">Kimi (JointPilot)</button>
+      <button class="preset-btn" data-key="" data-url="https://api.moonshot.cn/v1" data-model="moonshot-v1-8k">Kimi (Direct)</button>
+      <button class="preset-btn" data-key="" data-url="https://api.minimaxi.com/v1" data-model="MiniMax-M3">MiniMax</button>
+      <button class="preset-btn" data-key="" data-url="https://api.openai.com/v1" data-model="gpt-4o-mini">OpenAI</button>
+      <button class="preset-btn" data-key="" data-url="https://api.deepseek.com/v1" data-model="deepseek-chat">DeepSeek</button>
+      <button class="preset-btn" data-key="" data-url="" data-model="">Custom</button>
+    </div>
+    <div class="form-group">
+      <label>API Key</label>
+      <input type="password" id="apiKey" placeholder="sk-xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+    </div>
+    <div class="form-group">
+      <label>Base URL</label>
+      <input type="text" id="baseUrl" placeholder="https://api.example.com/v1" value="https://new-api.jointpilot.com/v1">
+    </div>
+    <div class="form-group">
+      <label>Model Name</label>
+      <input type="text" id="modelName" placeholder="moonshot-v1-8k" value="moonshot-v1-8k">
+    </div>
+    <button class="btn btn-primary" id="saveBtn" disabled>Save & Update Secrets</button>
+    <div class="status-msg" id="saveStatus"></div>
+  </div>
+
+  <!-- Step 3: Trigger -->
+  <div class="card">
+    <h2><span class="step-num">3</span>Run Now</h2>
+    <p style="font-size: 14px; color: #888; margin-bottom: 16px;">Manually trigger the daily generation workflow. It takes about 2-3 minutes.</p>
+    <button class="btn btn-secondary" id="triggerBtn" disabled>Trigger Workflow</button>
+    <div class="status-msg" id="triggerStatus"></div>
+  </div>
+
+  <div class="footer">
+    Daily English Practice &middot; <a href="https://github.com/yaoyuanziyou-cloud/daily-english" target="_blank" style="color: #aaa;">GitHub Repo</a>
+  </div>
+</div>
+
+<!-- libsodium for GitHub secret encryption -->
+<script src="https://cdn.jsdelivr.net/npm/libsodium-wrappers@0.7.15/dist/sodium.min.js"></script>
+<script>
+var REPO_OWNER = 'yaoyuanziyou-cloud';
+var REPO_NAME = 'daily-english';
+var SECRETS_TO_SET = ['LLM_API_KEY', 'LLM_BASE_URL', 'LLM_MODEL'];
+
+// --- DOM helpers ---
+function $(id) { return document.getElementById(id); }
+function showStatus(el, type, msg, spinner) {
+  el.className = 'status-msg ' + type;
+  el.innerHTML = (spinner ? '<span class="spinner"></span>' : '') + msg;
+}
+function ghApi(path, method, token, body) {
+  var headers = {
+    'Authorization': 'token ' + token,
+    'Accept': 'application/vnd.github+json',
+    'X-GitHub-Api-Version': '2022-11-28'
+  };
+  var opts = { method: method || 'GET', headers: headers };
+  if (body) {
+    headers['Content-Type'] = 'application/json';
+    opts.body = JSON.stringify(body);
+  }
+  return fetch('https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + path, opts);
+}
+
+// --- Preset buttons ---
+var presetBtns = document.querySelectorAll('.preset-btn');
+presetBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    presetBtns.forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    var url = btn.dataset.url;
+    var model = btn.dataset.model;
+    if (url) $('baseUrl').value = url;
+    if (model) $('modelName').value = model;
+  });
+});
+
+// --- Enable/disable save button ---
+function checkInputs() {
+  var token = $('ghToken').value.trim();
+  var key = $('apiKey').value.trim();
+  var url = $('baseUrl').value.trim();
+  var model = $('modelName').value.trim();
+  var ready = token && key && url && model;
+  $('saveBtn').disabled = !ready;
+  $('triggerBtn').disabled = !token;
+}
+['ghToken', 'apiKey', 'baseUrl', 'modelName'].forEach(function(id) {
+  $(id).addEventListener('input', checkInputs);
+});
+
+// --- Encrypt and save secrets ---
+$('saveBtn').addEventListener('click', async function() {
+  var token = $('ghToken').value.trim();
+  var apiKey = $('apiKey').value.trim();
+  var baseUrl = $('baseUrl').value.trim();
+  var modelName = $('modelName').value.trim();
+  var statusEl = $('saveStatus');
+
+  $('saveBtn').disabled = true;
+  showStatus(statusEl, 'info', 'Encrypting and saving secrets...', true);
+
+  try {
+    // Initialize libsodium
+    await sodium.ready;
+
+    // Get repo public key
+    var resp = await ghApi('/actions/secrets/public-key', 'GET', token);
+    if (!resp.ok) {
+      var err = await resp.json();
+      throw new Error('Failed to get public key: ' + (err.message || resp.status));
+    }
+    var pkData = await resp.json();
+
+    // Encrypt each secret
+    var binKey = sodium.from_base64(pkData.key, sodium.base64_variants.ORIGINAL);
+    var secrets = {
+      'LLM_API_KEY': apiKey,
+      'LLM_BASE_URL': baseUrl,
+      'LLM_MODEL': modelName
+    };
+
+    for (var name in secrets) {
+      var messageBytes = sodium.from_string(secrets[name]);
+      var encryptedBytes = sodium.crypto_box_seal(messageBytes, binKey);
+      var encryptedB64 = sodium.to_base64(encryptedBytes, sodium.base64_variants.ORIGINAL);
+
+      var putResp = await ghApi('/actions/secrets/' + name, 'PUT', token, {
+        encrypted_value: encryptedB64,
+        key_id: pkData.key_id
+      });
+      if (!putResp.ok) {
+        var putErr = await putResp.json();
+        throw new Error('Failed to set ' + name + ': ' + (putErr.message || putResp.status));
+      }
+    }
+
+    showStatus(statusEl, 'success',
+      '<strong>All 3 secrets saved!</strong> LLM_API_KEY, LLM_BASE_URL, LLM_MODEL updated. ' +
+      'Click "Trigger Workflow" below to generate today\'s content.');
+
+    // Scroll to trigger section
+    $('triggerBtn').scrollIntoView({ behavior: 'smooth' });
+
+  } catch (e) {
+    showStatus(statusEl, 'error', '<strong>Error:</strong> ' + e.message);
+  } finally {
+    $('saveBtn').disabled = false;
+  }
+});
+
+// --- Trigger workflow ---
+$('triggerBtn').addEventListener('click', async function() {
+  var token = $('ghToken').value.trim();
+  var statusEl = $('triggerStatus');
+
+  $('triggerBtn').disabled = true;
+  showStatus(statusEl, 'info', 'Triggering workflow...', true);
+
+  try {
+    var resp = await ghApi('/actions/workflows/daily.yml/dispatches', 'POST', token, { ref: 'main' });
+    if (resp.status === 204) {
+      showStatus(statusEl, 'success',
+        '<strong>Workflow triggered!</strong> It takes about 2-3 minutes. ' +
+        '<a href="https://github.com/yaoyuanziyou-cloud/daily-english/actions" target="_blank" style="color: inherit; text-decoration: underline;">View progress &rarr;</a><br>' +
+        'After it completes, go back to <a href="index.html" style="color: inherit; text-decoration: underline;">index.html</a> to see the new content.');
+    } else {
+      var err = await resp.json();
+      throw new Error(err.message || 'HTTP ' + resp.status);
+    }
+  } catch (e) {
+    showStatus(statusEl, 'error', '<strong>Error:</strong> ' + e.message);
+  } finally {
+    $('triggerBtn').disabled = false;
+  }
+});
+
+// Auto-check inputs on load
+checkInputs();
+</script>
+</body>
+</html>
