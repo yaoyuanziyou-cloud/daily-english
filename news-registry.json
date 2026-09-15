@@ -1,0 +1,152 @@
+[
+  {
+    "date": "2026-07-24",
+    "file": "english-news-2026-07-24.html",
+    "articles": [
+      {
+        "title": "China's strong power capacity fuels AI boom",
+        "category": "Technology"
+      },
+      {
+        "title": "UK's attitude toward Brexit changing",
+        "category": "World"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-07-28",
+    "file": "english-news-2026-07-28.html",
+    "articles": [
+      {
+        "title": "AI ecosystem lifts China's global position",
+        "category": "Technology"
+      },
+      {
+        "title": "Spain battles largest recorded wildfire as nearly 100,000 affected",
+        "category": "World"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-07-29",
+    "file": "english-news-2026-07-29.html",
+    "articles": [
+      {
+        "title": "France comes under grip of 'unprecedented' fires",
+        "category": "World"
+      },
+      {
+        "title": "Chinese firms shift to proactive risk management amid global expansion",
+        "category": "Business"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-07-30",
+    "file": "english-news-2026-07-30.html",
+    "articles": [
+      {
+        "title": "AI adds sparkle to synthetic diamond sector",
+        "category": "Technology"
+      },
+      {
+        "title": "EU nations cooperate on major drug seizures",
+        "category": "World"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-07-31",
+    "file": "english-news-2026-07-31.html",
+    "articles": [
+      {
+        "title": "Unmanned vessel sets milestone",
+        "category": "Technology"
+      },
+      {
+        "title": "Chinese beauty brands enjoy a surge in popularity",
+        "category": "Business"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-08-06",
+    "file": "english-news-2026-08-06.html",
+    "articles": [
+      {
+        "title": "Chinese AI models gain favor overseas",
+        "category": "Technology"
+      },
+      {
+        "title": "Is El Nino's economic risk too hot to handle?",
+        "category": "World"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-08-19",
+    "file": "english-news-2026-08-19.html",
+    "articles": [
+      {
+        "title": "Unitree Robotics soars 629% to $62b valuation in share debut",
+        "category": "Technology"
+      },
+      {
+        "title": "Germany demands Apple revise app consent prompts",
+        "category": "World"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-08-21",
+    "file": "english-news-2026-08-21.html",
+    "articles": [
+      {
+        "title": "AI needs a symbiotic reset with humanity",
+        "category": "Technology"
+      },
+      {
+        "title": "China and Switzerland conclude trade negotiations",
+        "category": "Business"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-08-22",
+    "file": "english-news-2026-08-22.html",
+    "articles": [
+      {
+        "title": "Chinese company showcases robots doing home services and logistics",
+        "category": "Technology"
+      },
+      {
+        "title": "Tougher social media restrictions test digital protection",
+        "category": "World"
+      }
+    ],
+    "article_count": 2
+  },
+  {
+    "date": "2026-08-23",
+    "file": "english-news-2026-08-23.html",
+    "articles": [
+      {
+        "title": "World Humanoid Robot Games open in Beijing",
+        "category": "Technology"
+      },
+      {
+        "title": "Demand for widebody aircraft rising",
+        "category": "Business"
+      }
+    ],
+    "article_count": 2
+  }
+]
