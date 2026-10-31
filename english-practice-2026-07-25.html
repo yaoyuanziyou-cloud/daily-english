@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily English Practice - 2026-07-25</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', 'Times New Roman', serif; background: #f5f0e8; color: #2c2c2c; line-height: 1.8; padding: 40px 20px 120px; min-height: 100vh; }
+  .container { max-width: 760px; margin: 0 auto; background: #fffdf8; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+  .player-bar { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #1a5276, #2e86c1); color: white; padding: 14px 24px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+  .player-bar .play-btn { background: white; color: #1a5276; border: none; width: 48px; height: 48px; border-radius: 50%; font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+  .player-bar .play-btn:hover { transform: scale(1.1); }
+  .player-bar .play-btn:active { transform: scale(0.95); }
+  .player-bar .stop-btn { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); width: 38px; height: 38px; border-radius: 50%; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .player-bar .stop-btn:hover { background: rgba(255,255,255,0.35); }
+  .player-bar .speed-control { display: flex; align-items: center; gap: 8px; font-family: 'Helvetica', sans-serif; font-size: 13px; }
+  .player-bar .speed-control input[type="range"] { width: 90px; cursor: pointer; accent-color: white; }
+  .player-bar .speed-label { min-width: 36px; text-align: center; font-variant-numeric: tabular-nums; }
+  .player-bar .repeat-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; }
+  .player-bar .repeat-btn:hover { background: rgba(255,255,255,0.3); }
+  .player-bar .repeat-btn.active { background: #f4d03f; color: #1a5276; border-color: #f4d03f; }
+  .player-bar .voice-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 12px; font-size: 12px; font-family: 'Helvetica', sans-serif; display: flex; align-items: center; gap: 6px; }
+  .player-bar .voice-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .player-bar .progress-info { font-family: 'Helvetica', sans-serif; font-size: 12px; opacity: 0.8; margin-left: auto; }
+  .player-bar .home-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; text-decoration: none; display: flex; align-items: center; gap: 4px; }
+  .player-bar .home-btn:hover { background: rgba(255,255,255,0.3); }
+  .progress-bar-container { position: relative; width: 100%; height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; cursor: pointer; margin-top: 4px; }
+  .progress-bar-fill { height: 100%; background: #f4d03f; border-radius: 3px; width: 0%; transition: width 0.1s linear; }
+  .header { background: linear-gradient(135deg, #1a5276, #2e86c1); color: white; padding: 36px 40px 28px; }
+  .header .date { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; font-family: 'Helvetica', sans-serif; }
+  .header h1 { font-size: 28px; font-weight: normal; line-height: 1.4; }
+  .header .tag { display: inline-block; margin-top: 12px; background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 20px; font-size: 13px; font-family: 'Helvetica', sans-serif; }
+  .content { padding: 36px 40px 40px; }
+  .article { font-size: 18px; line-height: 2; margin-bottom: 36px; text-align: justify; }
+  .article p { margin-bottom: 16px; }
+  .article .first-letter { float: left; font-size: 48px; line-height: 1; margin-right: 8px; margin-top: 4px; color: #2e86c1; font-weight: bold; }
+  .article .sentence { cursor: pointer; border-radius: 4px; padding: 0 2px; transition: background 0.2s; }
+  .article .sentence:hover { background: #e8f4fc; }
+  .article .sentence.highlighted { background: #fceabb; box-shadow: 0 0 0 2px #f4d03f; }
+  .translate-toggle { background: #e8f4fc; color: #1a5276; border: 1px solid #aed6f1; border-radius: 8px; padding: 8px 16px; font-size: 14px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; margin-top: 16px; display: inline-flex; align-items: center; gap: 6px; }
+  .translate-toggle:hover { background: #d4eefc; }
+  .translate-toggle.active { background: #1a5276; color: white; }
+  .cn-translation { font-size: 16px; line-height: 1.9; color: #555; margin-top: 16px; padding: 16px 20px; background: #f0f6fa; border-left: 4px solid #2e86c1; border-radius: 4px; font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica', sans-serif; display: none; }
+  .cn-translation p { margin-bottom: 10px; }
+  .section-title { font-family: 'Helvetica', sans-serif; font-size: 16px; font-weight: bold; color: #1a5276; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid #e8e8e8; }
+  .section { margin-bottom: 32px; }
+  .vocab-list { list-style: none; }
+  .vocab-list li { padding: 10px 0; border-bottom: 1px dashed #e0e0e0; font-size: 16px; display: flex; align-items: center; flex-wrap: wrap; }
+  .vocab-list .word { font-weight: bold; color: #1a5276; font-size: 17px; }
+  .vocab-list .phonetic { color: #888; font-style: italic; font-size: 14px; margin-left: 8px; }
+  .vocab-list .meaning { color: #555; margin-left: 8px; flex: 1; }
+  .speak-btn { background: #e8f4fc; color: #1a5276; border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 15px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .speak-btn:hover { background: #2e86c1; color: white; transform: scale(1.15); }
+  .speak-btn.playing { background: #f4d03f; color: #1a5276; animation: pulse 1s ease-in-out infinite; }
+  .phrase-list { list-style: none; }
+  .phrase-list li { padding: 12px 0; border-bottom: 1px dashed #e0e0e0; display: flex; align-items: flex-start; gap: 10px; }
+  .phrase-list .phrase-text { flex: 1; }
+  .phrase-list .phrase { font-weight: bold; color: #1a5276; font-size: 17px; }
+  .phrase-list .desc { color: #666; font-size: 15px; margin-top: 4px; }
+  .phrase-list .speak-btn { margin-top: 2px; }
+  .tips-list { list-style: none; }
+  .tips-list li { padding: 12px 16px; margin-bottom: 10px; background: #f0f6fa; border-left: 4px solid #2e86c1; border-radius: 4px; font-size: 15px; }
+  .tips-list .tip-label { font-weight: bold; color: #1a5276; }
+  .challenge { background: linear-gradient(135deg, #fef9e7, #fcf3cf); border: 2px solid #f4d03f; border-radius: 12px; padding: 24px; text-align: center; }
+  .challenge .icon { font-size: 32px; margin-bottom: 8px; }
+  .challenge .question { font-size: 18px; color: #7d6608; font-style: italic; margin-top: 8px; }
+  .footer { text-align: center; padding: 20px 40px 32px; color: #aaa; font-size: 13px; font-family: 'Helvetica', sans-serif; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="player-bar">
+    <button class="play-btn" id="playBtn" title="Play / Pause">&#9658;</button>
+    <button class="stop-btn" id="stopBtn" title="Stop">&#9632;</button>
+    <div class="speed-control">
+      <span>Speed</span>
+      <input type="range" id="speedSlider" min="0.5" max="1.5" step="0.1" value="0.9">
+      <span class="speed-label" id="speedLabel">0.9x</span>
+    </div>
+    <button class="repeat-btn" id="repeatBtn" title="Loop Mode">&#x21bb; Loop</button>
+    <div class="voice-badge"><span class="dot"></span><span>Aria Neural</span></div>
+    <span class="progress-info" id="progressInfo">Ready</span>
+    <a class="home-btn" href="index.html" title="Back to Index">&#8962; Home</a>
+  </div>
+  <div style="background: #1a5276; padding: 0 24px 10px;">
+    <div class="progress-bar-container" id="progressBarContainer">
+      <div class="progress-bar-fill" id="progressBarFill"></div>
+    </div>
+  </div>
+
+  <div class="header">
+    <div class="date">Saturday, July 25, 2026</div>
+    <h1>Nailing Your Project Presentation</h1>
+    <span class="tag">Business Scenario</span>
+  </div>
+
+  <div class="content">
+    <div class="article" id="articleText">
+<p><span class="first-letter">P</span><span class="sentence" data-idx="0">lanning is key when you&#x27;re preparing for a project presentation.</span> <span class="sentence" data-idx="1">Start by outlining your main points, and ensure they are concise and clear.</span> <span class="sentence" data-idx="2">Practice your delivery in front of a mirror to refine your gestures and tone.</span> </p>
+<p><span class="sentence" data-idx="3">Engage the audience with interactive elements, such as questions or polls.</span> <span class="sentence" data-idx="4">Keep your presentation visually appealing; use graphs and visuals to support your points.</span> <span class="sentence" data-idx="5">Avoid technical jargon unless it&#x27;s absolutely necessary and your audience is familiar with it.</span> </p>
+<p><span class="sentence" data-idx="6">Ensure you allot sufficient time for questions and answers at the end of your presentation.</span> <span class="sentence" data-idx="7">Rehearse multiple times to gain comfort in presenting your project.</span> <span class="sentence" data-idx="8">Knowing the ins and outs of your project will boost your confidence大大提升.</span> </p>
+<p><span class="sentence" data-idx="9">Maintain eye contact with the audience to show that you are confident and sincere.</span> <span class="sentence" data-idx="10">A smooth transition between topics can keep your presentation coherent and engaging.</span> <span class="sentence" data-idx="11">Finally, be prepared for unexpected questions and think on your feet.</span> <span class="sentence" data-idx="12">Remember, effective storytelling can make all the difference in how your ideas are perceived.</span> </p>
+
+    </div>
+    <button class="translate-toggle" id="transToggle" onclick="toggleTranslation()">&#128257; Show Chinese Translation</button>
+    <div class="cn-translation" id="cnTranslation">
+<p><span>当你准备项目展示时，计划是关键。</span> <span>首先概述你的主要观点，并确保它们简洁明了。</span> <span>实践你在镜子前的发音，以改善你的手势和语调。</span> </p>
+<p><span>通过互动元素，如问题或投票，吸引观众。</span> <span>保持你的演讲在视觉上吸引人；使用图表和视觉效果来支持你的观点。</span> <span>除非绝对必要，并且你的观众熟悉它，否则避免使用技术术语。</span> </p>
+<p><span>确保你在演讲结束时留出足够的时间回答观众的问题。</span> <span>多次排练，以在展示你的项目时获得舒适感。</span> <span>了解项目的各个方面将大大增加你的信心。</span> </p>
+<p><span>与观众保持眼神接触，表明你自信且真诚。</span> <span>在主题之间的平稳过渡可以保持你的演讲连贯且引人入胜。</span> <span>最后，要为意想不到的问题做好准备，并迅速思考。</span> <span>记住，有效的故事讲述可以极大地影响你的观点如何被感知。</span> </p>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Key Vocabulary</div>
+      <ul class="vocab-list">
+<li><span class="word">presentation</span> <span class="phonetic">/ˌprezənˈteɪʃən/</span> <span class="meaning">展示</span> <button class="speak-btn" onclick="playClip('word', 0, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">convincing</span> <span class="phonetic">/kənˈvɪnsɪŋ/</span> <span class="meaning">令人信服的</span> <button class="speak-btn" onclick="playClip('word', 1, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">engagement</span> <span class="phonetic">/ɪnˈɡeɪdʒmənt/</span> <span class="meaning">参与度</span> <button class="speak-btn" onclick="playClip('word', 2, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">interactive</span> <span class="phonetic">/ˌɪntərˈæktɪv/</span> <span class="meaning">互动的</span> <button class="speak-btn" onclick="playClip('word', 3, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">technical jargon</span> <span class="phonetic">/ˈtɛknɪkəl ˈdʒɑːrɡən/</span> <span class="meaning">技术术语</span> <button class="speak-btn" onclick="playClip('word', 4, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">rehearse</span> <span class="phonetic">/rɪˈhɜːrs/</span> <span class="meaning">排练</span> <button class="speak-btn" onclick="playClip('word', 5, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">coherent</span> <span class="phonetic">/koʊˈhɪərənt/</span> <span class="meaning">连贯的</span> <button class="speak-btn" onclick="playClip('word', 6, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">storytelling</span> <span class="phonetic">/ˈstɔːriˌteɪlɪŋ/</span> <span class="meaning">讲故事</span> <button class="speak-btn" onclick="playClip('word', 7, this)" title="Listen">&#128266;</button></li>
+
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Useful Phrases</div>
+      <ul class="phrase-list">
+<li><div class="phrase-text"><span class="phrase">outline your main points</span><div class="desc">概述你的关键点，可以用在展示前内容准备上。</div></div><button class="speak-btn" onclick="playClip('phrase', 0, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">engaging with the audience</span><div class="desc">与观众互动，适用于增加演讲吸引力。</div></div><button class="speak-btn" onclick="playClip('phrase', 1, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">keep it concise</span><div class="desc">保持简洁，适用于你希望别人简要说明情况。</div></div><button class="speak-btn" onclick="playClip('phrase', 2, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">boost your confidence</span><div class="desc">提升自信，当某人准备充分并需要鼓励时可以使用。</div></div><button class="speak-btn" onclick="playClip('phrase', 3, this)" title="Listen">&#128266;</button></li>
+<li><div class="phrase-text"><span class="phrase">think on your feet</span><div class="desc">即兴思考，用于描述某人迅速应对突发情况。</div></div><button class="speak-btn" onclick="playClip('phrase', 4, this)" title="Listen">&#128266;</button></li>
+
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Pronunciation Tips</div>
+      <ul class="tips-list">
+<li><span class="tip-label">Linking: </span>Use &#x27;consonant-to-vowel&#x27; linking to make your sentences flow smoothly, as in &#x27;planning is key&#x27; becoming &#x27;plan-ning is key&#x27;.</li>
+<li><span class="tip-label">Weak forms: </span>Use weak forms of common words like &#x27;and&#x27; and &#x27;the&#x27; to make your speech more natural, e.g., &#x27;and&#x27; can be pronounced as /ən/ or /n/.</li>
+<li><span class="tip-label">Stress patterns: </span>Stress the first syllable in multi-syllable words like &#x27;presentation&#x27; and &#x27;interactive&#x27; to emphasize key terms.</li>
+
+      </ul>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Speaking Challenge</div>
+      <div class="challenge">
+        <div class="icon">&#127908;&#65039;</div>
+        <div class="question">Describe a time when you had to use your storytelling skills to make a project presentation more engaging.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Daily English Speaking Practice &#183; Day 2 &#183; Neural TTS by Microsoft Aria &#183; Keep practicing every day!
+  </div>
+</div>
+
+<audio id="mainAudio" preload="auto">
+  <source src="audio/2026-07-25/full-article.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+(function() {
+  'use strict';
+  var AUDIO_BASE = 'audio/2026-07-25/';
+  var SENTENCE_OFFSETS = [0.0, 4.2, 9.432, 14.4, 19.752, 25.656, 31.92, 37.56, 42.24, 46.656, 51.792, 57.6, 62.568];
+  var WORD_FILES = ["word-00.mp3", "word-01.mp3", "word-02.mp3", "word-03.mp3", "word-04.mp3", "word-05.mp3", "word-06.mp3", "word-07.mp3"];
+  var PHRASE_FILES = ["phrase-00.mp3", "phrase-01.mp3", "phrase-02.mp3", "phrase-03.mp3", "phrase-04.mp3"];
+
+  var mainAudio = document.getElementById('mainAudio');
+  var isPlaying = false;
+  var isRepeatMode = false;
+  var rate = 0.9;
+  var currentSentenceIdx = -1;
+  var clipAudio = null;
+  var currentButtonEl = null;
+
+  var playBtn = document.getElementById('playBtn');
+  var stopBtn = document.getElementById('stopBtn');
+  var speedSlider = document.getElementById('speedSlider');
+  var speedLabel = document.getElementById('speedLabel');
+  var repeatBtn = document.getElementById('repeatBtn');
+  var progressInfo = document.getElementById('progressInfo');
+  var progressBarFill = document.getElementById('progressBarFill');
+  var progressBarContainer = document.getElementById('progressBarContainer');
+  var sentenceEls = document.querySelectorAll('.article .sentence');
+
+  mainAudio.playbackRate = rate;
+
+  function highlightSentence(idx) {
+    if (currentSentenceIdx === idx) return;
+    currentSentenceIdx = idx;
+    sentenceEls.forEach(function(el) {
+      el.classList.toggle('highlighted', parseInt(el.getAttribute('data-idx')) === idx);
+    });
+    if (idx >= 0) {
+      var target = document.querySelector('.sentence[data-idx="' + idx + '"]');
+      if (target) {
+        var rect = target.getBoundingClientRect();
+        if (rect.top < 80 || rect.bottom > window.innerHeight - 40) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }
+  }
+  function clearHighlights() {
+    currentSentenceIdx = -1;
+    sentenceEls.forEach(function(el) { el.classList.remove('highlighted'); });
+  }
+  function updateSentenceFromTime() {
+    var t = mainAudio.currentTime;
+    for (var i = SENTENCE_OFFSETS.length - 1; i >= 0; i--) {
+      if (t >= SENTENCE_OFFSETS[i]) { highlightSentence(i); return; }
+    }
+    highlightSentence(0);
+  }
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  playBtn.addEventListener('click', function() {
+    if (clipAudio) { clipAudio.pause(); clipAudio = null; if (currentButtonEl) { currentButtonEl.classList.remove('playing'); currentButtonEl = null; } }
+    if (mainAudio.paused) {
+      mainAudio.play().then(function() {
+        isPlaying = true;
+        playBtn.innerHTML = '&#10074;&#10074;';
+      }).catch(function(e) { console.error('Play error:', e); progressInfo.textContent = 'Click again'; });
+    } else {
+      mainAudio.pause();
+      isPlaying = false;
+      playBtn.innerHTML = '&#9658;';
+      progressInfo.textContent = 'Paused';
+    }
+  });
+  stopBtn.addEventListener('click', function() {
+    mainAudio.pause(); mainAudio.currentTime = 0;
+    isPlaying = false; clearHighlights();
+    playBtn.innerHTML = '&#9658;';
+    progressBarFill.style.width = '0%';
+    progressInfo.textContent = 'Ready';
+  });
+  speedSlider.addEventListener('input', function() {
+    rate = parseFloat(speedSlider.value);
+    speedLabel.textContent = rate.toFixed(1) + 'x';
+    mainAudio.playbackRate = rate;
+  });
+  repeatBtn.addEventListener('click', function() {
+    isRepeatMode = !isRepeatMode;
+    repeatBtn.classList.toggle('active', isRepeatMode);
+  });
+  mainAudio.addEventListener('timeupdate', function() {
+    var pct = (mainAudio.currentTime / mainAudio.duration) * 100;
+    if (isNaN(pct)) pct = 0;
+    progressBarFill.style.width = pct + '%';
+    updateSentenceFromTime();
+    if (mainAudio.duration) {
+      progressInfo.textContent = formatTime(mainAudio.currentTime) + ' / ' + formatTime(mainAudio.duration);
+    }
+  });
+  mainAudio.addEventListener('ended', function() {
+    if (isRepeatMode) {
+      mainAudio.currentTime = 0;
+      mainAudio.play().catch(function(){});
+    } else {
+      isPlaying = false; clearHighlights();
+      playBtn.innerHTML = '&#9658;';
+      progressInfo.textContent = 'Done';
+    }
+  });
+  sentenceEls.forEach(function(el) {
+    el.addEventListener('click', function() {
+      if (clipAudio) { clipAudio.pause(); clipAudio = null; if (currentButtonEl) { currentButtonEl.classList.remove('playing'); currentButtonEl = null; } }
+      var idx = parseInt(el.getAttribute('data-idx'));
+      if (idx < SENTENCE_OFFSETS.length) {
+        mainAudio.currentTime = SENTENCE_OFFSETS[idx];
+        highlightSentence(idx);
+        if (mainAudio.paused) {
+          mainAudio.play().then(function() { isPlaying = true; playBtn.innerHTML = '&#10074;&#10074;'; }).catch(function(e) { console.error(e); });
+        }
+      }
+    });
+  });
+  progressBarContainer.addEventListener('click', function(e) {
+    var rect = progressBarContainer.getBoundingClientRect();
+    var pct = (e.clientX - rect.left) / rect.width;
+    if (mainAudio.duration) { mainAudio.currentTime = pct * mainAudio.duration; }
+  });
+  window.playClip = function(type, idx, btnEl) {
+    if (!mainAudio.paused) { mainAudio.pause(); isPlaying = false; playBtn.innerHTML = '&#9658;'; }
+    if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; }
+    if (currentButtonEl) currentButtonEl.classList.remove('playing');
+    currentButtonEl = btnEl; btnEl.classList.add('playing');
+    var files = (type === 'word') ? WORD_FILES : PHRASE_FILES;
+    clipAudio = new Audio(AUDIO_BASE + files[idx]);
+    clipAudio.playbackRate = 0.85;
+    clipAudio.onended = function() { btnEl.classList.remove('playing'); currentButtonEl = null; progressInfo.textContent = 'Ready'; };
+    clipAudio.onerror = function() { btnEl.classList.remove('playing'); currentButtonEl = null; };
+    progressInfo.textContent = 'Playing: ' + (type === 'word' ? 'vocabulary' : 'phrase');
+    clipAudio.play().catch(function(e) { console.error(e); });
+  };
+  window.toggleTranslation = function() {
+    var cnText = document.getElementById('cnTranslation');
+    var toggle = document.getElementById('transToggle');
+    if (!cnText || !toggle) return;
+    if (cnText.style.display === 'none' || cnText.style.display === '') {
+      cnText.style.display = 'block';
+      toggle.innerHTML = '&#128257; Hide Chinese Translation';
+      toggle.classList.add('active');
+    } else {
+      cnText.style.display = 'none';
+      toggle.innerHTML = '&#128257; Show Chinese Translation';
+      toggle.classList.remove('active');
+    }
+  };
+  mainAudio.load();
+})();
+</script>
+</body>
+</html>
