@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily English News - 2026-07-24</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', 'Times New Roman', serif; background: #f5f0e8; color: #2c2c2c; line-height: 1.8; padding: 40px 20px 120px; min-height: 100vh; }
+  .container { max-width: 760px; margin: 0 auto; background: #fffdf8; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+  .top-bar { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #6a2c70, #b83b5e); color: white; padding: 14px 24px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+  .top-bar .speed-control { display: flex; align-items: center; gap: 8px; font-family: 'Helvetica', sans-serif; font-size: 13px; }
+  .top-bar .speed-control input[type="range"] { width: 90px; cursor: pointer; accent-color: white; }
+  .top-bar .speed-label { min-width: 36px; text-align: center; font-variant-numeric: tabular-nums; }
+  .top-bar .repeat-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; }
+  .top-bar .repeat-btn:hover { background: rgba(255,255,255,0.3); }
+  .top-bar .repeat-btn.active { background: #f4d03f; color: #6a2c70; border-color: #f4d03f; }
+  .top-bar .voice-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 12px; font-size: 12px; font-family: 'Helvetica', sans-serif; display: flex; align-items: center; gap: 6px; }
+  .top-bar .voice-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .top-bar .home-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; text-decoration: none; display: flex; align-items: center; gap: 4px; margin-left: auto; }
+  .top-bar .home-btn:hover { background: rgba(255,255,255,0.3); }
+  .header { background: linear-gradient(135deg, #6a2c70, #b83b5e); color: white; padding: 36px 40px 28px; }
+  .header .date { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; font-family: 'Helvetica', sans-serif; }
+  .header h1 { font-size: 28px; font-weight: normal; line-height: 1.4; }
+  .header .subtitle { font-size: 14px; opacity: 0.8; margin-top: 8px; font-family: 'Helvetica', sans-serif; }
+  .content { padding: 36px 40px 40px; }
+  .article-section { margin-bottom: 48px; padding-bottom: 36px; border-bottom: 1px solid #e8e8e8; }
+  .article-section:last-child { border-bottom: none; }
+  .article-header h2 { font-size: 22px; color: #2c2c2c; line-height: 1.4; margin-bottom: 12px; }
+  .article-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .cat-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; font-family: 'Helvetica', sans-serif; }
+  .source-link { font-size: 13px; color: #b83b5e; text-decoration: none; font-family: 'Helvetica', sans-serif; }
+  .source-link:hover { text-decoration: underline; }
+  .article-player { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; background: #f8f0f4; border-radius: 10px; padding: 10px 16px; }
+  .art-play-btn { background: #b83b5e; color: white; border: none; width: 42px; height: 42px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .art-play-btn:hover { transform: scale(1.1); background: #6a2c70; }
+  .art-progress-container { flex: 1; height: 6px; background: #e8d5dd; border-radius: 3px; cursor: pointer; }
+  .art-progress-fill { height: 100%; background: #b83b5e; border-radius: 3px; width: 0%; transition: width 0.1s linear; }
+  .art-time { font-family: 'Helvetica', sans-serif; font-size: 12px; color: #888; min-width: 60px; text-align: right; }
+  .article-body .en-text { font-size: 17px; line-height: 2; text-align: justify; }
+  .article-body .en-text p { margin-bottom: 14px; }
+  .article-body .sentence { cursor: pointer; border-radius: 4px; padding: 0 2px; transition: background 0.2s; }
+  .article-body .sentence:hover { background: #f3e5ed; }
+  .article-body .sentence.highlighted { background: #fceabb; box-shadow: 0 0 0 2px #f4d03f; }
+  .translate-toggle { background: #f0e6ed; color: #6a2c70; border: 1px solid #d4a5b8; border-radius: 8px; padding: 8px 16px; font-size: 14px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; margin-top: 16px; }
+  .translate-toggle:hover { background: #e8d5dd; }
+  .translate-toggle.active { background: #6a2c70; color: white; }
+  .cn-text { font-size: 16px; line-height: 1.9; color: #555; margin-top: 16px; padding: 16px 20px; background: #f9f5f7; border-left: 4px solid #b83b5e; border-radius: 4px; font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica', sans-serif; }
+  .cn-text p { margin-bottom: 10px; }
+  .vocab-section { margin-top: 24px; }
+  .section-title { font-family: 'Helvetica', sans-serif; font-size: 14px; font-weight: bold; color: #6a2c70; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #f0e6ed; }
+  .vocab-list { list-style: none; }
+  .vocab-list li { padding: 8px 0; border-bottom: 1px dashed #e0e0e0; font-size: 15px; display: flex; align-items: center; flex-wrap: wrap; }
+  .vocab-list .word { font-weight: bold; color: #6a2c70; font-size: 16px; }
+  .vocab-list .phonetic { color: #888; font-style: italic; font-size: 13px; margin-left: 8px; }
+  .vocab-list .meaning { color: #555; margin-left: 8px; flex: 1; }
+  .speak-btn { background: #f3e5ed; color: #6a2c70; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .speak-btn:hover { background: #b83b5e; color: white; transform: scale(1.15); }
+  .speak-btn.playing { background: #f4d03f; color: #6a2c70; animation: pulse 1s ease-in-out infinite; }
+  .footer { text-align: center; padding: 20px 40px 32px; color: #aaa; font-size: 13px; font-family: 'Helvetica', sans-serif; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="top-bar">
+    <div class="speed-control">
+      <span>Speed</span>
+      <input type="range" id="speedSlider" min="0.5" max="1.5" step="0.1" value="0.9">
+      <span class="speed-label" id="speedLabel">0.9x</span>
+    </div>
+    <button class="repeat-btn" id="repeatBtn" title="Loop Mode">&#x21bb; Loop</button>
+    <div class="voice-badge"><span class="dot"></span><span>Aria Neural</span></div>
+    <a class="home-btn" href="index.html" title="Back to Index">&#8962; Home</a>
+  </div>
+
+  <div class="header">
+    <div class="date">Friday, July 24, 2026</div>
+    <h1>Daily English News</h1>
+    <div class="subtitle">Read along to build your vocabulary and natural sense of the language</div>
+  </div>
+
+  <div class="content">
+
+    <div class="article-section" id="article-0">
+      <div class="article-header">
+        <h2>China&#x27;s strong power capacity fuels AI boom</h2>
+        <div class="article-meta">
+          <span class="cat-tag" style="color: #8e44ad; background: #f5eef8;">Technology</span>
+          <a href="https://www.chinadaily.com.cn/a/202607/24/WS6a623b3ea310986e2b466fb7.html" target="_blank" class="source-link">Source: China Daily &#8599;</a>
+        </div>
+      </div>
+
+      <div class="article-player">
+        <button class="art-play-btn" id="playBtn-0" onclick="toggleArticle(0)" title="Play / Pause">&#9658;</button>
+        <div class="art-progress-container" id="progressContainer-0" onclick="seekArticle(0, event)">
+          <div class="art-progress-fill" id="progressFill-0"></div>
+        </div>
+        <span class="art-time" id="artTime-0">Ready</span>
+      </div>
+
+      <div class="article-body">
+        <div class="en-text" id="enText-0">
+<p><span class="sentence" data-art="0" data-idx="0">China&#x27;s strong power supply system is giving the country an unparalleled edge in rolling out AI infrastructure.</span> <span class="sentence" data-art="0" data-idx="1">Zhang Qin, a former senior official at the China Association for Science and Technology, said AI is creating explosive demand for energy.</span> <span class="sentence" data-art="0" data-idx="2">He emphasized that the solution lies in safe, reliable, and green power, an area where China has great strength.</span> </p>
+<p><span class="sentence" data-art="0" data-idx="3">The value of China&#x27;s core AI industries exceeded 1.2 trillion yuan last year, maintaining annual growth of over 20 percent.</span> <span class="sentence" data-art="0" data-idx="4">In the first half of this year, industrial output of AI-related sectors grew more than 30 percent year-on-year.</span> </p>
+<p><span class="sentence" data-art="0" data-idx="5">Experts highlighted China&#x27;s advantages in three dimensions: scale, structure, and system.</span> <span class="sentence" data-art="0" data-idx="6">China ranks first globally in total electricity generation and has the world&#x27;s largest installed capacity of new energy.</span> <span class="sentence" data-art="0" data-idx="7">The country&#x27;s ultra-high-voltage grid technology enables cross-regional optimization of power resources.</span> <span class="sentence" data-art="0" data-idx="8">By 2030, China&#x27;s data centers are projected to consume about 526 billion kilowatt-hours of electricity.</span> </p>
+<p><span class="sentence" data-art="0" data-idx="9">China is aligning national computing hubs with large renewable bases in the western regions.</span> <span class="sentence" data-art="0" data-idx="10">The country already generates over one-third of its electricity from renewables, making it an ideal testing ground for AI-driven applications.</span> </p>
+        </div>
+        <button class="translate-toggle" onclick="toggleTranslation(0)" id="transToggle-0">&#128257; Show Chinese Translation</button>
+        <div class="cn-text" id="cnText-0" style="display:none;">
+<p><span>中国强大的电力供应系统正在为该国在推出人工智能基础设施方面赋予无与伦比的优势。</span> <span>中国科学技术协会前高级官员张勤表示，人工智能正在创造对能源的爆炸性需求。</span> <span>他强调，解决方案在于安全、可靠和绿色的电力，而中国在这一领域拥有巨大优势。</span> </p>
+<p><span>去年中国核心人工智能产业价值超过1.2万亿元，年增长率保持在20%以上。</span> <span>今年上半年，人工智能相关行业的工业产出同比增长超过30%。</span> </p>
+<p><span>专家强调中国在三个维度上的优势：规模、结构和体系。</span> <span>中国在总发电量方面排名全球第一，并拥有世界上最大的新能源装机容量。</span> <span>该国的特高压电网技术实现了电力资源的跨区域优化。</span> <span>预计到2030年，中国的数据中心将消耗约5260亿千瓦时的电力。</span> </p>
+<p><span>中国正在将国家计算枢纽与西部大型可再生能源基地对接。</span> <span>该国已有超过三分之一的电力来自可再生能源，使其成为人工智能驱动应用的理想试验场。</span> </p>
+        </div>
+      </div>
+
+      <div class="vocab-section"><div class="section-title">Key Vocabulary</div><ul class="vocab-list"><li><span class="word">infrastructure</span> <span class="phonetic">/ˈɪnfrəstrʌktʃər/</span> <span class="meaning">基础设施</span> <button class="speak-btn" onclick="playWord(0, 0, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">explosive</span> <span class="phonetic">/ɪkˈsploʊsɪv/</span> <span class="meaning">爆炸性的</span> <button class="speak-btn" onclick="playWord(0, 1, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">renewable</span> <span class="phonetic">/rɪˈnuːəbl/</span> <span class="meaning">可再生的</span> <button class="speak-btn" onclick="playWord(0, 2, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">installed capacity</span> <span class="phonetic">/ɪnˈstɔːld kəˈpæsəti/</span> <span class="meaning">装机容量</span> <button class="speak-btn" onclick="playWord(0, 3, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">ultra-high-voltage</span> <span class="phonetic">/ˌʌltrəhaɪˈvoʊltɪdʒ/</span> <span class="meaning">特高压的</span> <button class="speak-btn" onclick="playWord(0, 4, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">optimization</span> <span class="phonetic">/ˌɒptɪmaɪˈzeɪʃən/</span> <span class="meaning">优化</span> <button class="speak-btn" onclick="playWord(0, 5, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">kilowatt-hour</span> <span class="phonetic">/ˈkɪləwɒt aʊər/</span> <span class="meaning">千瓦时</span> <button class="speak-btn" onclick="playWord(0, 6, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">align</span> <span class="phonetic">/əˈlaɪn/</span> <span class="meaning">对齐，使协调</span> <button class="speak-btn" onclick="playWord(0, 7, this)" title="Listen">&#128266;</button></li>
+</ul></div>
+    </div>
+
+    <div class="article-section" id="article-1">
+      <div class="article-header">
+        <h2>UK&#x27;s attitude toward Brexit changing</h2>
+        <div class="article-meta">
+          <span class="cat-tag" style="color: #2980b9; background: #ebf5fb;">World</span>
+          <a href="https://www.chinadaily.com.cn/a/202607/24/WS6a6248d7a310986e2b466fca.html" target="_blank" class="source-link">Source: China Daily &#8599;</a>
+        </div>
+      </div>
+
+      <div class="article-player">
+        <button class="art-play-btn" id="playBtn-1" onclick="toggleArticle(1)" title="Play / Pause">&#9658;</button>
+        <div class="art-progress-container" id="progressContainer-1" onclick="seekArticle(1, event)">
+          <div class="art-progress-fill" id="progressFill-1"></div>
+        </div>
+        <span class="art-time" id="artTime-1">Ready</span>
+      </div>
+
+      <div class="article-body">
+        <div class="en-text" id="enText-1">
+<p><span class="sentence" data-art="1" data-idx="0">Ten years after Britons voted to leave the European Union, a broad consensus has emerged that Brexit has weakened the UK&#x27;s economy.</span> <span class="sentence" data-art="1" data-idx="1">New Prime Minister Andy Burnham, who took office on July 20, believes in the importance of the UK being part of the bloc.</span> <span class="sentence" data-art="1" data-idx="2">He is likely to take the country closer to the EU than it has been at any time in the past decade.</span> <span class="sentence" data-art="1" data-idx="3">European Commission President Ursula von der Leyen said she looked forward to working with Burnham to strengthen the EU-UK partnership.</span> </p>
+<p><span class="sentence" data-art="1" data-idx="4">Experts say many warnings raised by the Remain campaign have largely materialized.</span> <span class="sentence" data-art="1" data-idx="5">Vince Cable, former business secretary, said Brexit has inflicted serious economic damage through weaker goods exports and reduced business investment.</span> <span class="sentence" data-art="1" data-idx="6">Colin Ellis from Moody&#x27;s Analytics said the UK economy is around 6 percent permanently smaller as a result of leaving the bloc.</span> </p>
+<p><span class="sentence" data-art="1" data-idx="7">According to polling, 60 percent of Britons now favor rejoining the EU, while 40 percent would choose to stay out.</span> <span class="sentence" data-art="1" data-idx="8">However, experts say the prospect of reversing Brexit remains politically remote.</span> </p>
+<p><span class="sentence" data-art="1" data-idx="9">Some gains have emerged from greater regulatory autonomy, including in biotech and data-driven industries.</span> <span class="sentence" data-art="1" data-idx="10">For now, despite growing recognition of its economic costs, Brexit appears set to remain a settled feature of the UK&#x27;s political landscape.</span> </p>
+        </div>
+        <button class="translate-toggle" onclick="toggleTranslation(1)" id="transToggle-1">&#128257; Show Chinese Translation</button>
+        <div class="cn-text" id="cnText-1" style="display:none;">
+<p><span>在英国人投票脱离欧盟十年后，一个广泛共识已经形成：脱欧削弱了英国经济。</span> <span>7月20日上任的新首相安迪·伯纳姆认为英国成为该集团一部分很重要。</span> <span>他可能会让英国与欧盟的关系比过去十年任何时候都更密切。</span> <span>欧盟委员会主席冯德莱恩表示期待与伯纳姆合作，加强欧盟与英国的伙伴关系。</span> </p>
+<p><span>专家表示，留欧派提出的许多警告在很大程度上已经应验。</span> <span>前商务大臣文斯·凯布尔表示，脱欧通过削弱商品出口和减少商业投资造成了严重的经济损害。</span> <span>穆迪分析公司的科林·埃利斯表示，由于退出欧盟，英国经济永久性地缩小了约6%。</span> </p>
+<p><span>根据民调，60%的英国人现在赞成重新加入欧盟，而40%的人选择留在欧盟之外。</span> <span>然而，专家表示，逆转脱欧的前景在政治上仍然遥远。</span> </p>
+<p><span>更大的监管自主权带来了一些好处，包括生物技术和数据驱动行业。</span> <span>目前，尽管越来越多的人认识到脱欧的经济代价，但它似乎仍将是英国政治格局中一个既定的特征。</span> </p>
+        </div>
+      </div>
+
+      <div class="vocab-section"><div class="section-title">Key Vocabulary</div><ul class="vocab-list"><li><span class="word">consensus</span> <span class="phonetic">/kənˈsensəs/</span> <span class="meaning">共识</span> <button class="speak-btn" onclick="playWord(1, 0, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">bloc</span> <span class="phonetic">/blɒk/</span> <span class="meaning">集团，阵营</span> <button class="speak-btn" onclick="playWord(1, 1, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">materialize</span> <span class="phonetic">/məˈtɪəriəlaɪz/</span> <span class="meaning">实现，成为现实</span> <button class="speak-btn" onclick="playWord(1, 2, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">inflict</span> <span class="phonetic">/ɪnˈflɪkt/</span> <span class="meaning">造成（伤害等）</span> <button class="speak-btn" onclick="playWord(1, 3, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">autonomy</span> <span class="phonetic">/ɔːˈtɒnəmi/</span> <span class="meaning">自主权</span> <button class="speak-btn" onclick="playWord(1, 4, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">remote</span> <span class="phonetic">/rɪˈmoʊt/</span> <span class="meaning">遥远的，渺茫的</span> <button class="speak-btn" onclick="playWord(1, 5, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">partnership</span> <span class="phonetic">/ˈpɑːrtnərʃɪp/</span> <span class="meaning">伙伴关系</span> <button class="speak-btn" onclick="playWord(1, 6, this)" title="Listen">&#128266;</button></li>
+</ul></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Daily English News &middot; Source: China Daily &middot; Neural TTS by Microsoft Aria
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var ARTICLES = [{"offsets": [0.0, 7.2, 16.824, 24.648, 33.84, 41.232, 47.64, 55.632, 62.664, 70.992, 77.232], "fullFile": "audio/news-2026-07-24/art0-full.mp3", "wordFiles": ["audio/news-2026-07-24/art0-word-00.mp3", "audio/news-2026-07-24/art0-word-01.mp3", "audio/news-2026-07-24/art0-word-02.mp3", "audio/news-2026-07-24/art0-word-03.mp3", "audio/news-2026-07-24/art0-word-04.mp3", "audio/news-2026-07-24/art0-word-05.mp3", "audio/news-2026-07-24/art0-word-06.mp3", "audio/news-2026-07-24/art0-word-07.mp3"]}, {"offsets": [0.0, 8.352, 16.584, 22.56, 30.864, 36.648, 46.584, 55.008, 62.832, 68.568, 76.008], "fullFile": "audio/news-2026-07-24/art1-full.mp3", "wordFiles": ["audio/news-2026-07-24/art1-word-00.mp3", "audio/news-2026-07-24/art1-word-01.mp3", "audio/news-2026-07-24/art1-word-02.mp3", "audio/news-2026-07-24/art1-word-03.mp3", "audio/news-2026-07-24/art1-word-04.mp3", "audio/news-2026-07-24/art1-word-05.mp3", "audio/news-2026-07-24/art1-word-06.mp3"]}];
+  var rate = 0.9;
+  var isRepeatMode = false;
+  var currentArtIdx = -1;
+  var currentSentenceIdx = -1;
+  var audios = [];
+  var clipAudio = null;
+  var currentBtnEl = null;
+
+  // Create audio elements for each article
+  for (var i = 0; i < ARTICLES.length; i++) {
+    var a = new Audio(ARTICLES[i].fullFile);
+    a.preload = 'auto';
+    a.playbackRate = rate;
+    (function(idx) {
+      a.addEventListener('timeupdate', function() {
+        updateProgress(idx);
+      });
+      a.addEventListener('ended', function() {
+        if (isRepeatMode) {
+          audios[idx].currentTime = 0;
+          audios[idx].play().catch(function(){});
+        } else {
+          resetArticleUI(idx);
+        }
+      });
+    })(i);
+    audios.push(a);
+  }
+
+  var speedSlider = document.getElementById('speedSlider');
+  var speedLabel = document.getElementById('speedLabel');
+  var repeatBtn = document.getElementById('repeatBtn');
+
+  speedSlider.addEventListener('input', function() {
+    rate = parseFloat(speedSlider.value);
+    speedLabel.textContent = rate.toFixed(1) + 'x';
+    audios.forEach(function(a) { a.playbackRate = rate; });
+  });
+
+  repeatBtn.addEventListener('click', function() {
+    isRepeatMode = !isRepeatMode;
+    repeatBtn.classList.toggle('active', isRepeatMode);
+  });
+
+  function stopAll() {
+    for (var i = 0; i < audios.length; i++) {
+      if (!audios[i].paused) {
+        audios[i].pause();
+        resetArticleUI(i);
+      }
+    }
+    if (clipAudio) {
+      clipAudio.pause(); clipAudio.src = '';
+      if (currentBtnEl) { currentBtnEl.classList.remove('playing'); currentBtnEl = null; }
+    }
+  }
+
+  function resetArticleUI(idx) {
+    var btn = document.getElementById('playBtn-' + idx);
+    if (btn) btn.innerHTML = '&#9658;';
+    var fill = document.getElementById('progressFill-' + idx);
+    if (fill) fill.style.width = '0%';
+    var time = document.getElementById('artTime-' + idx);
+    if (time) time.textContent = 'Ready';
+    clearHighlights(idx);
+  }
+
+  function clearHighlights(artIdx) {
+    var els = document.querySelectorAll('.sentence[data-art="' + artIdx + '"]');
+    els.forEach(function(el) { el.classList.remove('highlighted'); });
+  }
+
+  function highlightSentence(artIdx, sentIdx) {
+    clearHighlights(artIdx);
+    var el = document.querySelector('.sentence[data-art="' + artIdx + '"][data-idx="' + sentIdx + '"]');
+    if (el) {
+      el.classList.add('highlighted');
+      var rect = el.getBoundingClientRect();
+      if (rect.top < 80 || rect.bottom > window.innerHeight - 40) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }
+
+  function updateProgress(idx) {
+    var a = audios[idx];
+    var pct = (a.currentTime / a.duration) * 100;
+    if (isNaN(pct)) pct = 0;
+    var fill = document.getElementById('progressFill-' + idx);
+    if (fill) fill.style.width = pct + '%';
+    var time = document.getElementById('artTime-' + idx);
+    if (time && a.duration) {
+      time.textContent = formatTime(a.currentTime) + ' / ' + formatTime(a.duration);
+    }
+    // Update sentence highlight
+    var offsets = ARTICLES[idx].offsets;
+    for (var i = offsets.length - 1; i >= 0; i--) {
+      if (a.currentTime >= offsets[i]) {
+        if (currentArtIdx !== idx || currentSentenceIdx !== i) {
+          currentArtIdx = idx;
+          currentSentenceIdx = i;
+          highlightSentence(idx, i);
+        }
+        return;
+      }
+    }
+  }
+
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  window.toggleArticle = function(idx) {
+    var a = audios[idx];
+    if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; if (currentBtnEl) { currentBtnEl.classList.remove('playing'); currentBtnEl = null; } }
+    if (a.paused) {
+      // Stop other articles
+      for (var i = 0; i < audios.length; i++) {
+        if (i !== idx && !audios[i].paused) {
+          audios[i].pause();
+          resetArticleUI(i);
+        }
+      }
+      a.play().then(function() {
+        var btn = document.getElementById('playBtn-' + idx);
+        if (btn) btn.innerHTML = '&#10074;&#10074;';
+        currentArtIdx = idx;
+      }).catch(function(e) { console.error('Play error:', e); });
+    } else {
+      a.pause();
+      var btn = document.getElementById('playBtn-' + idx);
+      if (btn) btn.innerHTML = '&#9658;';
+      var time = document.getElementById('artTime-' + idx);
+      if (time) time.textContent = 'Paused';
+    }
+  };
+
+  window.seekArticle = function(idx, e) {
+    var a = audios[idx];
+    var container = document.getElementById('progressContainer-' + idx);
+    var rect = container.getBoundingClientRect();
+    var pct = (e.clientX - rect.left) / rect.width;
+    if (a.duration) a.currentTime = pct * a.duration;
+  };
+
+  // Click sentence to jump
+  document.querySelectorAll('.sentence').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var artIdx = parseInt(el.getAttribute('data-art'));
+      var sentIdx = parseInt(el.getAttribute('data-idx'));
+      var a = audios[artIdx];
+      var offsets = ARTICLES[artIdx].offsets;
+      if (sentIdx < offsets.length) {
+        // Stop other articles and clip
+        if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; if (currentBtnEl) { currentBtnEl.classList.remove('playing'); currentBtnEl = null; } }
+        for (var i = 0; i < audios.length; i++) {
+          if (i !== artIdx && !audios[i].paused) {
+            audios[i].pause();
+            resetArticleUI(i);
+          }
+        }
+        a.currentTime = offsets[sentIdx];
+        highlightSentence(artIdx, sentIdx);
+        currentArtIdx = artIdx;
+        currentSentenceIdx = sentIdx;
+        if (a.paused) {
+          a.play().then(function() {
+            var btn = document.getElementById('playBtn-' + artIdx);
+            if (btn) btn.innerHTML = '&#10074;&#10074;';
+          }).catch(function(e) { console.error(e); });
+        }
+      }
+    });
+  });
+
+  window.toggleTranslation = function(idx) {
+    var cnText = document.getElementById('cnText-' + idx);
+    var toggle = document.getElementById('transToggle-' + idx);
+    if (cnText.style.display === 'none') {
+      cnText.style.display = 'block';
+      toggle.innerHTML = '&#128257; Hide Chinese Translation';
+      toggle.classList.add('active');
+    } else {
+      cnText.style.display = 'none';
+      toggle.innerHTML = '&#128257; Show Chinese Translation';
+      toggle.classList.remove('active');
+    }
+  };
+
+  window.playWord = function(artIdx, wordIdx, btnEl) {
+    // Stop main audio
+    if (!audios[artIdx].paused) {
+      audios[artIdx].pause();
+      resetArticleUI(artIdx);
+    }
+    if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; }
+    if (currentBtnEl) currentBtnEl.classList.remove('playing');
+    currentBtnEl = btnEl;
+    btnEl.classList.add('playing');
+    clipAudio = new Audio(ARTICLES[artIdx].wordFiles[wordIdx]);
+    clipAudio.playbackRate = 0.85;
+    clipAudio.onended = function() { btnEl.classList.remove('playing'); currentBtnEl = null; };
+    clipAudio.onerror = function() { btnEl.classList.remove('playing'); currentBtnEl = null; };
+    clipAudio.play().catch(function(e) { console.error(e); });
+  };
+})();
+</script>
+</body>
+</html>
