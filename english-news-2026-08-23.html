@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily English News - 2026-08-23</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Georgia', 'Times New Roman', serif; background: #f5f0e8; color: #2c2c2c; line-height: 1.8; padding: 40px 20px 120px; min-height: 100vh; }
+  .container { max-width: 760px; margin: 0 auto; background: #fffdf8; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); overflow: hidden; }
+  .top-bar { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, #6a2c70, #b83b5e); color: white; padding: 14px 24px; display: flex; align-items: center; gap: 14px; flex-wrap: wrap; box-shadow: 0 2px 12px rgba(0,0,0,0.15); }
+  .top-bar .speed-control { display: flex; align-items: center; gap: 8px; font-family: 'Helvetica', sans-serif; font-size: 13px; }
+  .top-bar .speed-control input[type="range"] { width: 90px; cursor: pointer; accent-color: white; }
+  .top-bar .speed-label { min-width: 36px; text-align: center; font-variant-numeric: tabular-nums; }
+  .top-bar .repeat-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; }
+  .top-bar .repeat-btn:hover { background: rgba(255,255,255,0.3); }
+  .top-bar .repeat-btn.active { background: #f4d03f; color: #6a2c70; border-color: #f4d03f; }
+  .top-bar .voice-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 12px; font-size: 12px; font-family: 'Helvetica', sans-serif; display: flex; align-items: center; gap: 6px; }
+  .top-bar .voice-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: pulse 1.5s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .top-bar .home-btn { background: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 7px 14px; font-size: 13px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; text-decoration: none; display: flex; align-items: center; gap: 4px; margin-left: auto; }
+  .top-bar .home-btn:hover { background: rgba(255,255,255,0.3); }
+  .header { background: linear-gradient(135deg, #6a2c70, #b83b5e); color: white; padding: 36px 40px 28px; }
+  .header .date { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; margin-bottom: 8px; font-family: 'Helvetica', sans-serif; }
+  .header h1 { font-size: 28px; font-weight: normal; line-height: 1.4; }
+  .header .subtitle { font-size: 14px; opacity: 0.8; margin-top: 8px; font-family: 'Helvetica', sans-serif; }
+  .content { padding: 36px 40px 40px; }
+  .article-section { margin-bottom: 48px; padding-bottom: 36px; border-bottom: 1px solid #e8e8e8; }
+  .article-section:last-child { border-bottom: none; }
+  .article-header h2 { font-size: 22px; color: #2c2c2c; line-height: 1.4; margin-bottom: 12px; }
+  .article-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+  .cat-tag { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; font-family: 'Helvetica', sans-serif; }
+  .source-link { font-size: 13px; color: #b83b5e; text-decoration: none; font-family: 'Helvetica', sans-serif; }
+  .source-link:hover { text-decoration: underline; }
+  .article-player { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; background: #f8f0f4; border-radius: 10px; padding: 10px 16px; }
+  .art-play-btn { background: #b83b5e; color: white; border: none; width: 42px; height: 42px; border-radius: 50%; font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+  .art-play-btn:hover { transform: scale(1.1); background: #6a2c70; }
+  .art-progress-container { flex: 1; height: 6px; background: #e8d5dd; border-radius: 3px; cursor: pointer; }
+  .art-progress-fill { height: 100%; background: #b83b5e; border-radius: 3px; width: 0%; transition: width 0.1s linear; }
+  .art-time { font-family: 'Helvetica', sans-serif; font-size: 12px; color: #888; min-width: 60px; text-align: right; }
+  .article-body .en-text { font-size: 17px; line-height: 2; text-align: justify; }
+  .article-body .en-text p { margin-bottom: 14px; }
+  .article-body .sentence { cursor: pointer; border-radius: 4px; padding: 0 2px; transition: background 0.2s; }
+  .article-body .sentence:hover { background: #f3e5ed; }
+  .article-body .sentence.highlighted { background: #fceabb; box-shadow: 0 0 0 2px #f4d03f; }
+  .translate-toggle { background: #f0e6ed; color: #6a2c70; border: 1px solid #d4a5b8; border-radius: 8px; padding: 8px 16px; font-size: 14px; font-family: 'Helvetica', sans-serif; cursor: pointer; transition: all 0.2s; margin-top: 16px; }
+  .translate-toggle:hover { background: #e8d5dd; }
+  .translate-toggle.active { background: #6a2c70; color: white; }
+  .cn-text { font-size: 16px; line-height: 1.9; color: #555; margin-top: 16px; padding: 16px 20px; background: #f9f5f7; border-left: 4px solid #b83b5e; border-radius: 4px; font-family: 'PingFang SC', 'Microsoft YaHei', 'Helvetica', sans-serif; }
+  .cn-text p { margin-bottom: 10px; }
+  .vocab-section { margin-top: 24px; }
+  .section-title { font-family: 'Helvetica', sans-serif; font-size: 14px; font-weight: bold; color: #6a2c70; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 12px; padding-bottom: 6px; border-bottom: 2px solid #f0e6ed; }
+  .vocab-list { list-style: none; }
+  .vocab-list li { padding: 8px 0; border-bottom: 1px dashed #e0e0e0; font-size: 15px; display: flex; align-items: center; flex-wrap: wrap; }
+  .vocab-list .word { font-weight: bold; color: #6a2c70; font-size: 16px; }
+  .vocab-list .phonetic { color: #888; font-style: italic; font-size: 13px; margin-left: 8px; }
+  .vocab-list .meaning { color: #555; margin-left: 8px; flex: 1; }
+  .speak-btn { background: #f3e5ed; color: #6a2c70; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; }
+  .speak-btn:hover { background: #b83b5e; color: white; transform: scale(1.15); }
+  .speak-btn.playing { background: #f4d03f; color: #6a2c70; animation: pulse 1s ease-in-out infinite; }
+  .footer { text-align: center; padding: 20px 40px 32px; color: #aaa; font-size: 13px; font-family: 'Helvetica', sans-serif; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="top-bar">
+    <div class="speed-control">
+      <span>Speed</span>
+      <input type="range" id="speedSlider" min="0.5" max="1.5" step="0.1" value="0.9">
+      <span class="speed-label" id="speedLabel">0.9x</span>
+    </div>
+    <button class="repeat-btn" id="repeatBtn" title="Loop Mode">&#x21bb; Loop</button>
+    <div class="voice-badge"><span class="dot"></span><span>Aria Neural</span></div>
+    <a class="home-btn" href="index.html" title="Back to Index">&#8962; Home</a>
+  </div>
+
+  <div class="header">
+    <div class="date">Sunday, August 23, 2026</div>
+    <h1>Daily English News</h1>
+    <div class="subtitle">Read along to build your vocabulary and natural sense of the language</div>
+  </div>
+
+  <div class="content">
+
+    <div class="article-section" id="article-0">
+      <div class="article-header">
+        <h2>World Humanoid Robot Games open in Beijing</h2>
+        <div class="article-meta">
+          <span class="cat-tag" style="color: #8e44ad; background: #f5eef8;">Technology</span>
+          <a href="https://www.chinadaily.com.cn/a/202608/22/WS6a89ad6aa3106bc57421ced2.html" target="_blank" class="source-link">Source: China Daily &#8599;</a>
+        </div>
+      </div>
+
+      <div class="article-player">
+        <button class="art-play-btn" id="playBtn-0" onclick="toggleArticle(0)" title="Play / Pause">&#9658;</button>
+        <div class="art-progress-container" id="progressContainer-0" onclick="seekArticle(0, event)">
+          <div class="art-progress-fill" id="progressFill-0"></div>
+        </div>
+        <span class="art-time" id="artTime-0">Ready</span>
+      </div>
+
+      <div class="article-body">
+        <div class="en-text" id="enText-0">
+<p><span class="sentence" data-art="0" data-idx="0">The second World Humanoid Robot Games opened in Beijing on Saturday evening, attracting global attention to cutting-edge robotics.</span> <span class="sentence" data-art="0" data-idx="1">A record-breaking 2,056 robots from 666 teams are competing in categories including sports, emergency rescue and logistics.</span> </p>
+<p><span class="sentence" data-art="0" data-idx="2">In the 100-meter dash, a robot finished in just 9.39 seconds, surpassing Usain Bolt&#x27;s human record of 9.58 seconds.</span> <span class="sentence" data-art="0" data-idx="3">A robot also set a new high jump record of 2.88 meters, a huge leap from last year&#x27;s best of 95.64 centimeters.</span> </p>
+<p><span class="sentence" data-art="0" data-idx="4">The opening ceremony featured dozens of humanoid robots playing musical instruments alongside a human orchestra.</span> <span class="sentence" data-art="0" data-idx="5">Thousands of robots performed together, showing how machines can move in perfect coordination.</span> <span class="sentence" data-art="0" data-idx="6">Humanoid robots also danced and interacted with children, offering a glimpse of future human-machine harmony.</span> </p>
+<p><span class="sentence" data-art="0" data-idx="7">In a special match, robots played table tennis with famous Chinese athletes, including Olympic champion Ding Ning.</span> <span class="sentence" data-art="0" data-idx="8">Following the Olympic tradition, robots lit the symbolic flame to officially start the games.</span> <span class="sentence" data-art="0" data-idx="9">The games will run until Wednesday, giving visitors several days to experience the latest robotic technologies.</span> </p>
+        </div>
+        <button class="translate-toggle" onclick="toggleTranslation(0)" id="transToggle-0">&#128257; Show Chinese Translation</button>
+        <div class="cn-text" id="cnText-0" style="display:none;">
+<p><span>第二届世界人形机器人运动会于周六晚在北京开幕，吸引了全球对尖端机器人技术的关注。</span> <span>来自666支队伍的2056个机器人创下了参赛纪录，比赛项目包括体育、应急救援和物流。</span> </p>
+<p><span>在100米短跑中，一个机器人仅用9.39秒完成，超过了尤塞恩·博尔特9.58秒的人类纪录。</span> <span>一个机器人还创下了2.88米的跳高新纪录，比去年95.64厘米的最佳成绩有了巨大飞跃。</span> </p>
+<p><span>开幕式上，数十个具有灵活手指的人形机器人与人类管弦乐队一起演奏。</span> <span>数千个机器人共同表演，展示了机器如何实现完美协调。</span> <span>人形机器人还与孩子们一起跳舞互动，展现了未来人机和谐共存的愿景。</span> </p>
+<p><span>在一场特别比赛中，机器人与包括奥运冠军丁宁在内的著名中国运动员进行乒乓球对战。</span> <span>遵循奥运传统，机器人点燃象征性火炬，正式宣布比赛开始。</span> <span>本届运动会将持续到周三，让游客有数天时间体验最新的机器人技术。</span> </p>
+        </div>
+      </div>
+
+      <div class="vocab-section"><div class="section-title">Key Vocabulary</div><ul class="vocab-list"><li><span class="word">humanoid</span> <span class="phonetic">/ˈhjuːmənɔɪd/</span> <span class="meaning">人形的；具有人类特征的</span> <button class="speak-btn" onclick="playWord(0, 0, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">robotics</span> <span class="phonetic">/roʊˈbɑːtɪks/</span> <span class="meaning">机器人技术</span> <button class="speak-btn" onclick="playWord(0, 1, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">surpass</span> <span class="phonetic">/sərˈpæs/</span> <span class="meaning">超越，超过</span> <button class="speak-btn" onclick="playWord(0, 2, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">coordination</span> <span class="phonetic">/koʊˌɔːrdɪˈneɪʃn/</span> <span class="meaning">协调，配合</span> <button class="speak-btn" onclick="playWord(0, 3, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">symbolic</span> <span class="phonetic">/sɪmˈbɑːlɪk/</span> <span class="meaning">象征性的</span> <button class="speak-btn" onclick="playWord(0, 4, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">immersive</span> <span class="phonetic">/ɪˈmɜːrsɪv/</span> <span class="meaning">沉浸式的</span> <button class="speak-btn" onclick="playWord(0, 5, this)" title="Listen">&#128266;</button></li>
+</ul></div>
+    </div>
+
+    <div class="article-section" id="article-1">
+      <div class="article-header">
+        <h2>Demand for widebody aircraft rising</h2>
+        <div class="article-meta">
+          <span class="cat-tag" style="color: #e74c3c; background: #fdf0ef;">Business</span>
+          <a href="https://www.chinadaily.com.cn/a/202608/22/WS6a88f68ca3106bc57421cdaf.html" target="_blank" class="source-link">Source: China Daily &#8599;</a>
+        </div>
+      </div>
+
+      <div class="article-player">
+        <button class="art-play-btn" id="playBtn-1" onclick="toggleArticle(1)" title="Play / Pause">&#9658;</button>
+        <div class="art-progress-container" id="progressContainer-1" onclick="seekArticle(1, event)">
+          <div class="art-progress-fill" id="progressFill-1"></div>
+        </div>
+        <span class="art-time" id="artTime-1">Ready</span>
+      </div>
+
+      <div class="article-body">
+        <div class="en-text" id="enText-1">
+<p><span class="sentence" data-art="1" data-idx="0">Airbus expects China&#x27;s demand for widebody aircraft to grow strongly over the next five years.</span> <span class="sentence" data-art="1" data-idx="1">The growth is driven by both rising international passenger travel and expanding air freight services.</span> </p>
+<p><span class="sentence" data-art="1" data-idx="2">China Eastern Airlines recently agreed to buy 25 A330neo jets, while Air China ordered 15 A350-900s.</span> <span class="sentence" data-art="1" data-idx="3">Air China Cargo also raised its order for the A350F freighter to 10 aircraft in May.</span> <span class="sentence" data-art="1" data-idx="4">China is not only Airbus&#x27; largest single-country market, but also has enormous development potential.</span> </p>
+<p><span class="sentence" data-art="1" data-idx="5">Airlines are replacing aging jets with newer, more fuel-efficient aircraft to cut costs and reduce emissions.</span> <span class="sentence" data-art="1" data-idx="6">International routes carried more than 40 million passengers in the first half of 2026, up 5.7 percent year-on-year.</span> <span class="sentence" data-art="1" data-idx="7">Airbus estimates that about 170 widebody aircraft in China could need replacement between 2030 and 2035.</span> </p>
+<p><span class="sentence" data-art="1" data-idx="8">Air cargo has become a parallel source of demand, supported by cross-border e-commerce and high-tech exports.</span> <span class="sentence" data-art="1" data-idx="9">Airbus forecasts global air cargo traffic to grow 3.3 percent annually over the next 20 years.</span> <span class="sentence" data-art="1" data-idx="10">However, turning demand into deliveries may remain challenging due to Airbus&#x27; backlog of over 9,300 aircraft.</span> </p>
+        </div>
+        <button class="translate-toggle" onclick="toggleTranslation(1)" id="transToggle-1">&#128257; Show Chinese Translation</button>
+        <div class="cn-text" id="cnText-1" style="display:none;">
+<p><span>空客预计，未来五年中国对宽体飞机的需求将强劲增长。</span> <span>这一增长得益于国际客运量上升和航空货运服务扩张的双重推动。</span> </p>
+<p><span>中国东方航空最近同意购买25架A330neo客机，而中国国航订购了15架A350-900。</span> <span>今年5月，中国国际货运航空也将其A350F货机订单增加到10架。</span> <span>中国不仅是空客最大的单一国家市场，而且发展潜力巨大。</span> </p>
+<p><span>航空公司正用更新、更省油的飞机替换老旧机型，以降低成本并减少排放。</span> <span>2026年上半年，国际航线载客量超过4000万人次，同比增长5.7%。</span> <span>空客估计，2030年至2035年间，中国约有170架宽体飞机需要更换。</span> </p>
+<p><span>在跨境电子商务和高技术出口的推动下，航空货运已成为并行的需求来源。</span> <span>空客预测，未来20年全球航空货运量将年均增长3.3%。</span> <span>然而，由于空客积压订单超过9300架，将需求转化为实际交付仍可能面临挑战。</span> </p>
+        </div>
+      </div>
+
+      <div class="vocab-section"><div class="section-title">Key Vocabulary</div><ul class="vocab-list"><li><span class="word">widebody</span> <span class="phonetic">/ˈwaɪdbɒdi/</span> <span class="meaning">宽体（飞机）</span> <button class="speak-btn" onclick="playWord(1, 0, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">freighter</span> <span class="phonetic">/ˈfreɪtər/</span> <span class="meaning">货机，运输机</span> <button class="speak-btn" onclick="playWord(1, 1, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">potential</span> <span class="phonetic">/pəˈtenʃl/</span> <span class="meaning">潜力，可能性</span> <button class="speak-btn" onclick="playWord(1, 2, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">fuel-efficient</span> <span class="phonetic">/ˈfjuːəl ɪˈfɪʃnt/</span> <span class="meaning">省油的，节能的</span> <button class="speak-btn" onclick="playWord(1, 3, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">year-on-year</span> <span class="phonetic">/ˈjɪr ɑːn ˈjɪr/</span> <span class="meaning">同比的</span> <button class="speak-btn" onclick="playWord(1, 4, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">backlog</span> <span class="phonetic">/ˈbæklɔːɡ/</span> <span class="meaning">积压订单</span> <button class="speak-btn" onclick="playWord(1, 5, this)" title="Listen">&#128266;</button></li>
+<li><span class="word">emission</span> <span class="phonetic">/ɪˈmɪʃn/</span> <span class="meaning">排放，排放物</span> <button class="speak-btn" onclick="playWord(1, 6, this)" title="Listen">&#128266;</button></li>
+</ul></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Daily English News &middot; Source: China Daily &middot; Neural TTS by Microsoft Aria
+  </div>
+</div>
+
+<script>
+(function() {
+  'use strict';
+  var ARTICLES = [{"offsets": [0.0, 8.664, 19.44, 29.424, 38.976, 46.44, 52.68, 59.976, 67.8, 73.968], "fullFile": "audio/news-2026-08-23/art0-full.mp3", "wordFiles": ["audio/news-2026-08-23/art0-word-00.mp3", "audio/news-2026-08-23/art0-word-01.mp3", "audio/news-2026-08-23/art0-word-02.mp3", "audio/news-2026-08-23/art0-word-03.mp3", "audio/news-2026-08-23/art0-word-04.mp3", "audio/news-2026-08-23/art0-word-05.mp3"]}, {"offsets": [0.0, 6.648, 13.344, 23.4, 30.144, 37.128, 44.544, 53.688, 62.28, 69.696, 77.04], "fullFile": "audio/news-2026-08-23/art1-full.mp3", "wordFiles": ["audio/news-2026-08-23/art1-word-00.mp3", "audio/news-2026-08-23/art1-word-01.mp3", "audio/news-2026-08-23/art1-word-02.mp3", "audio/news-2026-08-23/art1-word-03.mp3", "audio/news-2026-08-23/art1-word-04.mp3", "audio/news-2026-08-23/art1-word-05.mp3", "audio/news-2026-08-23/art1-word-06.mp3"]}];
+  var rate = 0.9;
+  var isRepeatMode = false;
+  var currentArtIdx = -1;
+  var currentSentenceIdx = -1;
+  var audios = [];
+  var clipAudio = null;
+  var currentBtnEl = null;
+
+  // Create audio elements for each article
+  for (var i = 0; i < ARTICLES.length; i++) {
+    var a = new Audio(ARTICLES[i].fullFile);
+    a.preload = 'auto';
+    a.playbackRate = rate;
+    (function(idx) {
+      a.addEventListener('timeupdate', function() {
+        updateProgress(idx);
+      });
+      a.addEventListener('ended', function() {
+        if (isRepeatMode) {
+          audios[idx].currentTime = 0;
+          audios[idx].play().catch(function(){});
+        } else {
+          resetArticleUI(idx);
+        }
+      });
+    })(i);
+    audios.push(a);
+  }
+
+  var speedSlider = document.getElementById('speedSlider');
+  var speedLabel = document.getElementById('speedLabel');
+  var repeatBtn = document.getElementById('repeatBtn');
+
+  speedSlider.addEventListener('input', function() {
+    rate = parseFloat(speedSlider.value);
+    speedLabel.textContent = rate.toFixed(1) + 'x';
+    audios.forEach(function(a) { a.playbackRate = rate; });
+  });
+
+  repeatBtn.addEventListener('click', function() {
+    isRepeatMode = !isRepeatMode;
+    repeatBtn.classList.toggle('active', isRepeatMode);
+  });
+
+  function stopAll() {
+    for (var i = 0; i < audios.length; i++) {
+      if (!audios[i].paused) {
+        audios[i].pause();
+        resetArticleUI(i);
+      }
+    }
+    if (clipAudio) {
+      clipAudio.pause(); clipAudio.src = '';
+      if (currentBtnEl) { currentBtnEl.classList.remove('playing'); currentBtnEl = null; }
+    }
+  }
+
+  function resetArticleUI(idx) {
+    var btn = document.getElementById('playBtn-' + idx);
+    if (btn) btn.innerHTML = '&#9658;';
+    var fill = document.getElementById('progressFill-' + idx);
+    if (fill) fill.style.width = '0%';
+    var time = document.getElementById('artTime-' + idx);
+    if (time) time.textContent = 'Ready';
+    clearHighlights(idx);
+  }
+
+  function clearHighlights(artIdx) {
+    var els = document.querySelectorAll('.sentence[data-art="' + artIdx + '"]');
+    els.forEach(function(el) { el.classList.remove('highlighted'); });
+  }
+
+  function highlightSentence(artIdx, sentIdx) {
+    clearHighlights(artIdx);
+    var el = document.querySelector('.sentence[data-art="' + artIdx + '"][data-idx="' + sentIdx + '"]');
+    if (el) {
+      el.classList.add('highlighted');
+      var rect = el.getBoundingClientRect();
+      if (rect.top < 80 || rect.bottom > window.innerHeight - 40) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+  }
+
+  function updateProgress(idx) {
+    var a = audios[idx];
+    var pct = (a.currentTime / a.duration) * 100;
+    if (isNaN(pct)) pct = 0;
+    var fill = document.getElementById('progressFill-' + idx);
+    if (fill) fill.style.width = pct + '%';
+    var time = document.getElementById('artTime-' + idx);
+    if (time && a.duration) {
+      time.textContent = formatTime(a.currentTime) + ' / ' + formatTime(a.duration);
+    }
+    // Update sentence highlight
+    var offsets = ARTICLES[idx].offsets;
+    for (var i = offsets.length - 1; i >= 0; i--) {
+      if (a.currentTime >= offsets[i]) {
+        if (currentArtIdx !== idx || currentSentenceIdx !== i) {
+          currentArtIdx = idx;
+          currentSentenceIdx = i;
+          highlightSentence(idx, i);
+        }
+        return;
+      }
+    }
+  }
+
+  function formatTime(sec) {
+    var m = Math.floor(sec / 60);
+    var s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  window.toggleArticle = function(idx) {
+    var a = audios[idx];
+    if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; if (currentBtnEl) { currentBtnEl.classList.remove('playing'); currentBtnEl = null; } }
+    if (a.paused) {
+      // Stop other articles
+      for (var i = 0; i < audios.length; i++) {
+        if (i !== idx && !audios[i].paused) {
+          audios[i].pause();
+          resetArticleUI(i);
+        }
+      }
+      a.play().then(function() {
+        var btn = document.getElementById('playBtn-' + idx);
+        if (btn) btn.innerHTML = '&#10074;&#10074;';
+        currentArtIdx = idx;
+      }).catch(function(e) { console.error('Play error:', e); });
+    } else {
+      a.pause();
+      var btn = document.getElementById('playBtn-' + idx);
+      if (btn) btn.innerHTML = '&#9658;';
+      var time = document.getElementById('artTime-' + idx);
+      if (time) time.textContent = 'Paused';
+    }
+  };
+
+  window.seekArticle = function(idx, e) {
+    var a = audios[idx];
+    var container = document.getElementById('progressContainer-' + idx);
+    var rect = container.getBoundingClientRect();
+    var pct = (e.clientX - rect.left) / rect.width;
+    if (a.duration) a.currentTime = pct * a.duration;
+  };
+
+  // Click sentence to jump
+  document.querySelectorAll('.sentence').forEach(function(el) {
+    el.addEventListener('click', function() {
+      var artIdx = parseInt(el.getAttribute('data-art'));
+      var sentIdx = parseInt(el.getAttribute('data-idx'));
+      var a = audios[artIdx];
+      var offsets = ARTICLES[artIdx].offsets;
+      if (sentIdx < offsets.length) {
+        // Stop other articles and clip
+        if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; if (currentBtnEl) { currentBtnEl.classList.remove('playing'); currentBtnEl = null; } }
+        for (var i = 0; i < audios.length; i++) {
+          if (i !== artIdx && !audios[i].paused) {
+            audios[i].pause();
+            resetArticleUI(i);
+          }
+        }
+        a.currentTime = offsets[sentIdx];
+        highlightSentence(artIdx, sentIdx);
+        currentArtIdx = artIdx;
+        currentSentenceIdx = sentIdx;
+        if (a.paused) {
+          a.play().then(function() {
+            var btn = document.getElementById('playBtn-' + artIdx);
+            if (btn) btn.innerHTML = '&#10074;&#10074;';
+          }).catch(function(e) { console.error(e); });
+        }
+      }
+    });
+  });
+
+  window.toggleTranslation = function(idx) {
+    var cnText = document.getElementById('cnText-' + idx);
+    var toggle = document.getElementById('transToggle-' + idx);
+    if (cnText.style.display === 'none') {
+      cnText.style.display = 'block';
+      toggle.innerHTML = '&#128257; Hide Chinese Translation';
+      toggle.classList.add('active');
+    } else {
+      cnText.style.display = 'none';
+      toggle.innerHTML = '&#128257; Show Chinese Translation';
+      toggle.classList.remove('active');
+    }
+  };
+
+  window.playWord = function(artIdx, wordIdx, btnEl) {
+    // Stop main audio
+    if (!audios[artIdx].paused) {
+      audios[artIdx].pause();
+      resetArticleUI(artIdx);
+    }
+    if (clipAudio) { clipAudio.pause(); clipAudio.src = ''; }
+    if (currentBtnEl) currentBtnEl.classList.remove('playing');
+    currentBtnEl = btnEl;
+    btnEl.classList.add('playing');
+    clipAudio = new Audio(ARTICLES[artIdx].wordFiles[wordIdx]);
+    clipAudio.playbackRate = 0.85;
+    clipAudio.onended = function() { btnEl.classList.remove('playing'); currentBtnEl = null; };
+    clipAudio.onerror = function() { btnEl.classList.remove('playing'); currentBtnEl = null; };
+    clipAudio.play().catch(function(e) { console.error(e); });
+  };
+})();
+</script>
+</body>
+</html>
